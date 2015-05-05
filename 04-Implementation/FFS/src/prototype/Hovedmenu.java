@@ -1,4 +1,4 @@
-package main;
+package prototype;
 
 import java.awt.EventQueue;
 
