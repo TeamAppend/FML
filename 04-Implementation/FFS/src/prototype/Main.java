@@ -1,10 +1,13 @@
 package prototype;
 
+import com.ferrari.finances.dk.rki.Rating;
+
 public class Main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		Rating s = Rating.valueOf("A");
+		System.out.println(s);
+		
 	}
 
 }
