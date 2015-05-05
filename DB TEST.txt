@@ -1,0 +1,37 @@
+﻿CREATE TABLE LÅNETILBUD
+(
+lånetilbud_id INTEGER IDENTITY PRIMARY KEY,
+rentesats DOUBLE,
+tilbagebetalingsperiode INTEGER,
+udbetaling INTEGER,
+ÅOP DOUBLE,
+kunde_id INTEGER,
+bil_id INTEGER,
+sælger_id INTEGER,
+oprettelsestidspunkt TIMESTAMP,
+)
+
+CREATE TABLE SÆLGER
+(
+sælger_id INTEGER IDENTITY PRIMARY KEY,
+navn VARCHAR(250),
+rang VARCHAR(50),
+)
+
+CREATE TABLE KUNDE
+(
+kunde_id INTEGER IDENTITY PRIMARY KEY,
+CPRnummer VARCHAR(10) UNIQUE NOT NULL,
+navn VARCHAR(250),
+adresse VARCHAR(80),
+postnummer VARCHAR(4),
+telefon VARCHAR(11),
+kommentar VARCHAR(250)
+)
+
+CREATE TABLE BIL
+(
+bil_id INTEGER IDENTITY PRIMARY KEY,
+pris DOUBLE
+)
+
