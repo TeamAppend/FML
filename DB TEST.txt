@@ -5,9 +5,9 @@ rentesats DOUBLE,
 tilbagebetalingsperiode INTEGER,
 udbetaling INTEGER,
 ÅOP DOUBLE,
-kunde_id INTEGER,
-bil_id INTEGER,
-sælger_id INTEGER,
+kunde_id INTEGER FOREIGN KEY REFERENCES kunde(kunde_id),
+bil_id INTEGER FOREIGN KEY REFERENCES bil(bil_id),
+sælger_id INTEGER FOREIGN KEY REFERENCES sælger(sælger_id),
 oprettelsestidspunkt TIMESTAMP,
 )
 
