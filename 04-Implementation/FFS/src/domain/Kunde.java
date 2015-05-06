@@ -3,37 +3,30 @@ package domain;
 public class Kunde {
 
 	private int kunde_id;
-	private String CPRnummer;
-	private String navn;
+	private String CPR_id;
+	private String kundenavn;
 	private String adresse;
 	private String postnummer;
 	private String telefon;
 	private String kommentar;
-	private String bynavn;
-	
-	public String getBynavn() {
-		return bynavn;
-	}
-	public void setBynavn(String bynavn) {
-		this.bynavn = bynavn;
-	}
+
 	public int getKunde_id() {
 		return kunde_id;
 	}
 	public void setKunde_id(int kunde_id) {
 		this.kunde_id = kunde_id;
 	}
-	public String getCPRnummer() {
-		return CPRnummer;
+	public String getCPR_id() {
+		return CPR_id;
 	}
-	public void setCPRnummer(String cPRnummer) {
-		CPRnummer = cPRnummer;
+	public void setCPR_id(String CPR_id) {
+		this.CPR_id = CPR_id;
 	}
-	public String getNavn() {
-		return navn;
+	public String getKundenavn() {
+		return kundenavn;
 	}
-	public void setNavn(String navn) {
-		this.navn = navn;
+	public void setKundenavn(String kundenavn) {
+		this.kundenavn = kundenavn;
 	}
 	public String getAdresse() {
 		return adresse;
