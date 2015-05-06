@@ -9,7 +9,14 @@ public class Kunde {
 	private String postnummer;
 	private String telefon;
 	private String kommentar;
+	private String bynavn;
 	
+	public String getBynavn() {
+		return bynavn;
+	}
+	public void setBynavn(String bynavn) {
+		this.bynavn = bynavn;
+	}
 	public int getKunde_id() {
 		return kunde_id;
 	}
@@ -52,4 +59,6 @@ public class Kunde {
 	public void setKommentar(String kommentar) {
 		this.kommentar = kommentar;
 	}
+	
+	
 }
