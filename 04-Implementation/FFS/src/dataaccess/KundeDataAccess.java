@@ -79,7 +79,7 @@ public class KundeDataAccess {
 	
 	
 	// Hvis man skal kunne søge på CPRnummer, navn og/eller telefon
-	public List<Kunde> listKunder(DataAccess dataaccess, String CPRnummer, String navn, String telefon) throws SQLException {
+	public List<Kunde> listKunde(DataAccess dataaccess, String CPRnummer, String navn, String telefon) throws SQLException {
 		PreparedStatement statement = null;
 		ResultSet resultset = null;
 		try {
