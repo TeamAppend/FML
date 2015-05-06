@@ -40,7 +40,7 @@ public class DataAccess {
 		}
 	}
 
-	Connection getConnection() {
+	public Connection getConnection() {
 		return connection;
 	}
 
