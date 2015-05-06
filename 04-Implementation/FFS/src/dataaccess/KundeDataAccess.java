@@ -11,13 +11,13 @@ import exceptions.KundeAllreadyExists;
 import exceptions.KundeDoesNotExists;
 
 public class KundeDataAccess {
-	private static final String INSERT_ONE = "INSERT INTO KUNDE (CPRnummer, navn, adresse, postnummer, telefon, kommentar) VALUES(?,?,?,?,?,?)";
-	private static final String SELECT_ONE = "SELECT CPRnummer, navn, adresse, postnummer, telefon, kommentar FROM kunde WHERE CPRnummer = ?";
-	private static final String UPDATE_ONE = "UPDATE kunde SET CPRnummer = ?, navn = ?, adresse = ?, postnummer = ?, telefon = ?, kommentar = ? WHERE kunde_id = ?";
+	private static final String INSERT_ONE = "INSERT INTO KUNDE (CPRnummer, navn, adresse, postnummer, bynavn, telefon, kommentar) VALUES(?,?,?,?,?,?,?)";
+	private static final String SELECT_ONE = "SELECT CPRnummer, navn, adresse, postnummer, bynavn, telefon, kommentar FROM kunde WHERE CPRnummer = ?";
+	private static final String UPDATE_ONE = "UPDATE kunde SET CPRnummer = ?, navn = ?, adresse = ?, postnummer = ?, bynavn = ?, telefon = ?, kommentar = ? WHERE kunde_id = ?";
 	private static final String DELETE_ONE = "DELETE FROM kunde WHERE kunde_id = ?";
 
 	//Hvis man skal kunne søge på CPRnummer, navn og/eller telefon
-	private static final String SELECT_MANY = "SELECT CPRnummer, navn, adresse, postnummer, telefon, kommentar FROM kunde WHERE CPRnummer = ? OR navn = ? OR telefon = ?";
+	private static final String SELECT_MANY = "SELECT CPRnummer, navn, adresse, postnummer, bynavn, telefon, kommentar FROM kunde WHERE CPRnummer = ? OR navn = ? OR telefon = ?";
 	
 	
 	
@@ -33,8 +33,9 @@ public class KundeDataAccess {
 			statement.setString(2, kunde.getNavn());
 			statement.setString(3, kunde.getAdresse());
 			statement.setString(4, kunde.getPostnummer());
-			statement.setString(5, kunde.getTelefon());
-			statement.setString(6, kunde.getKommentar());
+			statement.setString(5, kunde.getBynavn());
+			statement.setString(6, kunde.getTelefon());
+			statement.setString(7, kunde.getKommentar());
 			statement.executeUpdate();
 		} catch (SQLException e) {
 			if (e.getSQLState().equalsIgnoreCase("23505")) {
@@ -111,7 +112,7 @@ public class KundeDataAccess {
 	/*
 	 * Update
 	 */
-	public void updateRet(DataAccess dataaccess, String CPRnummer, String navn, String adresse, String postnummer, String telefon, String kommentar, int kunde_id) throws SQLException, KundeDoesNotExists {
+	public void updateRet(DataAccess dataaccess, String CPRnummer, String navn, String adresse, String postnummer, String bynavn, String telefon, String kommentar, int kunde_id) throws SQLException, KundeDoesNotExists {
 		PreparedStatement statement = null;
 		try {
 			statement = dataaccess.getConnection().prepareStatement(UPDATE_ONE);
@@ -119,8 +120,9 @@ public class KundeDataAccess {
 			statement.setString(2, navn);
 			statement.setString(3, adresse);
 			statement.setString(4, postnummer);
-			statement.setString(5, telefon);
-			statement.setString(6, kommentar);
+			statement.setString(5, bynavn);
+			statement.setString(6, telefon);
+			statement.setString(7, kommentar);
 			statement.setInt(7, kunde_id);
 			int antal = statement.executeUpdate();
 			if (antal != 1) {
