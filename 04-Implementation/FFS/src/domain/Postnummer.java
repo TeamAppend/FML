@@ -1,13 +1,13 @@
 package domain;
 
 public class Postnummer {
-	private int postnummer;
+	private String postnummer;
 	private String bynavn;
 	
-	public int getPostnummer() {
+	public String getPostnummer() {
 		return postnummer;
 	}
-	public void setPostnummer(int postnummer) {
+	public void setPostnummer(String postnummer) {
 		this.postnummer = postnummer;
 	}
 	public String getBynavn() {
@@ -15,5 +15,5 @@ public class Postnummer {
 	}
 	public void setBynavn(String bynavn) {
 		this.bynavn = bynavn;
-	}
+	}	
 }

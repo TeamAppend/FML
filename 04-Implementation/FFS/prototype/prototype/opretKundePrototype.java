@@ -15,11 +15,13 @@ import javax.swing.JTextPane;
 import javax.swing.JButton;
 
 import domain.Kunde;
+import domain.Postnummer;
 import exceptions.KundeAllreadyExists;
+import exceptions.PostnummerDoesNotExist;
 import logik.KundeLogik;
 
 public class opretKundePrototype extends JFrame {
-
+	private static final long serialVersionUID = -6500507929852243379L;
 	private JPanel contentPane;
 	private JTextField tfNavn;
 	private JTextField tfCPR;
@@ -27,7 +29,7 @@ public class opretKundePrototype extends JFrame {
 	private JTextField tfPostnummer;
 	private JTextField tfTelefon;
 	private JTextField tfBy;
-	private JButton btnOpret;
+	private JButton btnOpret, btnFindBy;
 	private JTextPane tfKommentar;
 	private Controller controller = new Controller();
 
@@ -113,7 +115,7 @@ public class opretKundePrototype extends JFrame {
 		contentPane.add(tfTelefon);
 		
 		tfBy = new JTextField();
-		tfBy.setText("Herning");
+		tfBy.setEditable(false);
 		tfBy.setColumns(10);
 		tfBy.setBounds(197, 97, 181, 22);
 		contentPane.add(tfBy);
@@ -126,6 +128,11 @@ public class opretKundePrototype extends JFrame {
 		btnOpret.setBounds(288, 256, 97, 25);
 		contentPane.add(btnOpret);
 		btnOpret.addActionListener(controller);
+		
+		btnFindBy = new JButton("Find by");
+		btnFindBy.setBounds(181, 257, 97, 25);
+		contentPane.add(btnFindBy);
+		btnFindBy.addActionListener(controller);
 	}
 	
 	public class Controller implements ActionListener{
@@ -148,14 +155,39 @@ public class opretKundePrototype extends JFrame {
 					kunde.setTelefon(telefon);
 					kunde.setKommentar(kommentar);
 					KundeLogik kl = new KundeLogik();
+					
+					
+					logik.PostnummerLogik pl = new logik.PostnummerLogik();
+					try {
+						String s = pl.listPostnummer(postnummer).getBynavn();
+						tfBy.setText(s);
+					} catch (SQLException e2) {
+						e2.printStackTrace();
+					} catch (PostnummerDoesNotExist e1) {
+						e1.printStackTrace();
+					}
+					
+					
 					try {
 						kl.createKunde(kunde);
-						JOptionPane.showMessageDialog(null,	"Kunde er oprettet uden fejl!", "Success!", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null,	"Kunde er oprettet!", "Success!", JOptionPane.INFORMATION_MESSAGE);
 					} catch (SQLException | KundeAllreadyExists e1) {
 						e1.printStackTrace();
 					}
 				}else{
 					JOptionPane.showMessageDialog(null,	"Noget er ikke udfyldt", "Fejl!", JOptionPane.ERROR_MESSAGE);
+				}
+			}else if(source.equals(btnFindBy)){
+				String postnummer = tfPostnummer.getText();
+				logik.PostnummerLogik pl = new logik.PostnummerLogik();
+				try {
+					String s = pl.listPostnummer(postnummer).getBynavn();
+					tfBy.setText(s);
+				} catch (SQLException e2) {
+					e2.printStackTrace();
+				} catch (PostnummerDoesNotExist e1) {
+					JOptionPane.showMessageDialog(null,	"Postnummer findes ikke", "Fejl!", JOptionPane.ERROR_MESSAGE);
+					e1.printStackTrace();
 				}
 			}
 			

@@ -16,8 +16,8 @@ public class KundeLogik {
 		DataAccess dataacces = null;
 		try {
 			dataacces = new DataAccess();
-			KundeDataAccess hovedkundeda = new KundeDataAccess();
-			hovedkundeda.createKunde(dataacces, kunde);
+			KundeDataAccess kundeda = new KundeDataAccess();
+			kundeda.createKunde(dataacces, kunde);
 			dataacces.commit();
 		} catch (Exception e) {
 			if (dataacces != null) {
