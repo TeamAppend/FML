@@ -1,51 +1,52 @@
-﻿	CREATE TABLE SÆLGER
-	(
-	sælger_id INTEGER IDENTITY PRIMARY KEY,
-	sælgernavn VARCHAR(250),
-	rang VARCHAR(50),
-	)
+﻿CREATE TABLE SÆLGER
+(
+sælger_id INTEGER IDENTITY PRIMARY KEY,
+sælgernavn VARCHAR(250),
+rang VARCHAR(50),
+beløbsgrænse DOUBLE
+)
 
-	CREATE TABLE POSTNUMMER
-	(
-	postnummer VARCHAR(4) PRIMARY KEY,
-	bynavn VARCHAR(50),
-	)
+CREATE TABLE POSTNUMMER
+(
+postnummer VARCHAR(4) PRIMARY KEY,
+bynavn VARCHAR(50),
+)
 
-	CREATE TABLE CPRNUMMER
-	(
-	CPR_id INTEGER IDENTITY PRIMARY KEY,
-	CPRnummer VARCHAR(10) UNIQUE NOT NULL,
-	)
+CREATE TABLE CPRNUMMER
+(
+CPR_id INTEGER IDENTITY PRIMARY KEY,
+CPRnummer VARCHAR(10) UNIQUE NOT NULL,
+)
 
-	CREATE TABLE KUNDE
-	(
-	kunde_id INTEGER IDENTITY PRIMARY KEY,
-	CPR_id INTEGER FOREIGN KEY REFERENCES CPRNUMMER(CPR_id),
-	kundenavn VARCHAR(250),
-	adresse VARCHAR(80),
-	postnummer VARCHAR(4) FOREIGN KEY REFERENCES postnummer(postnummer),
-	telefon VARCHAR(11),
-	kommentar VARCHAR(250)
-	)
+CREATE TABLE KUNDE
+(
+kunde_id INTEGER IDENTITY PRIMARY KEY,
+CPR_id INTEGER FOREIGN KEY REFERENCES CPRNUMMER(CPR_id),
+kundenavn VARCHAR(250),
+adresse VARCHAR(80),
+postnummer VARCHAR(4) FOREIGN KEY REFERENCES postnummer(postnummer),
+telefon VARCHAR(11),
+kommentar VARCHAR(250)
+)
 
-	CREATE TABLE BIL
-	(
-	bil_id INTEGER IDENTITY PRIMARY KEY,
-	pris DOUBLE
-	)
+CREATE TABLE BIL
+(
+bil_id INTEGER IDENTITY PRIMARY KEY,
+pris DOUBLE
+)
 
-	CREATE TABLE LÅNETILBUD
-	(
-	lånetilbud_id INTEGER IDENTITY PRIMARY KEY,
-	rentesats DOUBLE,
-	tilbagebetalingsperiode INTEGER,
-	udbetaling DOUBLE,
-	ÅOP DOUBLE,
-	kunde_id INTEGER FOREIGN KEY REFERENCES kunde(kunde_id),
-	bil_id INTEGER FOREIGN KEY REFERENCES bil(bil_id),
-	sælger_id INTEGER FOREIGN KEY REFERENCES sælger(sælger_id),
-	oprettelsestidspunkt TIMESTAMP,
-	)
+CREATE TABLE LÅNETILBUD
+(
+lånetilbud_id INTEGER IDENTITY PRIMARY KEY,
+rentesats DOUBLE,
+tilbagebetalingsperiode INTEGER,
+udbetaling DOUBLE,
+ÅOP DOUBLE,
+kunde_id INTEGER FOREIGN KEY REFERENCES kunde(kunde_id),
+bil_id INTEGER FOREIGN KEY REFERENCES bil(bil_id),
+sælger_id INTEGER FOREIGN KEY REFERENCES sælger(sælger_id),
+oprettelsestidspunkt TIMESTAMP,
+)
 
 -- insert alle postnumre gennem eclipse
 
@@ -54,8 +55,8 @@
 
 
 INSERT INTO "PUBLIC"."SÆLGER"
-(  "SÆLGERNAVN", "RANG" )
-VALUES ( 'Anders Looft', 'CEO')
+(  "SÆLGERNAVN", "RANG", "BELØBSGRÆNSE" )
+VALUES ( 'Anders Looft', 'CEO', '0')
 
 INSERT INTO "PUBLIC"."CPRNUMMER"
 ( "CPRNUMMER" )
@@ -76,4 +77,4 @@ INSERT INTO "PUBLIC"."LÅNETILBUD"
 VALUES ( '7.3', '18' , '500000' , '1.3', '3', '0', '0', '2015-06-05 09:24:08')
 
 
-SELECT rentesats, tilbagebetalingsperiode, udbetaling, ÅOP, oprettelsestidspunkt, kunde.kundenavn, kunde.adresse, kunde.postnummer, postnummer.bynavn, kunde.telefon, kunde.kommentar, CPRnummer.CPRnummer, bil.pris, sælger.sælgernavn, sælger.rang FROM lånetilbud INNER JOIN bil ON lånetilbud.bil_id = bil.bil_id INNER JOIN kunde ON lånetilbud.kunde_id = kunde.kunde_id INNER JOIN sælger ON lånetilbud.sælger_id = sælger.sælger_id INNER JOIN postnummer ON postnummer.postnummer = kunde.postnummer INNER JOIN CPRnummer ON kunde.CPR_id = CPRnummer.CPR_id;
+SELECT rentesats, tilbagebetalingsperiode, udbetaling, ÅOP, oprettelsestidspunkt, kunde.kundenavn, kunde.adresse, kunde.postnummer, postnummer.bynavn, kunde.telefon, kunde.kommentar, CPRnummer.CPRnummer, bil.pris, sælger.sælgernavn, sælger.rang, sælger.beløbsgrænse FROM lånetilbud INNER JOIN bil ON lånetilbud.bil_id = bil.bil_id INNER JOIN kunde ON lånetilbud.kunde_id = kunde.kunde_id INNER JOIN sælger ON lånetilbud.sælger_id = sælger.sælger_id INNER JOIN postnummer ON postnummer.postnummer = kunde.postnummer INNER JOIN CPRnummer ON kunde.CPR_id = CPRnummer.CPR_id;
