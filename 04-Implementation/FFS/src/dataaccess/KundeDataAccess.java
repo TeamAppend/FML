@@ -79,7 +79,7 @@ public class KundeDataAccess {
 	/*
 	 * Update
 	 */
-	public void updateRet(DataAccess dataaccess, String kundenavn, String adresse, String postnummer, String telefon, String kommentar, int kunde_id) throws SQLException, KundeDoesNotExists {
+	public void updateKunde(DataAccess dataaccess, String kundenavn, String adresse, String postnummer, String telefon, String kommentar, int kunde_id) throws SQLException, KundeDoesNotExists {
 		PreparedStatement statement = null;
 		try {
 			statement = dataaccess.getConnection().prepareStatement(UPDATE_ONE);
@@ -104,7 +104,7 @@ public class KundeDataAccess {
 	/*
 	 * Delete
 	 */
-	public void deleteRet(DataAccess dataaccess, int kunde_id) throws SQLException, KundeDoesNotExists {
+	public void deleteKunde(DataAccess dataaccess, int kunde_id) throws SQLException, KundeDoesNotExists {
 		PreparedStatement statement = null;
 		try {
 			statement = dataaccess.getConnection().prepareStatement(DELETE_ONE);
