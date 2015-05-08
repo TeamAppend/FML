@@ -14,10 +14,13 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.JButton;
 
+import domain.CPRnummer;
 import domain.Kunde;
 import domain.Postnummer;
+import exceptions.CPRAllreadyExists;
 import exceptions.KundeAllreadyExists;
 import exceptions.PostnummerDoesNotExist;
+import logik.CPRLogik;
 import logik.KundeLogik;
 
 public class opretKundePrototype extends JFrame {
@@ -29,7 +32,7 @@ public class opretKundePrototype extends JFrame {
 	private JTextField tfPostnummer;
 	private JTextField tfTelefon;
 	private JTextField tfBy;
-	private JButton btnOpret, btnFindBy;
+	private JButton btnOpret, btnFindBy, btnOpretCpr;
 	private JTextPane tfKommentar;
 	private Controller controller = new Controller();
 
@@ -133,6 +136,11 @@ public class opretKundePrototype extends JFrame {
 		btnFindBy.setBounds(181, 257, 97, 25);
 		contentPane.add(btnFindBy);
 		btnFindBy.addActionListener(controller);
+		
+		btnOpretCpr = new JButton("Opret CPR");
+		btnOpretCpr.setBounds(72, 256, 97, 25);
+		contentPane.add(btnOpretCpr);
+		btnOpretCpr.addActionListener(controller);
 	}
 	
 	public class Controller implements ActionListener{
@@ -166,8 +174,6 @@ public class opretKundePrototype extends JFrame {
 					} catch (PostnummerDoesNotExist e1) {
 						e1.printStackTrace();
 					}
-					
-					
 					try {
 						kl.createKunde(kunde);
 						JOptionPane.showMessageDialog(null,	"Kunde er oprettet!", "Success!", JOptionPane.INFORMATION_MESSAGE);
@@ -194,9 +200,26 @@ public class opretKundePrototype extends JFrame {
 					JOptionPane.showMessageDialog(null,	"Postnummer findes ikke", "Fejl!", JOptionPane.ERROR_MESSAGE);
 					e1.printStackTrace();
 				}
+			}else if(source.equals(btnOpretCpr)){
+				CPRLogik cl = new CPRLogik();
+				CPRnummer cpr = new CPRnummer();
+				cpr.setCPRnummer(tfCPR.getText());
+				try {
+					int i = cl.findUniqueCPR(tfCPR.getText());
+					if(i == 0){
+						try {
+							cl.createCPR(cpr);
+							JOptionPane.showMessageDialog(null,	"CPR-nummer er oprettet!", "Success!", JOptionPane.INFORMATION_MESSAGE);
+						} catch (SQLException | CPRAllreadyExists e1) {
+							e1.printStackTrace();
+						}
+					}else{
+						JOptionPane.showMessageDialog(null,	"CPR-nummer findes allerede", "Fejl!", JOptionPane.ERROR_MESSAGE);
+					}
+				} catch (SQLException e2) {
+					e2.printStackTrace();
+				}
 			}
-			
 		}
 	}
 }
-
