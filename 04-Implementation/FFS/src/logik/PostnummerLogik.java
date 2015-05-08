@@ -17,7 +17,10 @@ public class PostnummerLogik {
 			PostnummerDataAccess searchda = new PostnummerDataAccess();
 			List<Postnummer> list =  searchda.listPostnummer(dataaccess, postnummer);
 			dataaccess.commit();
-			return list.get(0);
+			if(list.isEmpty())
+				return null;
+			else
+				return list.get(0);
 		} catch (Exception e) {
 			if (dataaccess != null) {
 				dataaccess.rollback();

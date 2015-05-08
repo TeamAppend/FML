@@ -93,7 +93,7 @@ public class opretKundePrototype extends JFrame {
 		tfCPR = new JTextField();
 		tfCPR.setText("1234567890");
 		tfCPR.setColumns(10);
-		tfCPR.setBounds(122, 39, 98, 22);
+		tfCPR.setBounds(122, 39, 78, 22);
 		contentPane.add(tfCPR);
 		
 		tfAdresse = new JTextField();
@@ -109,9 +109,9 @@ public class opretKundePrototype extends JFrame {
 		contentPane.add(tfPostnummer);
 		
 		tfTelefon = new JTextField();
-		tfTelefon.setText("12345678");
+		tfTelefon.setText("+4512345678");
 		tfTelefon.setColumns(10);
-		tfTelefon.setBounds(122, 126, 79, 22);
+		tfTelefon.setBounds(122, 126, 89, 22);
 		contentPane.add(tfTelefon);
 		
 		tfBy = new JTextField();
@@ -181,8 +181,13 @@ public class opretKundePrototype extends JFrame {
 				String postnummer = tfPostnummer.getText();
 				logik.PostnummerLogik pl = new logik.PostnummerLogik();
 				try {
-					String s = pl.listPostnummer(postnummer).getBynavn();
-					tfBy.setText(s);
+					Postnummer pn = pl.listPostnummer(postnummer);
+					if(pn == null){
+						tfBy.setText("Postnummer findes ikke");
+					}else{
+						String s = pn.getBynavn();
+						tfBy.setText(s);
+					}
 				} catch (SQLException e2) {
 					e2.printStackTrace();
 				} catch (PostnummerDoesNotExist e1) {
