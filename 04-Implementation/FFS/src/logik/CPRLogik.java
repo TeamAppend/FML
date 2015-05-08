@@ -56,6 +56,27 @@ public class CPRLogik {
 		}
 	}
 	
+	public int findUniqueCPR(String CPR) throws SQLException {
+		DataAccess dataaccess = null;
+		try {
+			dataaccess = new DataAccess();
+			CPRDataAccess searchda = new CPRDataAccess();
+			int size = searchda.listCPR(dataaccess, CPR);
+			dataaccess.commit();
+			return size;
+		} catch (Exception e) {
+			if (dataaccess != null) {
+				dataaccess.rollback();
+			}
+			throw e;
+		} finally {
+			if (dataaccess != null) {
+				dataaccess.close();
+			}
+			
+		}
+	}
+	
 
 	public void deleteCPR(int CPR_id) throws SQLException, CPRDoesNotExists {
 		DataAccess dataacces = null;

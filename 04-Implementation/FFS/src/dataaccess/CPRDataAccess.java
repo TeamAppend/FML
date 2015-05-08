@@ -13,6 +13,7 @@ import exceptions.CPRDoesNotExists;
 public class CPRDataAccess {
 	private static final String INSERT_ONE = "INSERT INTO CPRnummer (CPRnummer) VALUES(?)";
 	private static final String SELECT_ONE = "SELECT CPRnummer FROM CPRnummer WHERE CPR_id = ?";
+	private static final String FIND_UNIQUE = "SELECT CPRnummer FROM CPRnummer WHERE CPRnummer = ?";
 	private static final String DELETE_ONE = "DELETE FROM CPRnummer WHERE CPR_id = ?";
 
 	
@@ -69,7 +70,29 @@ public class CPRDataAccess {
 		}
 	}
 
-	
+	public int listCPR(DataAccess dataaccess, String CPR) throws SQLException {
+		PreparedStatement statement = null;
+		ResultSet resultset = null;
+		try {
+			statement = dataaccess.getConnection().prepareStatement(FIND_UNIQUE);
+			statement.setString(1, CPR);
+			resultset = statement.executeQuery();
+			List<CPRnummer> list = new ArrayList<>();
+			while (resultset.next()) {
+				CPRnummer cpr = new CPRnummer();
+				cpr.setCPRnummer(resultset.getString("CPRnummer"));
+				list.add(cpr);
+			}
+			return list.size();
+		} finally {
+			if (resultset != null) {
+				resultset.close();
+			}
+			if (statement != null) {
+				statement.close();
+			}
+		}
+	}
 
 	/*
 	 * Delete
