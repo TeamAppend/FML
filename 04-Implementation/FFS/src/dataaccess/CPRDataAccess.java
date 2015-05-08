@@ -20,8 +20,12 @@ public class CPRDataAccess {
 	
 	
 	
-	/*
-	 *  Create
+	/**
+	 * Create nyt CPR nummer ud fra CPRnummer
+	 * @param dataaccess
+	 * @param CPRnummer
+	 * @throws SQLException
+	 * @throws CPRAllreadyExists
 	 */
 	public void createCPR(DataAccess dataaccess, CPRnummer CPRnummer) throws SQLException, CPRAllreadyExists {
 		PreparedStatement statement = null;
@@ -57,6 +61,7 @@ public class CPRDataAccess {
 			while (resultset.next()) {
 				CPRnummer cpr = new CPRnummer();
 				cpr.setCPR_id(resultset.getInt("CPR_id"));
+				cpr.setCPRnummer(resultset.getString("CPRnummer"));
 				list.add(cpr);
 			}
 			return list;

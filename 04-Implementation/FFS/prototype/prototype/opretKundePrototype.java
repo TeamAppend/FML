@@ -3,6 +3,8 @@ package prototype;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.SQLException;
 
 import javax.swing.JFrame;
@@ -26,15 +28,11 @@ import logik.KundeLogik;
 public class opretKundePrototype extends JFrame {
 	private static final long serialVersionUID = -6500507929852243379L;
 	private JPanel contentPane;
-	private JTextField tfNavn;
-	private JTextField tfCPR;
-	private JTextField tfAdresse;
-	private JTextField tfPostnummer;
-	private JTextField tfTelefon;
-	private JTextField tfBy;
+	private JTextField tfNavn, tfCPR, tfAdresse, tfPostnummer, tfTelefon, tfBy;
 	private JButton btnOpret, btnFindBy, btnOpretCpr;
 	private JTextPane tfKommentar;
 	private Controller controller = new Controller();
+	private KeyController kController = new KeyController();
 
 	/**
 	 * Launch the application.
@@ -110,6 +108,7 @@ public class opretKundePrototype extends JFrame {
 		tfPostnummer.setColumns(10);
 		tfPostnummer.setBounds(122, 97, 63, 22);
 		contentPane.add(tfPostnummer);
+		tfPostnummer.addKeyListener(kController);
 		
 		tfTelefon = new JTextField();
 		tfTelefon.setText("+4512345678");
@@ -152,7 +151,7 @@ public class opretKundePrototype extends JFrame {
 				String CPR = tfCPR.getText();
 				String adresse = tfAdresse.getText();
 				String postnummer = tfPostnummer.getText();
-				String by = tfBy.getText(); //Lav så den henter fra postnummer table
+				String by = tfBy.getText();
 				String telefon = tfTelefon.getText();
 				String kommentar = tfKommentar.getText();
 				if(navn.length() > 0 && CPR.length() == 10 && adresse.length() > 0 && postnummer.length() == 4 && by.length() >0 && telefon.length() > 0){
@@ -221,5 +220,40 @@ public class opretKundePrototype extends JFrame {
 				}
 			}
 		}
+	}
+	
+	public class KeyController implements KeyListener{
+
+		@Override
+		public void keyPressed(KeyEvent arg0) {
+			
+		}
+
+		@Override
+		public void keyReleased(KeyEvent arg0) {
+			if(tfPostnummer.getText().length() == 4){			
+				String postnummer = tfPostnummer.getText();
+				logik.PostnummerLogik pl = new logik.PostnummerLogik();
+				try {
+					Postnummer pn = pl.listPostnummer(postnummer);
+					if(pn == null){
+						tfBy.setText("Postnummer findes ikke");
+					}else{
+						String s = pn.getBynavn();
+						tfBy.setText(s);
+					}
+				} catch (SQLException e2) {
+					e2.printStackTrace();
+				} catch (PostnummerDoesNotExist e1) {
+					JOptionPane.showMessageDialog(null,	"Postnummer findes ikke", "Fejl!", JOptionPane.ERROR_MESSAGE);
+					e1.printStackTrace();
+				}
+			}
+		}
+		@Override
+		public void keyTyped(KeyEvent arg0) {
+			
+		}
+		
 	}
 }
