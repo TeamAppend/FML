@@ -4,7 +4,7 @@ import com.ferrari.finances.dk.rki.*;
 
 public class KreditvaerdighedImpl implements Kreditvaerdighed {
 
-	private Rating kreditvaerdighed; // aendret til en Rating fra String
+	private Rating kreditvaerdighed; // aendret til en Rating fra string
 	private CreditRator cR = CreditRator.i();
 	private int tillaegspoint = 0;
 	private boolean kvAcceptabel = false;
