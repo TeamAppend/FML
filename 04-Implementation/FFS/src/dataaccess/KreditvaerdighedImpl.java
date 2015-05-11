@@ -13,23 +13,32 @@ public class KreditvaerdighedImpl implements Kreditvaerdighed {
 	public Rating getKredigvaerdighed() {
 		return kreditvaerdighed;
 	}
+	
+	public boolean getkvAcceptabel(){
+		return kvAcceptabel;
+	}
+	
+	public int getTillaegspoint(){
+		return tillaegspoint;
+	}
 
+	//Overvej om alle cases skal have true/false
 	@Override
 	public void setKreditvaerdighed(String cpr) {
 		Rating kreditvaerdighedTemp = cR.rate(cpr);
 		switch (kreditvaerdighedTemp) {
 		case A:
-			tillaegspoint += 1;
+			tillaegspoint = 1;
 			kvAcceptabel = true;
 			break;
 			
 		case B:
-			tillaegspoint += 2;
+			tillaegspoint = 2;
 			kvAcceptabel = true;
 			break;
 			
 		case C:
-			tillaegspoint += 3;
+			tillaegspoint = 3;
 			kvAcceptabel = true;
 			break;
 
@@ -37,8 +46,5 @@ public class KreditvaerdighedImpl implements Kreditvaerdighed {
 			kvAcceptabel = false;
 			break;
 		}
-				
-		
-		
 	}
 }
