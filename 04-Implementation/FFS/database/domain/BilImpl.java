@@ -1,6 +1,6 @@
 package domain;
 
-public class BilImpl {
+public class BilImpl implements Bil {
 	private int bil_id;
 	private double pris;
 	

@@ -8,7 +8,7 @@ import java.util.List;
 
 import domain.PostnummerImpl;
 
-public class PostnummerDataAccessImpl {
+public class PostnummerDataAccessImpl implements PostnummerDataAccess {
 	private static final String SELECT_ONE = "SELECT postnummer, bynavn FROM postnummer WHERE postnummer = ?";
 	
 	/*

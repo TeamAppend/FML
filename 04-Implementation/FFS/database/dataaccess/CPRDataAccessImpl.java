@@ -11,7 +11,7 @@ import domain.CPRnummerImpl;
 import exceptions.CPRAllreadyExists;
 import exceptions.CPRDoesNotExists;
 
-public class CPRDataAccessImpl {
+public class CPRDataAccessImpl implements CPRDataAccess {
 	private static final String INSERT_ONE = "INSERT INTO CPRnummer (CPRnummer) VALUES(?)";
 	private static final String SELECT_ONE = "SELECT CPRnummer, CPR_id FROM CPRnummer WHERE CPR_id = ?";
 	private static final String FIND_UNIQUE = "SELECT CPRnummer FROM CPRnummer WHERE CPRnummer = ?";
