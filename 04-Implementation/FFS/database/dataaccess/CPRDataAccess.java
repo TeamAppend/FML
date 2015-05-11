@@ -12,7 +12,7 @@ import exceptions.CPRDoesNotExists;
 
 public class CPRDataAccess {
 	private static final String INSERT_ONE = "INSERT INTO CPRnummer (CPRnummer) VALUES(?)";
-	private static final String SELECT_ONE = "SELECT CPRnummer FROM CPRnummer WHERE CPR_id = ?";
+	private static final String SELECT_ONE = "SELECT CPRnummer, CPR_id FROM CPRnummer WHERE CPR_id = ?";
 	private static final String FIND_UNIQUE = "SELECT CPRnummer FROM CPRnummer WHERE CPRnummer = ?";
 	private static final String DELETE_ONE = "DELETE FROM CPRnummer WHERE CPR_id = ?";
 
