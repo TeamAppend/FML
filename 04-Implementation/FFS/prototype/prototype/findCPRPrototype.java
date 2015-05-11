@@ -14,8 +14,9 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
-import domain.CPRnummer;
+import domain.CPRnummerImpl;
 import logik.CPRLogik;
+import logik.CPRLogikImpl;
 import prototype.opretKundePrototype.Controller;
 
 public class findCPRPrototype extends JFrame {
@@ -84,9 +85,9 @@ public class findCPRPrototype extends JFrame {
 			JButton source = (JButton) arg0.getSource();
 			if(source.equals(btnNewButton)){
 				int id = Integer.parseInt(textField.getText());
-				CPRLogik cl = new CPRLogik();
+				CPRLogik cl = new CPRLogikImpl();
 				try {
-					List<CPRnummer> list = cl.listCPR(id);
+					List<CPRnummerImpl> list = cl.listCPR(id);
 					System.out.println(list.get(0).getCPRnummer());
 				} catch (SQLException e) {
 					e.printStackTrace();

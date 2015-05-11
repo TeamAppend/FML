@@ -1,19 +1,13 @@
 package domain;
 
-public class Postnummer {
-	private String postnummer;
-	private String bynavn;
-	
-	public String getPostnummer() {
-		return postnummer;
-	}
-	public void setPostnummer(String postnummer) {
-		this.postnummer = postnummer;
-	}
-	public String getBynavn() {
-		return bynavn;
-	}
-	public void setBynavn(String bynavn) {
-		this.bynavn = bynavn;
-	}	
+public interface Postnummer {
+
+	public abstract String getPostnummer();
+
+	public abstract void setPostnummer(String postnummer);
+
+	public abstract String getBynavn();
+
+	public abstract void setBynavn(String bynavn);
+
 }

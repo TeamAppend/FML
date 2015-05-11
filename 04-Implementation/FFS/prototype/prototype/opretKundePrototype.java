@@ -17,13 +17,18 @@ import javax.swing.JTextPane;
 import javax.swing.JButton;
 
 import domain.CPRnummer;
+import domain.CPRnummerImpl;
 import domain.Kunde;
+import domain.KundeImpl;
 import domain.Postnummer;
 import exceptions.CPRAllreadyExists;
 import exceptions.KundeAllreadyExists;
 import exceptions.PostnummerDoesNotExist;
 import logik.CPRLogik;
+import logik.CPRLogikImpl;
 import logik.KundeLogik;
+import logik.KundeLogikImpl;
+import logik.PostnummerLogik;
 
 public class opretKundePrototype extends JFrame {
 	private static final long serialVersionUID = -6500507929852243379L;
@@ -155,16 +160,16 @@ public class opretKundePrototype extends JFrame {
 				String telefon = tfTelefon.getText();
 				String kommentar = tfKommentar.getText();
 				if(navn.length() > 0 && CPR.length() == 10 && adresse.length() > 0 && postnummer.length() == 4 && by.length() >0 && telefon.length() > 0){
-					Kunde kunde = new Kunde();
+					Kunde kunde = new KundeImpl();
 					kunde.setKundenavn(navn);
 					kunde.setAdresse(adresse);
 					kunde.setPostnummer(postnummer);
 					kunde.setTelefon(telefon);
 					kunde.setKommentar(kommentar);
-					KundeLogik kl = new KundeLogik();
+					KundeLogik kl = new KundeLogikImpl();
 					
 					
-					logik.PostnummerLogik pl = new logik.PostnummerLogik();
+					PostnummerLogik pl = new logik.PostnummerLogikImpl();
 					try {
 						String s = pl.listPostnummer(postnummer).getBynavn();
 						tfBy.setText(s);
@@ -184,7 +189,7 @@ public class opretKundePrototype extends JFrame {
 				}
 			}else if(source.equals(btnFindBy)){
 				String postnummer = tfPostnummer.getText();
-				logik.PostnummerLogik pl = new logik.PostnummerLogik();
+				PostnummerLogik pl = new logik.PostnummerLogikImpl();
 				try {
 					Postnummer pn = pl.listPostnummer(postnummer);
 					if(pn == null){
@@ -200,8 +205,8 @@ public class opretKundePrototype extends JFrame {
 					e1.printStackTrace();
 				}
 			}else if(source.equals(btnOpretCpr)){
-				CPRLogik cl = new CPRLogik();
-				CPRnummer cpr = new CPRnummer();
+				CPRLogik cl = new CPRLogikImpl();
+				CPRnummer cpr = new CPRnummerImpl();
 				cpr.setCPRnummer(tfCPR.getText());
 				try {
 					int i = cl.findUniqueCPR(tfCPR.getText());
@@ -233,7 +238,7 @@ public class opretKundePrototype extends JFrame {
 		public void keyReleased(KeyEvent arg0) {
 			if(tfPostnummer.getText().length() == 4){			
 				String postnummer = tfPostnummer.getText();
-				logik.PostnummerLogik pl = new logik.PostnummerLogik();
+				PostnummerLogik pl = new logik.PostnummerLogikImpl();
 				try {
 					Postnummer pn = pl.listPostnummer(postnummer);
 					if(pn == null){
