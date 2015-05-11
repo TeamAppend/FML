@@ -2,11 +2,12 @@ package dataaccess;
 
 import com.ferrari.finances.dk.bank.InterestRate;
 
-public class RenteSatsImpl {
-	InterestRate ir = InterestRate.i();
+public class RenteSatsImpl implements RenteSats {
+	private InterestRate ir = InterestRate.i();
+	private double rate;
 	
 	public double getRenteSats(){
-		double rate = ir.todaysRate();
+		rate = ir.todaysRate();
 		return rate;
 	}	
 }

@@ -11,7 +11,7 @@ import domain.KundeImpl;
 import exceptions.KundeAllreadyExists;
 import exceptions.KundeDoesNotExists;
 
-public class KundeDataAccessImpl {
+public class KundeDataAccessImpl implements KundeDataAccess {
 	private static final String INSERT_ONE = "INSERT INTO KUNDE (CPR_id, kundenavn, adresse, postnummer, telefon, kommentar) VALUES(?,?,?,?,?,?)";
 	private static final String SELECT_ONE = "SELECT kundenavn, adresse, postnummer, telefon, kommentar FROM kunde WHERE telefon = ?";
 	private static final String UPDATE_ONE = "UPDATE kunde SET kundenavn = ?, adresse = ?, postnummer = ?, telefon = ?, kommentar = ? WHERE kunde_id = ?";
