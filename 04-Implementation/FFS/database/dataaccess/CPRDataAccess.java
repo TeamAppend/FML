@@ -75,6 +75,13 @@ public class CPRDataAccess {
 		}
 	}
 
+	/**
+	 * Tæller antallet af CPRnumre (returnerer 0 eller 1). Bruges til at finde ud af om det allerede findes
+	 * @param dataaccess
+	 * @param CPR
+	 * @return int
+	 * @throws SQLException
+	 */
 	public int listCPR(DataAccess dataaccess, String CPR) throws SQLException {
 		PreparedStatement statement = null;
 		ResultSet resultset = null;
