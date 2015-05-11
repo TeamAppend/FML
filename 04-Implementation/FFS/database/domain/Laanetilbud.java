@@ -1,22 +1,22 @@
 package domain;
 
-public class Lånetilbud {
-	private int lånetilbud_id;
+public class Laanetilbud {
+	private int laanetilbud_id;
 	private double rentesats;
 	private int tilbagebetalingsperiode;
 	private double udbetaling;
-	private double ÅOP;
+	private double AAOP;
 	private int kunde_id;
 	private int bil_id;
-	private int sælger_id;
+	private int saelger_id;
 	private String oprettelsestidspunkt;
 	
 	
-	public int getLånetilbud_id() {
-		return lånetilbud_id;
+	public int getLaanetilbud_id() {
+		return laanetilbud_id;
 	}
-	public void setLånetilbud_id(int lånetilbud_id) {
-		this.lånetilbud_id = lånetilbud_id;
+	public void setLaanetilbud_id(int laanetilbud_id) {
+		this.laanetilbud_id = laanetilbud_id;
 	}
 	public double getRentesats() {
 		return rentesats;
@@ -36,11 +36,11 @@ public class Lånetilbud {
 	public void setUdbetaling(double udbetaling) {
 		this.udbetaling = udbetaling;
 	}
-	public double getÅOP() {
-		return ÅOP;
+	public double getAAOP() {
+		return AAOP;
 	}
-	public void setÅOP(double åOP) {
-		ÅOP = åOP;
+	public void setAAOP(double aaOP) {
+		AAOP = aaOP;
 	}
 	public int getKunde_id() {
 		return kunde_id;
@@ -54,11 +54,11 @@ public class Lånetilbud {
 	public void setBil_id(int bil_id) {
 		this.bil_id = bil_id;
 	}
-	public int getSælger_id() {
-		return sælger_id;
+	public int getSaelger_id() {
+		return saelger_id;
 	}
-	public void setSælger_id(int sælger_id) {
-		this.sælger_id = sælger_id;
+	public void setSaelger_id(int saelger_id) {
+		this.saelger_id = saelger_id;
 	}
 	public String getOprettelsestidspunkt() {
 		return oprettelsestidspunkt;
