@@ -4,9 +4,9 @@ import com.ferrari.finances.dk.rki.*;
 
 public class KreditvaerdighedImpl implements Kreditvaerdighed {
 
-	private Rating kreditvaerdighed; // ændret til en Rating fra String
+	private Rating kreditvaerdighed; // aendret til en Rating fra String
 	private CreditRator cR = CreditRator.i();
-	private int tillægspoint = 0;
+	private int tillaegspoint = 0;
 	private boolean kvAcceptabel = false;
 
 	@Override
@@ -19,17 +19,17 @@ public class KreditvaerdighedImpl implements Kreditvaerdighed {
 		Rating kreditvaerdighedTemp = cR.rate(cpr);
 		switch (kreditvaerdighedTemp) {
 		case A:
-			tillægspoint += 1;
+			tillaegspoint += 1;
 			kvAcceptabel = true;
 			break;
 			
 		case B:
-			tillægspoint += 2;
+			tillaegspoint += 2;
 			kvAcceptabel = true;
 			break;
 			
 		case C:
-			tillægspoint += 3;
+			tillaegspoint += 3;
 			kvAcceptabel = true;
 			break;
 
