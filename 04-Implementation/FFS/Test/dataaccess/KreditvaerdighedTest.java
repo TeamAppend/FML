@@ -21,14 +21,15 @@ public class KreditvaerdighedTest {
 
 	@Test
 	public void testSetKreditvaerdighed() {
-		kv.setKreditvaerdighed("3006921611");
+		CallBack callBack = null;
+		kv.setKreditvaerdighed("3006921611", callBack);
 		assertEquals("B", kv.getKredigvaerdighed());
 	}
 	
-	@Test
-	public void testGetKredigvaerdighed() {
-		kv.setKreditvaerdighed("3006921611");
-		assertEquals("B", kv.getKredigvaerdighed());
-	}
+//	@Test
+//	public void testGetKredigvaerdighed() {
+//		kv.setKreditvaerdighed("3006921611");
+//		assertEquals("B", kv.getKredigvaerdighed());
+//	}
 
 }

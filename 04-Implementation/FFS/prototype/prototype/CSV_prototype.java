@@ -30,7 +30,7 @@ public class CSV_prototype {
 	}
 	
 	public void lastValue(String s){
-		sb.append(s + " CRLF \n");
+		sb.append(s + "  \n");
 	}
 	
 	public String sbToString(){
