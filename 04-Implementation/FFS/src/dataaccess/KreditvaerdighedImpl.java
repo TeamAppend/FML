@@ -4,7 +4,7 @@ import com.ferrari.finances.dk.rki.*;
 
 public class KreditvaerdighedImpl implements Kreditvaerdighed {
 
-	private Rating kreditvaerdighed; // aendret til en Rating fra string
+	private Rating kreditvaerdighed;
 	private CreditRator cR = CreditRator.i();
 	private int tillaegspoint = 0;
 	private boolean kvAcceptabel = false;
@@ -14,15 +14,15 @@ public class KreditvaerdighedImpl implements Kreditvaerdighed {
 		return kreditvaerdighed;
 	}
 
+	@Override
 	public boolean getkvAcceptabel() {
 		return kvAcceptabel;
 	}
 
+	@Override
 	public int getTillaegspoint() {
 		return tillaegspoint;
 	}
-
-	// Overvej om alle cases skal have true/false
 
 	/**
 	 * metoden henter kreditvaerdigheden fra CreditRator, som

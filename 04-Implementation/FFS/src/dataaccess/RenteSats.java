@@ -1,5 +1,9 @@
 package dataaccess;
 
 public interface RenteSats {
-	public double getRenteSats();
+
+	public abstract void setRenteSats(CallBack callBack);
+
+	public abstract double getRenteSats();
+
 }

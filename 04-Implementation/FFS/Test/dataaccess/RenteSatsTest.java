@@ -1,10 +1,8 @@
 package dataaccess;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.ferrari.finances.dk.bank.InterestRate;
@@ -14,15 +12,21 @@ import dataaccess.RenteSats;
 import dataaccess.RenteSatsImpl;
 
 
-public class RenteSatsTest implements RenteSats {
+public class RenteSatsTest {
 	private RenteSats rs;
 	private InterestRateTestTool testTool;
 	private InterestRate IR;
+	private CallBack callBack;
 	
 
 	@Before
 	public void setUp() throws Exception {
 		rs = new RenteSatsImpl();
+		callBack = new CallBack(){
+			@Override
+			public void onRequestComplete() {
+				System.out.println("test");
+			}};
 	}
 
 	@After
@@ -31,13 +35,10 @@ public class RenteSatsTest implements RenteSats {
 
 	@Test
 	public void testGetRenteSats() {
-		
-		//assertEquals(5, InterestRateTestTool.newInterestRateMock(5).todaysRate(), 0.00);
+		rs.setRenteSats(callBack);
+		double d = rs.getRenteSats();
+		assertEquals(5, InterestRateTestTool.newInterestRateMock(5).todaysRate(), 0.00);
 	}
 
-	@Override
-	public double getRenteSats() {
-		return 0;
-	}
 
 }
