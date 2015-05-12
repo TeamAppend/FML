@@ -28,7 +28,7 @@ public class KreditvaerdighedImpl implements Kreditvaerdighed {
 	/* (non-Javadoc)
 	 * @see dataaccess.Kreditvaerdighed#setKreditvaerdighed(java.lang.String, dataaccess.CallBack)
 	 * metoden koeres i en traad, ideen med callback parameteren er at naar man kalder metoden Overrider man metoden onRequestComplete() som saa udefoeres naar vaerdierne er sat
-	 * dette sker da metoden  onRequestComplete() bliver kaldt efter switchsætningen
+	 * dette sker da metoden  onRequestComplete() bliver kaldt efter switchsaetningen
 	 */
 	@Override
 	public void setKreditvaerdighed(String cpr, CallBack callBack) {
@@ -52,7 +52,7 @@ public class KreditvaerdighedImpl implements Kreditvaerdighed {
 					break;
 
 				default:
-					kvAcceptabel = false; // den er som standard false, det er mest for at fremhæve at den ikke er acceptabel hvis den ikke er imellem A - C
+					kvAcceptabel = false; // den er som standard false, det er mest for at fremhaeve at den ikke er acceptabel hvis den ikke er imellem A - C
 					break;
 				}
 				
