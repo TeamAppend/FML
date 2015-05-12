@@ -1,5 +1,6 @@
 package dataaccess;
-import com.ferrari.finances.dk.rki.*;
+
+import com.ferrari.finances.dk.rki.Rating;
 
 public interface Kreditvaerdighed {
 
@@ -8,6 +9,6 @@ public interface Kreditvaerdighed {
 	public boolean getkvAcceptabel();
 	
 	public int getTillaegspoint();
-	
-	public void setKreditvaerdighed(String cpr);
+
+	public void setKreditvaerdighed(String cpr, CallBack callBack);
 }
