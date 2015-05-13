@@ -2,10 +2,6 @@ package prototype;
 
 import java.sql.SQLException;
 
-import com.ferrari.finances.dk.rki.Rating;
-
-import dataaccess.DataAccess;
-
 public class Main {
 
 	public static void main(String[] args) throws SQLException {
@@ -383,7 +379,6 @@ public class Main {
 
 		PostnummerLogik pl = new PostnummerLogik();
 		PostNummer postnr = new PostNummer();
-		StringBuffer sb = new StringBuffer();
 		
 		for (int i = 0; i < bynavn.length; i++) {
 			postnr.setPostnr("" + postnummer[i] + "");

@@ -1,6 +1,5 @@
 package prototype;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,10 +16,8 @@ import javax.swing.JButton;
 import domain.CPRnummerImpl;
 import logik.CPRLogik;
 import logik.CPRLogikImpl;
-import prototype.opretKundePrototype.Controller;
 
 public class findCPRPrototype extends JFrame {
-
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTextField textField_1;

@@ -5,7 +5,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.ferrari.finances.dk.bank.InterestRate;
+//import com.ferrari.finances.dk.bank.InterestRate;
 import com.ferrari.finances.dk.bank.developertools.InterestRateTestTool;
 
 import domain.CallBack;
@@ -15,8 +15,8 @@ import domain.RenteSatsImpl;
 
 public class RenteSatsTest {
 	private RenteSats rs;
-	private InterestRateTestTool testTool;
-	private InterestRate IR;
+	//private InterestRateTestTool testTool;
+	//private InterestRate IR;
 	private CallBack callBack;
 	
 
@@ -37,7 +37,7 @@ public class RenteSatsTest {
 	@Test
 	public void testGetRenteSats() {
 		rs.setRenteSats(callBack);
-		double d = rs.getRenteSats();
+		//double d = rs.getRenteSats();
 		assertEquals(5, InterestRateTestTool.newInterestRateMock(5).todaysRate(), 0.00);
 	}
 
