@@ -1,4 +1,4 @@
-package dataaccess;
+package domain;
 
 import com.ferrari.finances.dk.rki.*;
 
@@ -28,8 +28,8 @@ public class KreditvaerdighedImpl implements Kreditvaerdighed {
 	 * metoden henter kreditvaerdigheden fra CreditRator, som
 	 * koeres i en traad, saetter tillaegspoint i forhold til kreditvaerdigheden
 	 * 
-	 * @see dataaccess.Kreditvaerdighed#setKreditvaerdighed(java.lang.String,
-	 *      dataaccess.CallBack)
+	 * @see domain.Kreditvaerdighed#setKreditvaerdighed(java.lang.String,
+	 *      domain.CallBack)
 	 * @param "cpr" der angives det cprnummer som der oenskes kreditvaerdithed paa
 	 * @param "callback" ideen med callback parameteren er at naar man kalder
 	 *        metoden Overrider man metoden onRequestComplete() som saa

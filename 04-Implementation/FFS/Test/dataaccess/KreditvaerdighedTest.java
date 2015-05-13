@@ -6,6 +6,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import domain.CallBack;
+import domain.Kreditvaerdighed;
+import domain.KreditvaerdighedImpl;
+
 public class KreditvaerdighedTest {
 
 	private Kreditvaerdighed kv;

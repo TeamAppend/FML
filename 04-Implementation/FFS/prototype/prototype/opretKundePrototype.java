@@ -35,7 +35,6 @@ public class opretKundePrototype extends JFrame {
 	private JPanel contentPane;
 	private JTextField tfNavn, tfCPR, tfAdresse, tfPostnummer, tfTelefon, tfBy;
 	private JButton btnOpret, btnFindBy, btnOpretCpr;
-	private JTextPane tfKommentar;
 	private Controller controller = new Controller();
 	private KeyController kController = new KeyController();
 
@@ -127,9 +126,7 @@ public class opretKundePrototype extends JFrame {
 		tfBy.setBounds(197, 97, 181, 22);
 		contentPane.add(tfBy);
 		
-		tfKommentar = new JTextPane();
-		tfKommentar.setBounds(122, 158, 256, 85);
-		contentPane.add(tfKommentar);
+		
 		
 		btnOpret = new JButton("Opret");
 		btnOpret.setBounds(288, 256, 97, 25);
@@ -158,14 +155,12 @@ public class opretKundePrototype extends JFrame {
 				String postnummer = tfPostnummer.getText();
 				String by = tfBy.getText();
 				String telefon = tfTelefon.getText();
-				String kommentar = tfKommentar.getText();
 				if(navn.length() > 0 && CPR.length() == 10 && adresse.length() > 0 && postnummer.length() == 4 && by.length() >0 && telefon.length() > 0){
 					Kunde kunde = new KundeImpl();
 					kunde.setKundenavn(navn);
 					kunde.setAdresse(adresse);
 					kunde.setPostnummer(postnummer);
 					kunde.setTelefon(telefon);
-					kunde.setKommentar(kommentar);
 					KundeLogik kl = new KundeLogikImpl();
 					
 					

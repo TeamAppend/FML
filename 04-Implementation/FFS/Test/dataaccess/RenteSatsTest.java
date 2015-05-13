@@ -8,8 +8,9 @@ import org.junit.Test;
 import com.ferrari.finances.dk.bank.InterestRate;
 import com.ferrari.finances.dk.bank.developertools.InterestRateTestTool;
 
-import dataaccess.RenteSats;
-import dataaccess.RenteSatsImpl;
+import domain.CallBack;
+import domain.RenteSats;
+import domain.RenteSatsImpl;
 
 
 public class RenteSatsTest {

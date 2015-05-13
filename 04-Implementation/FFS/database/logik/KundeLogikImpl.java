@@ -65,12 +65,12 @@ public class KundeLogikImpl implements KundeLogik {
 
 	
 	@Override
-	public void updateKunde(String kundenavn, String adresse, String postnummer, String telefon, String kommentar, int kunde_id) throws SQLException, KundeDoesNotExists {
+	public void updateKunde(String kundenavn, String adresse, String postnummer, String telefon, int kunde_id) throws SQLException, KundeDoesNotExists {
 		DataAccess dataacces = null;
 		try {
 			dataacces = new DataAccess();
 			KundeDataAccessImpl kundeda = new KundeDataAccessImpl();
-			kundeda.updateKunde(dataacces, kundenavn, adresse, postnummer, telefon, kommentar, kunde_id);
+			kundeda.updateKunde(dataacces, kundenavn, adresse, postnummer, telefon, kunde_id);
 			dataacces.commit();
 		} catch (Exception e) {
 			if (dataacces != null) {

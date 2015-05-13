@@ -13,7 +13,7 @@ public interface KundeDataAccess {
 	
 	public List<KundeImpl> listKunde(DataAccess dataaccess, String telefon) throws SQLException;
 	
-	public void updateKunde(DataAccess dataaccess, String kundenavn, String adresse, String postnummer, String telefon, String kommentar, int kunde_id) throws SQLException, KundeDoesNotExists;
+	public void updateKunde(DataAccess dataaccess, String kundenavn, String adresse, String postnummer, String telefon, int kunde_id) throws SQLException, KundeDoesNotExists;
 	
 	public void deleteKunde(DataAccess dataaccess, int kunde_id) throws SQLException, KundeDoesNotExists;
 }

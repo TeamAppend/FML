@@ -1,4 +1,4 @@
-package dataaccess;
+package domain;
 
 import com.ferrari.finances.dk.rki.Rating;
 

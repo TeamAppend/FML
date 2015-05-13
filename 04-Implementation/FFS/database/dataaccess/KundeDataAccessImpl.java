@@ -12,9 +12,9 @@ import exceptions.KundeAllreadyExists;
 import exceptions.KundeDoesNotExists;
 
 public class KundeDataAccessImpl implements KundeDataAccess {
-	private static final String INSERT_ONE = "INSERT INTO KUNDE (CPR_id, kundenavn, adresse, postnummer, telefon, kommentar) VALUES(?,?,?,?,?,?)";
-	private static final String SELECT_ONE = "SELECT kundenavn, adresse, postnummer, telefon, kommentar FROM kunde WHERE telefon = ?";
-	private static final String UPDATE_ONE = "UPDATE kunde SET kundenavn = ?, adresse = ?, postnummer = ?, telefon = ?, kommentar = ? WHERE kunde_id = ?";
+	private static final String INSERT_ONE = "INSERT INTO KUNDE (CPR_id, kundenavn, adresse, postnummer, telefon) VALUES(?,?,?,?,?)";
+	private static final String SELECT_ONE = "SELECT kundenavn, adresse, postnummer, telefon FROM kunde WHERE telefon = ?";
+	private static final String UPDATE_ONE = "UPDATE kunde SET kundenavn = ?, adresse = ?, postnummer = ?, telefon = ? WHERE kunde_id = ?";
 	private static final String DELETE_ONE = "DELETE FROM kunde WHERE kunde_id = ?";
 
 	
@@ -33,7 +33,6 @@ public class KundeDataAccessImpl implements KundeDataAccess {
 			statement.setString(3, kunde.getAdresse());
 			statement.setString(4, kunde.getPostnummer());
 			statement.setString(5, kunde.getTelefon());
-			statement.setString(6, kunde.getKommentar());
 			statement.executeUpdate();
 		} catch (SQLException e) {
 			if (e.getSQLState().equalsIgnoreCase("23505")) {
@@ -80,7 +79,7 @@ public class KundeDataAccessImpl implements KundeDataAccess {
 	/*
 	 * Update
 	 */
-	public void updateKunde(DataAccess dataaccess, String kundenavn, String adresse, String postnummer, String telefon, String kommentar, int kunde_id) throws SQLException, KundeDoesNotExists {
+	public void updateKunde(DataAccess dataaccess, String kundenavn, String adresse, String postnummer, String telefon, int kunde_id) throws SQLException, KundeDoesNotExists {
 		PreparedStatement statement = null;
 		try {
 			statement = dataaccess.getConnection().prepareStatement(UPDATE_ONE);
@@ -88,8 +87,7 @@ public class KundeDataAccessImpl implements KundeDataAccess {
 			statement.setString(2, adresse);
 			statement.setString(3, postnummer);
 			statement.setString(4, telefon);
-			statement.setString(5, kommentar);
-			statement.setInt(6, kunde_id);
+			statement.setInt(5, kunde_id);
 			int antal = statement.executeUpdate();
 			if (antal != 1) {
 				throw new KundeDoesNotExists();

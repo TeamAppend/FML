@@ -17,7 +17,7 @@ public interface KundeLogik {
 			throws SQLException;
 
 	public abstract void updateKunde(String kundenavn, String adresse,
-			String postnummer, String telefon, String kommentar, int kunde_id)
+			String postnummer, String telefon, int kunde_id)
 			throws SQLException, KundeDoesNotExists;
 
 	public abstract void deleteKunde(int kunde_id) throws SQLException,
