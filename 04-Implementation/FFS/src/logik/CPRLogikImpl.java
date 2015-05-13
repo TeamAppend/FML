@@ -12,8 +12,6 @@ import exceptions.CPRDoesNotExists;
 
 public class CPRLogikImpl implements CPRLogik {
 
-
-	
 	@Override
 	public void createCPR(CPRnummer CPRnummer) throws SQLException, CPRAllreadyExists {
 		DataAccess dataacces = null;
