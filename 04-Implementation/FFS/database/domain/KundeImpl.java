@@ -8,7 +8,6 @@ public class KundeImpl implements Kunde {
 	private String adresse;
 	private String postnummer;
 	private String telefon;
-	private String kommentar;
 
 	
 	@Override
@@ -69,15 +68,5 @@ public class KundeImpl implements Kunde {
 	@Override
 	public void setTelefon(String telefon) {
 		this.telefon = telefon;
-	}
-
-	@Override
-	public String getKommentar() {
-		return kommentar;
-	}
-
-	@Override
-	public void setKommentar(String kommentar) {
-		this.kommentar = kommentar;
 	}
 }

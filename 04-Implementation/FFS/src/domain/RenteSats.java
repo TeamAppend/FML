@@ -1,4 +1,4 @@
-package dataaccess;
+package domain;
 
 public interface RenteSats {
 

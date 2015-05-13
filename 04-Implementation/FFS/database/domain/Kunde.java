@@ -25,9 +25,4 @@ public interface Kunde {
 	public abstract String getTelefon();
 
 	public abstract void setTelefon(String telefon);
-
-	public abstract String getKommentar();
-
-	public abstract void setKommentar(String kommentar);
-
 }
