@@ -20,7 +20,6 @@ public class Test extends JFrame {
 	private static final long serialVersionUID = -1519081899077388567L;
 	private JPanel contentPane;
 	private JTextField textField;
-	private JTextField textField_1;
 	private JTextField txtAndersLooft;
 	private JTextField txtNyMlleveja;
 	private JTextField textField_3;
@@ -59,24 +58,14 @@ public class Test extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblCpr = new JLabel("CPR");
-		lblCpr.setBounds(12, 13, 47, 16);
+		lblCpr.setBounds(12, 187, 47, 16);
 		contentPane.add(lblCpr);
 		
 		textField = new JTextField();
-		textField.setText("080791");
-		textField.setBounds(71, 10, 55, 22);
+		textField.setText("0807911449");
+		textField.setBounds(110, 184, 86, 22);
 		contentPane.add(textField);
 		textField.setColumns(10);
-		
-		JLabel label = new JLabel("-");
-		label.setBounds(126, 13, 10, 16);
-		contentPane.add(label);
-		
-		textField_1 = new JTextField();
-		textField_1.setText("1449");
-		textField_1.setColumns(10);
-		textField_1.setBounds(136, 10, 40, 22);
-		contentPane.add(textField_1);
 		
 		JLabel label_1 = new JLabel("-------------------------------------------------------------------------------------------------------------------");
 		label_1.setBounds(12, 42, 471, 16);
@@ -99,7 +88,7 @@ public class Test extends JFrame {
 		contentPane.add(lblBy);
 		
 		JLabel lblTelefon = new JLabel("Telefon");
-		lblTelefon.setBounds(12, 187, 86, 16);
+		lblTelefon.setBounds(12, 13, 86, 16);
 		contentPane.add(lblTelefon);
 		
 		txtAndersLooft = new JTextField();
@@ -129,7 +118,7 @@ public class Test extends JFrame {
 		textField_5 = new JTextField();
 		textField_5.setText("60150191");
 		textField_5.setColumns(10);
-		textField_5.setBounds(110, 184, 66, 22);
+		textField_5.setBounds(110, 10, 86, 22);
 		contentPane.add(textField_5);
 		
 		JButton btnBeregn = new JButton("Beregn");
@@ -150,33 +139,21 @@ public class Test extends JFrame {
 		textField_2.setBounds(110, 213, 86, 22);
 		contentPane.add(textField_2);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"}));
-		comboBox.setSelectedIndex(6);
-		comboBox.setBounds(195, 271, 50, 22);
+		JTextField comboBox = new JTextField();
+		comboBox.setBounds(110, 271, 50, 22);
 		contentPane.add(comboBox);
 		
 		JLabel lblMneder = new JLabel("M\u00E5neder");
-		lblMneder.setBounds(257, 274, 56, 16);
+		lblMneder.setBounds(172, 274, 56, 16);
 		contentPane.add(lblMneder);
-		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"}));
-		comboBox_1.setSelectedIndex(3);
-		comboBox_1.setBounds(110, 271, 50, 22);
-		contentPane.add(comboBox_1);
-		
-		JLabel lblr = new JLabel("\u00C5r");
-		lblr.setBounds(172, 274, 29, 16);
-		contentPane.add(lblr);
 		
 		table = new JTable();
 		table.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null},
-				{null},
+				{"Test"},
+				{"Test2"},
 				{null},
 				{null},
 				{null},
@@ -188,8 +165,16 @@ public class Test extends JFrame {
 			new String[] {
 				"L\u00E5neplan"
 			}
-		));
-		table.setBounds(318, 71, 165, 144);
+		) {
+			private static final long serialVersionUID = 1L;
+			boolean[] columnEditables = new boolean[] {
+				false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		table.setBounds(280, 71, 203, 144);
 		contentPane.add(table);
 		
 		JLabel label_2 = new JLabel("Udbetaling");
