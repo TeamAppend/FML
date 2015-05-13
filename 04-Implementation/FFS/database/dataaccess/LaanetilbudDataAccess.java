@@ -27,6 +27,6 @@ public interface LaanetilbudDataAccess {
 	 * Delete
 	 */
 	public abstract void deleteLaanetilbud(DataAccess dataaccess,
-			int lånetilbud_id) throws SQLException, LaanetilbudDoesNotExists;
+			int laanetilbud_id) throws SQLException, LaanetilbudDoesNotExists;
 
 }

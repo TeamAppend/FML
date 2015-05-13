@@ -12,9 +12,9 @@ import exceptions.LaanetilbudAllreadyExists;
 import exceptions.LaanetilbudDoesNotExists;
 
 public class LaanetilbudDataAccessImpl implements LaanetilbudDataAccess {
-	private static final String INSERT_ONE = "INSERT INTO lånetilbud (rentesats, tilbagebetalingsperiode, udbetaling, ÅOP, kunde_id, bil_id, sælger_id, oprettelsestidspunkt) VALUES(?,?,?,?,?,?,?,?)";
-	private static final String SELECT_ONE = "SELECT rentesats, tilbagebetalingsperiode, udbetaling, ÅOP, kunde_id, bil_id, sælger_id, oprettelsestidspunkt FROM lånetilbud WHERE kunde_id = ?";
-	private static final String DELETE_ONE = "DELETE FROM lånetilbud WHERE lånetilbud_id = ?";
+	private static final String INSERT_ONE = "INSERT INTO laanetilbud (rentesats, tilbagebetalingsperiode, udbetaling, AAOP, kunde_id, bil_id, saelger_id, oprettelsestidspunkt) VALUES(?,?,?,?,?,?,?,?)";
+	private static final String SELECT_ONE = "SELECT rentesats, tilbagebetalingsperiode, udbetaling, AAOP, kunde_id, bil_id, saelger_id, oprettelsestidspunkt FROM laanetilbud WHERE kunde_id = ?";
+	private static final String DELETE_ONE = "DELETE FROM laanetilbud WHERE laanetilbud_id = ?";
 
 	
 	/*
@@ -89,11 +89,11 @@ public class LaanetilbudDataAccessImpl implements LaanetilbudDataAccess {
 	 * Delete
 	 */
 	@Override
-	public void deleteLaanetilbud(DataAccess dataaccess, int lånetilbud_id) throws SQLException, LaanetilbudDoesNotExists {
+	public void deleteLaanetilbud(DataAccess dataaccess, int laanetilbud_id) throws SQLException, LaanetilbudDoesNotExists {
 		PreparedStatement statement = null;
 		try {
 			statement = dataaccess.getConnection().prepareStatement(DELETE_ONE);
-			statement.setInt(1, lånetilbud_id);
+			statement.setInt(1, laanetilbud_id);
 			int antal = statement.executeUpdate();
 			if (antal != 1) {
 				throw new LaanetilbudDoesNotExists();
