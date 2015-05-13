@@ -1,10 +1,10 @@
 package domain;
 
-public interface Laanetilbud {
+public interface Lånetilbud {
 
-	public abstract int getLaanetilbud_id();
+	public abstract int getLånetilbud_id();
 
-	public abstract void setLaanetilbud_id(int laanetilbud_id);
+	public abstract void setLånetilbud_id(int lånetilbud_id);
 
 	public abstract double getRentesats();
 
@@ -18,9 +18,9 @@ public interface Laanetilbud {
 
 	public abstract void setUdbetaling(double udbetaling);
 
-	public abstract double getAAOP();
+	public abstract double getÅOP();
 
-	public abstract void setAAOP(double aaOP);
+	public abstract void setÅOP(double ÅOP);
 
 	public abstract int getKunde_id();
 
@@ -30,9 +30,9 @@ public interface Laanetilbud {
 
 	public abstract void setBil_id(int bil_id);
 
-	public abstract int getSaelger_id();
+	public abstract int getSælger_id();
 
-	public abstract void setSaelger_id(int saelger_id);
+	public abstract void setSælger_id(int sælger_id);
 
 	public abstract String getOprettelsestidspunkt();
 

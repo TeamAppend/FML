@@ -4,22 +4,21 @@ import java.sql.SQLException;
 import java.util.List;
 
 import dataaccess.DataAccess;
-import dataaccess.LaanetilbudDataAccessImpl;
-import domain.Laanetilbud;
-import domain.LaanetilbudImpl;
-import exceptions.LaanetilbudAllreadyExists;
-import exceptions.LaanetilbudDoesNotExists;
+import dataaccess.LånetilbudDataAccessImpl;
+import domain.Lånetilbud;
+import domain.LånetilbudImpl;
+import exceptions.LånetilbudAllreadyExists;
+import exceptions.LånetilbudDoesNotExists;
 
-public class LaanetilbudLogikImpl {
+public class LånetilbudLogikImpl implements LånetilbudLogik {
 
-
-	
-	public void createLaanetilbud(Laanetilbud laanetilbud) throws SQLException, LaanetilbudAllreadyExists {
+	@Override
+	public void createLånetilbud(Lånetilbud lånetilbud) throws SQLException, LånetilbudAllreadyExists {
 		DataAccess dataacces = null;
 		try {
 			dataacces = new DataAccess();
-			LaanetilbudDataAccessImpl laanetilbudda = new LaanetilbudDataAccessImpl();
-			laanetilbudda.createLaanetilbud(dataacces, laanetilbud);
+			LånetilbudDataAccessImpl lånetilbudda = new LånetilbudDataAccessImpl();
+			lånetilbudda.createLånetilbud(dataacces, lånetilbud);
 			dataacces.commit();
 		} catch (Exception e) {
 			if (dataacces != null) {
@@ -37,12 +36,13 @@ public class LaanetilbudLogikImpl {
 		}
 	}
 	
-	public List<LaanetilbudImpl> listLaanetilbud(int kunde_id) throws SQLException {
+	@Override
+	public List<LånetilbudImpl> listLånetilbud(int kunde_id) throws SQLException {
 		DataAccess dataaccess = null;
 		try {
 			dataaccess = new DataAccess();
-			LaanetilbudDataAccessImpl searchda = new LaanetilbudDataAccessImpl();
-			List<LaanetilbudImpl> list =  searchda.listLaanetilbud(dataaccess, kunde_id);
+			LånetilbudDataAccessImpl searchda = new LånetilbudDataAccessImpl();
+			List<LånetilbudImpl> list =  searchda.listLånetilbud(dataaccess, kunde_id);
 			dataaccess.commit();
 			return list;
 		} catch (Exception e) {
@@ -59,12 +59,13 @@ public class LaanetilbudLogikImpl {
 	}
 
 	
-	public void deleteLaanetilbud(int laanetilbud_id) throws SQLException, LaanetilbudDoesNotExists {
+	@Override
+	public void deleteLånetilbud(int lånetilbud_id) throws SQLException, LånetilbudDoesNotExists {
 		DataAccess dataacces = null;
 		try {
 			dataacces = new DataAccess();
-			LaanetilbudDataAccessImpl laanetilbudda = new LaanetilbudDataAccessImpl();
-			laanetilbudda.deleteLaanetilbud(dataacces, laanetilbud_id);
+			LånetilbudDataAccessImpl lånetilbudda = new LånetilbudDataAccessImpl();
+			lånetilbudda.deleteLånetilbud(dataacces, lånetilbud_id);
 			dataacces.commit();
 		} catch (Exception e) {
 			if (dataacces != null) {

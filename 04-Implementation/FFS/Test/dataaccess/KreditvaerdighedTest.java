@@ -7,16 +7,16 @@ import org.junit.Before;
 import org.junit.Test;
 
 import domain.CallBack;
-import domain.Kreditvaerdighed;
-import domain.KreditvaerdighedImpl;
+import domain.Kreditværdighed;
+import domain.KreditværdighedImpl;
 
 public class KreditvaerdighedTest {
 
-	private Kreditvaerdighed kv;
+	private Kreditværdighed kv;
 
 	@Before
 	public void setUp() throws Exception {
-		kv = new KreditvaerdighedImpl();
+		kv = new KreditværdighedImpl();
 	}
 
 	@After

@@ -1,24 +1,24 @@
 package domain;
 
-public class LaanetilbudImpl implements Laanetilbud {
-	private int laanetilbud_id;
+public class LånetilbudImpl implements Lånetilbud {
+	private int lånetilbud_id;
 	private double rentesats;
 	private int tilbagebetalingsperiode;
 	private double udbetaling;
-	private double AAOP;
+	private double ÅOP;
 	private int kunde_id;
 	private int bil_id;
-	private int saelger_id;
+	private int sælger_id;
 	private String oprettelsestidspunkt;
 	
 	@Override
-	public int getLaanetilbud_id() {
-		return laanetilbud_id;
+	public int getLånetilbud_id() {
+		return lånetilbud_id;
 	}
 
 	@Override
-	public void setLaanetilbud_id(int laanetilbud_id) {
-		this.laanetilbud_id = laanetilbud_id;
+	public void setLånetilbud_id(int lånetilbud_id) {
+		this.lånetilbud_id = lånetilbud_id;
 	}
 
 	@Override
@@ -52,13 +52,13 @@ public class LaanetilbudImpl implements Laanetilbud {
 	}
 
 	@Override
-	public double getAAOP() {
-		return AAOP;
+	public double getÅOP() {
+		return ÅOP;
 	}
 
 	@Override
-	public void setAAOP(double aaOP) {
-		AAOP = aaOP;
+	public void setÅOP(double ÅOP) {
+		ÅOP = ÅOP;
 	}
 
 	@Override
@@ -82,13 +82,13 @@ public class LaanetilbudImpl implements Laanetilbud {
 	}
 
 	@Override
-	public int getSaelger_id() {
-		return saelger_id;
+	public int getSælger_id() {
+		return sælger_id;
 	}
 
 	@Override
-	public void setSaelger_id(int saelger_id) {
-		this.saelger_id = saelger_id;
+	public void setSælger_id(int sælger_id) {
+		this.sælger_id = sælger_id;
 	}
 
 	@Override

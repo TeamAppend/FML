@@ -2,7 +2,7 @@ package domain;
 
 import com.ferrari.finances.dk.rki.*;
 
-public class KreditvaerdighedImpl implements Kreditvaerdighed {
+public class KreditværdighedImpl implements Kreditværdighed {
 
 	private Rating kreditvaerdighed;
 	private CreditRator cR = CreditRator.i();
@@ -28,7 +28,7 @@ public class KreditvaerdighedImpl implements Kreditvaerdighed {
 	 * metoden henter kreditvaerdigheden fra CreditRator, som
 	 * koeres i en traad, saetter tillaegspoint i forhold til kreditvaerdigheden
 	 * 
-	 * @see domain.Kreditvaerdighed#setKreditvaerdighed(java.lang.String,
+	 * @see domain.Kreditværdighed#setKreditvaerdighed(java.lang.String,
 	 *      domain.CallBack)
 	 * @param "cpr" der angives det cprnummer som der oenskes kreditvaerdithed paa
 	 * @param "callback" ideen med callback parameteren er at naar man kalder

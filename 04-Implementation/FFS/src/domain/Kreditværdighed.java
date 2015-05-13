@@ -2,7 +2,7 @@ package domain;
 
 import com.ferrari.finances.dk.rki.Rating;
 
-public interface Kreditvaerdighed {
+public interface Kreditværdighed {
 
 	public Rating getKredigvaerdighed();
 
