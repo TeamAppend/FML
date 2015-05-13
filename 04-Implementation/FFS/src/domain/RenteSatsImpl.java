@@ -3,9 +3,17 @@ package domain;
 import com.ferrari.finances.dk.bank.InterestRate;
 
 public class RenteSatsImpl implements RenteSats {
-	private InterestRate ir = InterestRate.i();
+	
+	public RenteSatsImpl(){
+		ir = getInterestRateRef();
+	}
+	
+	private InterestRate ir;
 	private double rate;
 	
+	protected InterestRate getInterestRateRef(){
+		return InterestRate.i();
+	}
 
 	@Override
 	public void setRenteSats(CallBack callBack){
