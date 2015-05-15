@@ -23,11 +23,17 @@ import javax.swing.border.TitledBorder;
 
 import dataaccess.PostnummerDataAccess;
 import dataaccess.PostnummerDataAccessImpl;
+import domain.CPRnummer;
+import domain.CPRnummerImpl;
 import domain.Kunde;
 import domain.KundeImpl;
 import domain.Postnummer;
 import domain.PostnummerImpl;
+import exceptions.CPRAllreadyExists;
+import exceptions.KundeAllreadyExists;
 import exceptions.PostnummerDoesNotExist;
+import logik.CPRLogik;
+import logik.CPRLogikImpl;
 import logik.KundeLogik;
 import logik.KundeLogikImpl;
 import logik.PostnummerLogik;
@@ -110,6 +116,7 @@ public class OpretKunde extends JPanel implements ActionListener, KeyListener {
 		con.insets = ins;
 		add(postnr, con);
 		postnr.setEnabled(false);
+		postnr.addKeyListener(this);
 
 		con = createGBC(0, 5, 1, 1);
 		con.insets = ins;
@@ -123,6 +130,7 @@ public class OpretKunde extends JPanel implements ActionListener, KeyListener {
 		con = createGBC(2, 6, 1, 1);
 		con.insets = ins;
 		add(opretKunde, con);
+		opretKunde.setEnabled(false);
 		opretKunde.addActionListener(this);
 
 	}
@@ -149,6 +157,7 @@ public class OpretKunde extends JPanel implements ActionListener, KeyListener {
 		navn.setEnabled(false);
 		adresse.setEnabled(false);
 		postnr.setEnabled(false);
+		opretKunde.setEnabled(false);
 
 	}
 
@@ -157,6 +166,7 @@ public class OpretKunde extends JPanel implements ActionListener, KeyListener {
 		navn.setEnabled(true);
 		adresse.setEnabled(true);
 		postnr.setEnabled(true);
+		opretKunde.setEnabled(true);
 		clearTekstfelter();
 	}
 
@@ -168,48 +178,46 @@ public class OpretKunde extends JPanel implements ActionListener, KeyListener {
 		by.setText("");
 	}
 
-	private void validerTekstfelter() {
+	private boolean validerTekstfelter() {
 		ValiderKundeLogik vkl = new ValiderKundeLogikImpl();
 		StringBuilder sb = new StringBuilder();
-		boolean b = false;
+		boolean b = true;
 		if (!vkl.validerTelefon(telefon.getText())) {
 			sb.append("- Telefonnummer må kun indeholde tallene 0-9, og skal være 8 tegn \n");
 			telefon.setBorder(redBorder);
-			b = true;
+			b = false;
 		}
 		if (!vkl.validerCPR(cpr.getText())) {
 			sb.append("- CPR-nummer må kun indeholde tallene 0-9, og skal være 10 tegn \n");
-			b = true;
+			b = false;
 		}
 		if (!vkl.validerNavn(navn.getText())) {
 			sb.append("- Kundenavn må kun indeholde a-å, og må ikke være tom \n");
-			b = true;
+			b = false;
 		}
 		if (!vkl.validerAdresse(adresse.getText())) {
 			sb.append("- Adresse må kun indeholde a-å og 0-9, og må ikke være tom \n");
-			b = true;
+			b = false;
 		}
 		if (!vkl.validerPostnr(postnr.getText())) {
 			sb.append("- Postnummer må kun indeholde tallene 0-9, og skal være 4 tegn \n");
-			b = true;
+			b = false;
 		}
-		if (b)
+		if (!b)
 			JOptionPane.showMessageDialog(null, sb.toString(), "Fejl!",
 					JOptionPane.ERROR_MESSAGE);
-		else {
-			JOptionPane.showMessageDialog(null, "Kunde er oprettet!",
-					"Success!", JOptionPane.INFORMATION_MESSAGE);
-		}
+		return b;
 
 	}
 
-	public boolean telefonNrEksistererIkke(String s) throws SQLException {
+	private boolean telefonNrEksistererIkke(String s) throws SQLException {
 		KundeLogik kl = new KundeLogikImpl();
 		List<KundeImpl> list = kl.listKunde(s);
 		return list.isEmpty();
 	}
 
-	public void hentKunde(String s) throws SQLException, PostnummerDoesNotExist {
+	private void hentKunde(String s) throws SQLException,
+			PostnummerDoesNotExist {
 		Kunde kunde = new KundeImpl();
 		KundeLogik kl = new KundeLogikImpl();
 		List<KundeImpl> list = kl.listKunde(s);
@@ -227,57 +235,97 @@ public class OpretKunde extends JPanel implements ActionListener, KeyListener {
 
 	}
 
+	private void findKunde() {
+		ValiderKundeLogik vkl = new ValiderKundeLogikImpl();
+		if (vkl.validerTelefon(telefon.getText())) {
+			try {
+				if (telefonNrEksistererIkke(telefon.getText()))
+					enableTekstfelter();
+				else {
+					hentKunde(telefon.getText());
+					disableTekstfelter();
+				}
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			} catch (PostnummerDoesNotExist e1) {
+				e1.printStackTrace();
+			}
+		} else
+			JOptionPane
+					.showMessageDialog(
+							null,
+							"Telefonnummer må kun indeholde tallene 0-9, og skal være 8 tegn",
+							"Fejl!", JOptionPane.ERROR_MESSAGE);
+	}
+
+	private void opretKunde() throws SQLException, CPRAllreadyExists,
+			KundeAllreadyExists {
+		if (validerTekstfelter()) {
+			CPRnummer cprn = new CPRnummerImpl();
+			cprn.setCPRnummer(cpr.getText());
+			CPRLogik cl = new CPRLogikImpl();
+			cl.createCPR(cprn);
+
+			List<CPRnummerImpl> list = cl.listCPR(cpr.getText());
+			CPRnummer cprn2 = list.get(0);
+			int cpr_id = cprn2.getCPR_id();
+
+			Kunde kunde = new KundeImpl();
+			kunde.setCPR_id(cpr_id);
+			kunde.setKundenavn(navn.getText());
+			kunde.setAdresse(adresse.getText());
+			kunde.setPostnummer(postnr.getText());
+			kunde.setTelefon(telefon.getText());
+
+			KundeLogik kl = new KundeLogikImpl();
+			kl.createKunde(kunde);
+		}
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 		if (source == findKunde) {
-			ValiderKundeLogik vkl = new ValiderKundeLogikImpl();
-			if (vkl.validerTelefon(telefon.getText())) {
-				try {
-					if (telefonNrEksistererIkke(telefon.getText()))
-						enableTekstfelter();
-					else {
-						hentKunde(telefon.getText());
-						disableTekstfelter();
-					}
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				} catch (PostnummerDoesNotExist e1) {
-					e1.printStackTrace();
-				}
-			}else
-				JOptionPane.showMessageDialog(null, "Telefonnummer må kun indeholde tallene 0-9, og skal være 8 tegn", "Fejl!", JOptionPane.ERROR_MESSAGE);
+			findKunde();
 		} else if (source.equals(opretKunde)) {
-			validerTekstfelter();
+			try {
+				opretKunde();
+			} catch (SQLException | CPRAllreadyExists e1) {
+				e1.printStackTrace();
+			} catch (KundeAllreadyExists e1) {
+				e1.printStackTrace();
+			}
 		}
 
 	}
 
 	@Override
 	public void keyPressed(KeyEvent arg0) {
-		if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
-			ValiderKundeLogik vkl = new ValiderKundeLogikImpl();
-			if (vkl.validerTelefon(telefon.getText())) {
-				try {
-					if (telefonNrEksistererIkke(telefon.getText()))
-						enableTekstfelter();
-					else {
-						hentKunde(telefon.getText());
-						disableTekstfelter();
-					}
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				} catch (PostnummerDoesNotExist e1) {
-					e1.printStackTrace();
-				}
-			}else
-				JOptionPane.showMessageDialog(null, "Telefonnummer må kun indeholde tallene 0-9, og skal være 8 tegn", "Fejl!", JOptionPane.ERROR_MESSAGE);
+		if (telefon.hasFocus()) {
+			if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
+				findKunde();
+			}
 		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent arg0) {
-
+		if(postnr.hasFocus()){
+			if(postnr.getText().length() == 4 ){
+				PostnummerLogik pl = new PostnummerLogikImpl();
+				try {
+					Postnummer pn = pl.listPostnummer(postnr.getText());
+					if(pn != null){
+						by.setText(pn.getBynavn());
+					}else
+						by.setText("");
+				} catch (SQLException | PostnummerDoesNotExist e) {
+					e.printStackTrace();
+				}
+				
+			}else
+				by.setText("");
+		}
 	}
 
 	@Override

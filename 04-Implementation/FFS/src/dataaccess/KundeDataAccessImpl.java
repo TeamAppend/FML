@@ -28,7 +28,7 @@ public class KundeDataAccessImpl implements KundeDataAccess {
 		PreparedStatement statement = null;
 		try {
 			statement = dataaccess.getConnection().prepareStatement(INSERT_ONE);
-			statement.setString(1, kunde.getCPR_id());
+			statement.setInt(1, kunde.getCPR_id());
 			statement.setString(2, kunde.getKundenavn());
 			statement.setString(3, kunde.getAdresse());
 			statement.setString(4, kunde.getPostnummer());
@@ -62,7 +62,7 @@ public class KundeDataAccessImpl implements KundeDataAccess {
 			while (resultset.next()) {
 				KundeImpl ku = new KundeImpl();
 				ku.setTelefon(resultset.getString("telefon"));
-				ku.setCPR_id(resultset.getString("CPR_id"));
+				ku.setCPR_id(resultset.getInt("CPR_id"));
 				ku.setKundenavn(resultset.getString("kundenavn"));
 				ku.setPostnummer(resultset.getString("postnummer"));
 				ku.setAdresse(resultset.getString("adresse"));

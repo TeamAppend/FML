@@ -6,9 +6,9 @@ public interface Kunde {
 
 	public abstract void setKunde_id(int kunde_id);
 
-	public abstract String getCPR_id();
+	public abstract int getCPR_id();
 
-	public abstract void setCPR_id(String CPR_id);
+	public abstract void setCPR_id(int CPR_id);
 
 	public abstract String getKundenavn();
 

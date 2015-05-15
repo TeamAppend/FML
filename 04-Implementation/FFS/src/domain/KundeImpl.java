@@ -3,7 +3,7 @@ package domain;
 public class KundeImpl implements Kunde {
 
 	private int kunde_id;
-	private String CPR_id;
+	private int CPR_id;
 	private String kundenavn;
 	private String adresse;
 	private String postnummer;
@@ -21,12 +21,12 @@ public class KundeImpl implements Kunde {
 	}
 
 	@Override
-	public String getCPR_id() {
+	public int getCPR_id() {
 		return CPR_id;
 	}
 
 	@Override
-	public void setCPR_id(String CPR_id) {
+	public void setCPR_id(int CPR_id) {
 		this.CPR_id = CPR_id;
 	}
 

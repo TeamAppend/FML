@@ -14,7 +14,9 @@ public interface CPRDataAccess {
 	
 	public List<CPRnummerImpl> listCPR(DataAccess dataaccess, int CPR_id) throws SQLException;
 	
-	public int listCPR(DataAccess dataaccess, String CPR) throws SQLException;
+	public List<CPRnummerImpl> listCPR(DataAccess dataaccess, String CPRnummer) throws SQLException;
+	
+	public int findUnique(DataAccess dataaccess, String CPR) throws SQLException;
 	
 	public void deleteCPR(DataAccess dataaccess, int CPR_id) throws SQLException, CPRDoesNotExists;
 }

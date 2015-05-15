@@ -14,6 +14,7 @@ import exceptions.CPRDoesNotExists;
 public class CPRDataAccessImpl implements CPRDataAccess {
 	private static final String INSERT_ONE = "INSERT INTO CPRnummer (CPRnummer) VALUES(?)";
 	private static final String SELECT_ONE = "SELECT CPRnummer, CPR_id FROM CPRnummer WHERE CPR_id = ?";
+	private static final String SELECT_NUMMER = "SELECT CPRnummer, CPR_id FROM CPRnummer WHERE CPRnummer = ?";
 	private static final String FIND_UNIQUE = "SELECT CPRnummer FROM CPRnummer WHERE CPRnummer = ?";
 	private static final String DELETE_ONE = "DELETE FROM CPRnummer WHERE CPR_id = ?";
 
@@ -75,15 +76,42 @@ public class CPRDataAccessImpl implements CPRDataAccess {
 			}
 		}
 	}
+	
+	
+	
+	public List<CPRnummerImpl> listCPR(DataAccess dataaccess, String CPRnummer) throws SQLException {
+		PreparedStatement statement = null;
+		ResultSet resultset = null;
+		try {
+			statement = dataaccess.getConnection().prepareStatement(SELECT_NUMMER);
+			statement.setString(1, CPRnummer);
+			resultset = statement.executeQuery();
+			List<CPRnummerImpl> list = new ArrayList<>();
+			while (resultset.next()) {
+				CPRnummerImpl cpr = new CPRnummerImpl();
+				cpr.setCPR_id(resultset.getInt("CPR_id"));
+				cpr.setCPRnummer(resultset.getString("CPRnummer"));
+				list.add(cpr);
+			}
+			return list;
+		} finally {
+			if (resultset != null) {
+				resultset.close();
+			}
+			if (statement != null) {
+				statement.close();
+			}
+		}
+	}
 
 	/**
-	 * Tæller antallet af CPRnumre (returnerer 0 eller 1). Bruges til at finde ud af om det allerede findes
+	 * Tï¿½ller antallet af CPRnumre (returnerer 0 eller 1). Bruges til at finde ud af om det allerede findes
 	 * @param dataaccess
 	 * @param CPR
 	 * @return int
 	 * @throws SQLException
 	 */
-	public int listCPR(DataAccess dataaccess, String CPR) throws SQLException {
+	public int findUnique(DataAccess dataaccess, String CPR) throws SQLException {
 		PreparedStatement statement = null;
 		ResultSet resultset = null;
 		try {
