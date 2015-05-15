@@ -9,9 +9,13 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
+
+import logik.ValiderKundeLogik;
+import logik.ValiderKundeLogikImpl;
 
 public class OpretKunde extends JPanel implements ActionListener {
 	private JTextField cpr = new JTextField(10);
@@ -89,10 +93,12 @@ public class OpretKunde extends JPanel implements ActionListener {
 		con = createGBC(1, 5, 1, 1);
 		con.insets = ins;
 		add(by, con);
+		by.setEnabled(false);
 
 		con = createGBC(2, 6, 1, 1);
 		con.insets = ins;
 		add(opretKunde, con);
+		opretKunde.addActionListener(this);
 
 	}
 
@@ -114,30 +120,60 @@ public class OpretKunde extends JPanel implements ActionListener {
 	}
 
 	private void disableTekstfelter() {
+		cpr.setEnabled(false);
 		navn.setEnabled(false);
 		adresse.setEnabled(false);
 		postnr.setEnabled(false);
-		by.setEnabled(false);
 
 	}
 	
 	private void enableTekstfelter() {
+		cpr.setEnabled(true);
 		navn.setEnabled(true);
 		adresse.setEnabled(true);
 		postnr.setEnabled(true);
-		by.setEnabled(true);
 
+	}
+	
+	private void validerTekstfelter(){
+		ValiderKundeLogik vkl = new ValiderKundeLogikImpl();
+		StringBuilder sb = new StringBuilder();
+		boolean b = false;
+		if(!vkl.validerTelefon(telefon.getText())){
+			sb.append("- Telefonnummer må kun indeholde tallene 0-9, og skal være 8 tegn \n");
+			b = true;
+		}if(!vkl.validerCPR(cpr.getText())){
+			sb.append("- CPR-nummer må kun indeholde tallene 0-9, og skal være 10 tegn \n");
+			b = true;
+		}if(!vkl.validerNavn(navn.getText())){
+			sb.append("- Kundenavn må kun indeholde a-å, og må ikke være tom \n");
+			b = true;
+		}if(!vkl.validerAdresse(adresse.getText())){
+			sb.append("- Adresse må kun indeholde a-å og 0-9, og må ikke være tom \n");
+			b = true;
+		}if(!vkl.validerPostnr(postnr.getText())){
+			sb.append("- Postnummer må kun indeholde tallene 0-9, og skal være 4 tegn \n");
+			b = true;
+		}
+		if(b)
+			JOptionPane.showMessageDialog(null,	sb.toString(), "Fejl!", JOptionPane.ERROR_MESSAGE);
+		else{
+			JOptionPane.showMessageDialog(null,	"Kunde er oprettet!", "Success!", JOptionPane.INFORMATION_MESSAGE);
+		}
+		
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
-
-		if (source == findKunde)
-//			if (telefonNrEksisterer())
+		if (source == findKunde){
+			/*if (telefonNrEksisterer())
 				disableTekstfelter();
 			else 
-				enableTekstfelter();
+				enableTekstfelter();*/
+		}else if(source.equals(opretKunde)){
+			validerTekstfelter();
+		}
 
 	}
 

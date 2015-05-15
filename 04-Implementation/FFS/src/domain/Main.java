@@ -5,8 +5,8 @@ public class Main {
 
 	public static void main(String[] args) throws InterruptedException {
 
-		/*
-		KreditvaerdighedImpl kvi = new KreditvaerdighedImpl();
+		
+		KreditværdighedImpl kvi = new KreditværdighedImpl();
 		kvi.setKreditvaerdighed("1234567891", new CallBack(){
 			@Override
 			public void onRequestComplete(){
@@ -15,7 +15,7 @@ public class Main {
 
 			}
 		});
-		*/
+		
 		
 		RenteSats ri = new RenteSatsImpl();
 		ri.setRenteSats(new CallBack(){
