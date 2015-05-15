@@ -13,7 +13,7 @@ import exceptions.KundeDoesNotExists;
 
 public class KundeDataAccessImpl implements KundeDataAccess {
 	private static final String INSERT_ONE = "INSERT INTO KUNDE (CPR_id, kundenavn, adresse, postnummer, telefon) VALUES(?,?,?,?,?)";
-	private static final String SELECT_ONE = "SELECT kundenavn, adresse, postnummer, telefon FROM kunde WHERE telefon = ?";
+	private static final String SELECT_ONE = "SELECT kundenavn, adresse, postnummer, telefon, CPR_id FROM kunde WHERE telefon = ?";
 	private static final String UPDATE_ONE = "UPDATE kunde SET kundenavn = ?, adresse = ?, postnummer = ?, telefon = ? WHERE kunde_id = ?";
 	private static final String DELETE_ONE = "DELETE FROM kunde WHERE kunde_id = ?";
 
@@ -62,6 +62,10 @@ public class KundeDataAccessImpl implements KundeDataAccess {
 			while (resultset.next()) {
 				KundeImpl ku = new KundeImpl();
 				ku.setTelefon(resultset.getString("telefon"));
+				ku.setCPR_id(resultset.getString("CPR_id"));
+				ku.setKundenavn(resultset.getString("kundenavn"));
+				ku.setPostnummer(resultset.getString("postnummer"));
+				ku.setAdresse(resultset.getString("adresse"));
 				list.add(ku);
 			}
 			return list;
