@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -12,6 +13,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import logik.ValiderKundeLogik;
@@ -26,6 +29,8 @@ public class OpretKunde extends JPanel implements ActionListener {
 	private JTextField telefon = new JTextField(10);
 	private JButton findKunde = new JButton("Find Kunde");
 	private JButton opretKunde = new JButton("Opret Kunde");
+	private Border blackBorder = new LineBorder(Color.BLACK);
+	private Border redBorder = new LineBorder(Color.RED);
 
 	private GridBagLayout layout;
 
@@ -45,7 +50,7 @@ public class OpretKunde extends JPanel implements ActionListener {
 		con = createGBC(0, 0, 1, 1);
 		con.insets = ins;
 		con.anchor = GridBagConstraints.WEST;
-		add(new JLabel("Tlf"), con);
+		add(new JLabel("Telefon"), con);
 		con = createGBC(1, 0, 1, 1);
 		con.insets = ins;
 		add(telefon, con);
@@ -81,7 +86,7 @@ public class OpretKunde extends JPanel implements ActionListener {
 		con = createGBC(0, 4, 1, 1);
 		con.insets = ins;
 		con.anchor = GridBagConstraints.WEST;
-		add(new JLabel("PostNr:"), con);
+		add(new JLabel("Postnummer:"), con);
 		con = createGBC(1, 4, 1, 1);
 		con.insets = ins;
 		add(postnr, con);
@@ -141,6 +146,7 @@ public class OpretKunde extends JPanel implements ActionListener {
 		boolean b = false;
 		if(!vkl.validerTelefon(telefon.getText())){
 			sb.append("- Telefonnummer må kun indeholde tallene 0-9, og skal være 8 tegn \n");
+			telefon.setBorder(redBorder);
 			b = true;
 		}if(!vkl.validerCPR(cpr.getText())){
 			sb.append("- CPR-nummer må kun indeholde tallene 0-9, og skal være 10 tegn \n");
