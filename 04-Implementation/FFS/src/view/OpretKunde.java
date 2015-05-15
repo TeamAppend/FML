@@ -6,6 +6,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -17,6 +19,9 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
+import domain.KundeImpl;
+import logik.KundeLogik;
+import logik.KundeLogikImpl;
 import logik.ValiderKundeLogik;
 import logik.ValiderKundeLogikImpl;
 
@@ -66,6 +71,7 @@ public class OpretKunde extends JPanel implements ActionListener {
 		con = createGBC(1, 1, 1, 1);
 		con.insets = ins;
 		add(cpr, con);
+		cpr.setEnabled(false);
 
 		con = createGBC(0, 2, 1, 1);
 		con.insets = ins;
@@ -74,6 +80,7 @@ public class OpretKunde extends JPanel implements ActionListener {
 		con = createGBC(1, 2, 1, 1);
 		con.insets = ins;
 		add(navn, con);
+		navn.setEnabled(false);
 
 		con = createGBC(0, 3, 1, 1);
 		con.insets = ins;
@@ -82,6 +89,7 @@ public class OpretKunde extends JPanel implements ActionListener {
 		con = createGBC(1, 3, 1, 1);
 		con.insets = ins;
 		add(adresse, con);
+		adresse.setEnabled(false);
 
 		con = createGBC(0, 4, 1, 1);
 		con.insets = ins;
@@ -90,6 +98,7 @@ public class OpretKunde extends JPanel implements ActionListener {
 		con = createGBC(1, 4, 1, 1);
 		con.insets = ins;
 		add(postnr, con);
+		postnr.setEnabled(false);
 
 		con = createGBC(0, 5, 1, 1);
 		con.insets = ins;
@@ -168,15 +177,31 @@ public class OpretKunde extends JPanel implements ActionListener {
 		}
 		
 	}
+	
+	public boolean telefonNrEksistererIkke(String s) throws SQLException{
+		KundeLogik kl = new KundeLogikImpl();
+		List<KundeImpl> list = kl.listKunde(s);
+		return list.isEmpty();
+	}
+	
+	public void hentKunde(){
+		//hent kunde
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 		if (source == findKunde){
-			/*if (telefonNrEksisterer())
-				disableTekstfelter();
-			else 
-				enableTekstfelter();*/
+			 try {
+				if(telefonNrEksistererIkke(telefon.getText()))
+					 enableTekstfelter();
+				 else{ 
+					 hentKunde();
+					 disableTekstfelter();
+				 }
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 		}else if(source.equals(opretKunde)){
 			validerTekstfelter();
 		}
