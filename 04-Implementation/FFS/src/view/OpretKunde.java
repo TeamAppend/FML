@@ -12,6 +12,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.sql.SQLException;
 import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -44,11 +45,11 @@ import logik.ValiderKundeLogikImpl;
 
 public class OpretKunde extends JPanel implements FFSObserver, ActionListener, KeyListener,
 		FocusListener {
-	private JTextField cpr = new JTextField(10), navn = new JTextField(10),
-			adresse = new JTextField(10), postnr = new JTextField(10),
-			by = new JTextField(10), telefon = new JTextField(10);
-	private JButton findKunde = new JButton("Find Kunde"),
-			opretKunde = new JButton("Opret Kunde");
+	private JTextField tfCPR = new JTextField(10), tfNavn = new JTextField(10),
+			tfAdresse = new JTextField(10), tfPostnummer = new JTextField(10),
+			tfBy = new JTextField(10), tfTelefon = new JTextField(10);
+	private JButton btnFindKunde = new JButton("Find Kunde"),
+			btnOpretKunde = new JButton("Opret Kunde");
 	private Border blackBorder = new LineBorder(Color.BLACK),
 			redBorder = new LineBorder(Color.RED),
 			greenBorder = new LineBorder(Color.GREEN);
@@ -75,15 +76,15 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener, K
 		add(new JLabel("Telefon"), con);
 		con = createGBC(1, 0, 1, 1);
 		con.insets = ins;
-		add(telefon, con);
-		telefon.addKeyListener(this);
-		telefon.addFocusListener(this);
+		add(tfTelefon, con);
+		tfTelefon.addKeyListener(this);
+		tfTelefon.addFocusListener(this);
 
 		con = createGBC(2, 0, 1, 1);
 		con.insets = ins;
-		findKunde.addActionListener(this);
-		add(findKunde, con);
-		findKunde.setEnabled(false);
+		btnFindKunde.addActionListener(this);
+		add(btnFindKunde, con);
+		btnFindKunde.setEnabled(false);
 
 		con = createGBC(0, 1, 1, 1);
 		con.insets = ins;
@@ -91,9 +92,9 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener, K
 		add(new JLabel("CPR:"), con);
 		con = createGBC(1, 1, 1, 1);
 		con.insets = ins;
-		add(cpr, con);
-		cpr.setEnabled(false);
-		cpr.addFocusListener(this);
+		add(tfCPR, con);
+		tfCPR.setEnabled(false);
+		tfCPR.addFocusListener(this);
 
 		con = createGBC(0, 2, 1, 1);
 		con.insets = ins;
@@ -101,9 +102,9 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener, K
 		add(new JLabel("Navn:"), con);
 		con = createGBC(1, 2, 1, 1);
 		con.insets = ins;
-		add(navn, con);
-		navn.setEnabled(false);
-		navn.addFocusListener(this);
+		add(tfNavn, con);
+		tfNavn.setEnabled(false);
+		tfNavn.addFocusListener(this);
 
 		con = createGBC(0, 3, 1, 1);
 		con.insets = ins;
@@ -111,9 +112,9 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener, K
 		add(new JLabel("Adresse:"), con);
 		con = createGBC(1, 3, 1, 1);
 		con.insets = ins;
-		add(adresse, con);
-		adresse.setEnabled(false);
-		adresse.addFocusListener(this);
+		add(tfAdresse, con);
+		tfAdresse.setEnabled(false);
+		tfAdresse.addFocusListener(this);
 
 		con = createGBC(0, 4, 1, 1);
 		con.insets = ins;
@@ -121,10 +122,10 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener, K
 		add(new JLabel("Postnummer:"), con);
 		con = createGBC(1, 4, 1, 1);
 		con.insets = ins;
-		add(postnr, con);
-		postnr.setEnabled(false);
-		postnr.addKeyListener(this);
-		postnr.addFocusListener(this);
+		add(tfPostnummer, con);
+		tfPostnummer.setEnabled(false);
+		tfPostnummer.addKeyListener(this);
+		tfPostnummer.addFocusListener(this);
 
 		con = createGBC(0, 5, 1, 1);
 		con.insets = ins;
@@ -132,14 +133,14 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener, K
 		add(new JLabel("By:"), con);
 		con = createGBC(1, 5, 1, 1);
 		con.insets = ins;
-		add(by, con);
-		by.setEnabled(false);
+		add(tfBy, con);
+		tfBy.setEnabled(false);
 
 		con = createGBC(2, 6, 1, 1);
 		con.insets = ins;
-		add(opretKunde, con);
-		opretKunde.setEnabled(false);
-		opretKunde.addActionListener(this);
+		add(btnOpretKunde, con);
+		btnOpretKunde.setEnabled(false);
+		btnOpretKunde.addActionListener(this);
 
 	}
 
@@ -165,65 +166,31 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener, K
 	 */
 
 	public void disableTekstfelter() {
-		cpr.setEnabled(false);
-		navn.setEnabled(false);
-		adresse.setEnabled(false);
-		postnr.setEnabled(false);
-		opretKunde.setEnabled(false);
+		tfCPR.setEnabled(false);
+		tfNavn.setEnabled(false);
+		tfAdresse.setEnabled(false);
+		tfPostnummer.setEnabled(false);
+		btnOpretKunde.setEnabled(false);
 	}
 
 	public void enableTekstfelter() {
-		cpr.setEnabled(true);
-		navn.setEnabled(true);
-		adresse.setEnabled(true);
-		postnr.setEnabled(true);
-		opretKunde.setEnabled(true);
+		tfCPR.setEnabled(true);
+		tfNavn.setEnabled(true);
+		tfAdresse.setEnabled(true);
+		tfPostnummer.setEnabled(true);
+		btnOpretKunde.setEnabled(true);
 		clearTekstfelter();
 	}
 
 	public void clearTekstfelter() {
-		cpr.setText("");
-		navn.setText("");
-		adresse.setText("");
-		postnr.setText("");
-		by.setText("");
+		tfCPR.setText("");
+		tfNavn.setText("");
+		tfAdresse.setText("");
+		tfPostnummer.setText("");
+		tfBy.setText("");
 	}
 
-	public boolean validerTekstfelter() {
-		ValiderKundeLogik vkl = new ValiderKundeLogikImpl();
-		StringBuilder sb = new StringBuilder();
-		boolean b = true;
-		if (!vkl.validerTelefon(telefon.getText())) {
-			sb.append("- Telefonnummer må kun indeholde tallene 0-9, og skal være 8 tegn \n");
-			telefon.setBorder(redBorder);
-			b = false;
-		}
-		if (!vkl.validerCPR(cpr.getText())) {
-			sb.append("- CPR-nummer må kun indeholde tallene 0-9, og skal være 10 tegn \n");
-			cpr.setBorder(redBorder);
-			b = false;
-		}
-		if (!vkl.validerNavn(navn.getText())) {
-			sb.append("- Kundenavn må kun indeholde a-å, og må ikke være tom \n");
-			navn.setBorder(redBorder);
-			b = false;
-		}
-		if (!vkl.validerAdresse(adresse.getText())) {
-			sb.append("- Adresse må kun indeholde a-å og 0-9, og må ikke være tom \n");
-			adresse.setBorder(redBorder);
-			b = false;
-		}
-		if (!vkl.validerPostnr(postnr.getText())) {
-			sb.append("- Postnummer må kun indeholde tallene 0-9, og skal være 4 tegn \n");
-			postnr.setBorder(redBorder);
-			b = false;
-		}
-		if (!b)
-			JOptionPane.showMessageDialog(null, sb.toString(), "Fejl!",
-					JOptionPane.ERROR_MESSAGE);
-		return b;
 
-	}
 
 	public boolean telefonNrEksistererIkke(String s) throws SQLException {
 		KundeLogik kl = new KundeLogikImpl();
@@ -237,29 +204,29 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener, K
 		KundeLogik kl = new KundeLogikImpl();
 		List<KundeImpl> list = kl.listKunde(s);
 		kunde = list.get(0);
-		navn.setText(kunde.getKundenavn());
-		adresse.setText(kunde.getAdresse());
-		postnr.setText(kunde.getPostnummer());
+		tfNavn.setText(kunde.getKundenavn());
+		tfAdresse.setText(kunde.getAdresse());
+		tfPostnummer.setText(kunde.getPostnummer());
 
 		PostnummerLogik pda = new PostnummerLogikImpl();
 		PostnummerImpl postnummer = pda.listPostnummer(kunde.getPostnummer());
 		String bynavn = postnummer.getBynavn();
-		by.setText(bynavn);
+		tfBy.setText(bynavn);
 
-		cpr.setText("**********");
+		tfCPR.setText("**********");
 
 	}
 
 	public void findKunde() {
 		ValiderKundeLogik vkl = new ValiderKundeLogikImpl();
-		if (vkl.validerTelefon(telefon.getText())) {
-			findKunde.setEnabled(false);
+		if (vkl.validerTelefon(tfTelefon.getText())) {
+			btnFindKunde.setEnabled(false);
 			try {
-				if (telefonNrEksistererIkke(telefon.getText())) {
+				if (telefonNrEksistererIkke(tfTelefon.getText())) {
 					enableTekstfelter();
 					blackBorders();
 				} else {
-					hentKunde(telefon.getText());
+					hentKunde(tfTelefon.getText());
 					disableTekstfelter();
 					blackBorders();
 				}
@@ -274,43 +241,52 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener, K
 							null,
 							"Telefonnummer må kun indeholde tallene 0-9, og skal være 8 tegn",
 							"Fejl!", JOptionPane.ERROR_MESSAGE);
-			telefon.setBorder(redBorder);
+			tfTelefon.setBorder(redBorder);
 		}
 	}
 
+	public boolean validerTekstFelter(){
+		String stelefon = tfTelefon.getText();
+		String scpr = tfCPR.getText();
+		String snavn = tfNavn.getText();
+		String sadresse = tfAdresse.getText();
+		String spostnummer = tfPostnummer.getText();
+		return FFSc.validerTekstfelter(stelefon, scpr, snavn, sadresse, spostnummer);
+	}
+	
 	public void opretKunde() throws SQLException, CPRAllreadyExists,
 			KundeAllreadyExists, PostnummerDoesNotExist {
-		if (validerTekstfelter()) {
+		if (validerTekstFelter()) {
 			CPRnummer cprn = new CPRnummerImpl();
-			cprn.setCPRnummer(cpr.getText());
+			cprn.setCPRnummer(tfCPR.getText());
 			CPRLogik cl = new CPRLogikImpl();
 			cl.createCPR(cprn);
 
-			List<CPRnummerImpl> list = cl.listCPR(cpr.getText());
+			List<CPRnummerImpl> list = cl.listCPR(tfCPR.getText());
 			CPRnummer cprn2 = list.get(0);
 			int cpr_id = cprn2.getCPR_id();
 
 			Kunde kunde = new KundeImpl();
 			kunde.setCPR_id(cpr_id);
-			kunde.setKundenavn(navn.getText());
-			kunde.setAdresse(adresse.getText());
-			kunde.setPostnummer(postnr.getText());
-			kunde.setTelefon(telefon.getText());
+			kunde.setKundenavn(tfNavn.getText());
+			kunde.setAdresse(tfAdresse.getText());
+			kunde.setPostnummer(tfPostnummer.getText());
+			kunde.setTelefon(tfTelefon.getText());
 
 			KundeLogik kl = new KundeLogikImpl();
 			kl.createKunde(kunde);
 			kundeSuccessfuldtOprettet();
 			blackBorders();
-			hentKunde(telefon.getText());
+			hentKunde(tfTelefon.getText());
 		}
 	}
 
 	public void blackBorders() {
-		adresse.setBorder(blackBorder);
-		telefon.setBorder(blackBorder);
-		cpr.setBorder(blackBorder);
-		navn.setBorder(blackBorder);
-		postnr.setBorder(blackBorder);
+		tfAdresse.setBorder(blackBorder);
+		tfTelefon.setBorder(blackBorder);
+		tfCPR.setBorder(blackBorder);
+		tfNavn.setBorder(blackBorder);
+		tfPostnummer.setBorder(blackBorder);
 	}
 
 	public void kundeSuccessfuldtOprettet() {
@@ -322,9 +298,9 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener, K
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
-		if (source == findKunde) {
+		if (source == btnFindKunde) {
 			findKunde();
-		} else if (source.equals(opretKunde)) {
+		} else if (source.equals(btnOpretKunde)) {
 			try {
 				opretKunde();
 			} catch (SQLException | CPRAllreadyExists e1) {
@@ -347,33 +323,33 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener, K
 	public void keyReleased(KeyEvent arg0) {
 		JTextField source = (JTextField) arg0.getSource();
 		ValiderKundeLogik vkl = new ValiderKundeLogikImpl();
-		if (source.equals(postnr)) {
-			if (postnr.getText().length() == 4) {
+		if (source.equals(tfPostnummer)) {
+			if (tfPostnummer.getText().length() == 4) {
 				PostnummerLogik pl = new PostnummerLogikImpl();
 				try {
-					Postnummer pn = pl.listPostnummer(postnr.getText());
+					Postnummer pn = pl.listPostnummer(tfPostnummer.getText());
 					if (pn != null) {
-						by.setText(pn.getBynavn());
-						postnr.setBorder(greenBorder);
+						tfBy.setText(pn.getBynavn());
+						tfPostnummer.setBorder(greenBorder);
 					} else {
-						by.setText("");
-						postnr.setBorder(redBorder);
+						tfBy.setText("");
+						tfPostnummer.setBorder(redBorder);
 					}
 				} catch (SQLException | PostnummerDoesNotExist e) {
 					e.printStackTrace();
 				}
 
 			} else
-				by.setText("");
-		} else if (source.equals(telefon)) {
+				tfBy.setText("");
+		} else if (source.equals(tfTelefon)) {
 			if (arg0.getKeyCode() == KeyEvent.VK_ENTER
-					&& vkl.validerTelefon(telefon.getText())) {
+					&& vkl.validerTelefon(tfTelefon.getText())) {
 				findKunde();
 			} else {
-				if (!vkl.validerTelefon(telefon.getText()))
-					findKunde.setEnabled(false);
+				if (!vkl.validerTelefon(tfTelefon.getText()))
+					btnFindKunde.setEnabled(false);
 				else
-					findKunde.setEnabled(true);
+					btnFindKunde.setEnabled(true);
 			}
 		}
 	}
@@ -395,31 +371,31 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener, K
 	public void focusLost(FocusEvent arg0) {
 		JTextField source = (JTextField) arg0.getComponent();
 		ValiderKundeLogik vkl = new ValiderKundeLogikImpl();
-		if (source.equals(adresse)) {
-			if (!vkl.validerAdresse(adresse.getText())) {
-				adresse.setBorder(redBorder);
+		if (source.equals(tfAdresse)) {
+			if (!vkl.validerAdresse(tfAdresse.getText())) {
+				tfAdresse.setBorder(redBorder);
 			} else
-				adresse.setBorder(greenBorder);
-		} else if (source.equals(cpr)) {
-			if (!vkl.validerCPR(cpr.getText())) {
-				cpr.setBorder(redBorder);
+				tfAdresse.setBorder(greenBorder);
+		} else if (source.equals(tfCPR)) {
+			if (!vkl.validerCPR(tfCPR.getText())) {
+				tfCPR.setBorder(redBorder);
 			} else
-				cpr.setBorder(greenBorder);
-		} else if (source.equals(navn)) {
-			if (!vkl.validerNavn(navn.getText())) {
-				navn.setBorder(redBorder);
+				tfCPR.setBorder(greenBorder);
+		} else if (source.equals(tfNavn)) {
+			if (!vkl.validerNavn(tfNavn.getText())) {
+				tfNavn.setBorder(redBorder);
 			} else
-				navn.setBorder(greenBorder);
-		} else if (source.equals(telefon)) {
-			if (!vkl.validerTelefon(telefon.getText())) {
-				telefon.setBorder(redBorder);
+				tfNavn.setBorder(greenBorder);
+		} else if (source.equals(tfTelefon)) {
+			if (!vkl.validerTelefon(tfTelefon.getText())) {
+				tfTelefon.setBorder(redBorder);
 			} else
-				telefon.setBorder(greenBorder);
-		} else if (source.equals(postnr)) {
-			if (!vkl.validerPostnr(postnr.getText())) {
-				postnr.setBorder(redBorder);
+				tfTelefon.setBorder(greenBorder);
+		} else if (source.equals(tfPostnummer)) {
+			if (!vkl.validerPostnr(tfPostnummer.getText())) {
+				tfPostnummer.setBorder(redBorder);
 			} else
-				postnr.setBorder(greenBorder);
+				tfPostnummer.setBorder(greenBorder);
 		}
 	}
 
