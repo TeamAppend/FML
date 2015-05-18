@@ -13,7 +13,7 @@ public class PostnummerLogikImpl implements PostnummerLogik {
 
 	
 	@Override
-	public Postnummer listPostnummer(String postnummer) throws SQLException, PostnummerDoesNotExist {
+	public PostnummerImpl listPostnummer(String postnummer) throws SQLException, PostnummerDoesNotExist {
 		DataAccess dataaccess = null;
 		try {
 			dataaccess = new DataAccess();

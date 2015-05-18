@@ -61,12 +61,34 @@ public class CPRLogikImpl implements CPRLogik {
 	
 	
 	@Override
+	public List<CPRnummerImpl> listCPR(String CPRnummer) throws SQLException {
+		DataAccess dataaccess = null;
+		try {
+			dataaccess = new DataAccess();
+			CPRDataAccessImpl searchda = new CPRDataAccessImpl();
+			List<CPRnummerImpl> list =  searchda.listCPR(dataaccess, CPRnummer);
+			dataaccess.commit();
+			return list;
+		} catch (Exception e) {
+			if (dataaccess != null) {
+				dataaccess.rollback();
+			}
+			throw e;
+		} finally {
+			if (dataaccess != null) {
+				dataaccess.close();
+			}
+			
+		}
+	}
+	
+	@Override
 	public int findUniqueCPR(String CPR) throws SQLException {
 		DataAccess dataaccess = null;
 		try {
 			dataaccess = new DataAccess();
 			CPRDataAccessImpl searchda = new CPRDataAccessImpl();
-			int size = searchda.listCPR(dataaccess, CPR);
+			int size = searchda.findUnique(dataaccess, CPR);
 			dataaccess.commit();
 			return size;
 		} catch (Exception e) {

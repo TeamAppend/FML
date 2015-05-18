@@ -20,4 +20,6 @@ public interface CPRLogik {
 	public abstract void deleteCPR(int CPR_id) throws SQLException,
 			CPRDoesNotExists;
 
+	List<CPRnummerImpl> listCPR(String CPRnummer) throws SQLException;
+
 }
