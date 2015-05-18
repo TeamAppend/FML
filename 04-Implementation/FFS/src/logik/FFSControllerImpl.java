@@ -1,7 +1,6 @@
 package logik;
 
 import java.util.LinkedList;
-
 import domain.Bil;
 import domain.CPRnummer;
 import domain.Kreditværdighed;
@@ -11,7 +10,7 @@ import domain.Postnummer;
 import domain.RenteSats;
 import domain.Sælger;
 
-public class FFSControllerImpl{
+public class FFSControllerImpl {
 	private Bil bil;
 	private CPRnummer cprnummer;
 	private Kreditværdighed kreditværdighed;
@@ -24,14 +23,15 @@ public class FFSControllerImpl{
 
 	public void tilmeldObserver(FFSObserver observer) {
 		if (observer != null && !observerListe.contains(observer))
-            observerListe.add(observer);		
+			observerListe.add(observer);
 	}
-	
-	public void notifyObserver() {
+
+	public void notifyObservers() {
 		for (FFSObserver obs : observerListe)
-            obs.update();
-	}
+			obs.update();
+	}	
 	
+
 	public Bil getBil() {
 		return bil;
 	}

@@ -23,8 +23,6 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
-import dataaccess.PostnummerDataAccess;
-import dataaccess.PostnummerDataAccessImpl;
 import domain.CPRnummer;
 import domain.CPRnummerImpl;
 import domain.Kunde;
@@ -45,18 +43,14 @@ import logik.ValiderKundeLogikImpl;
 
 public class OpretKunde extends JPanel implements ActionListener, KeyListener,
 		FocusListener {
-	private JTextField cpr = new JTextField(10);
-	private JTextField navn = new JTextField(10);
-	private JTextField adresse = new JTextField(10);
-	private JTextField postnr = new JTextField(10);
-	private JTextField by = new JTextField(10);
-	private JTextField telefon = new JTextField(10);
-	private JButton findKunde = new JButton("Find Kunde");
-	private JButton opretKunde = new JButton("Opret Kunde");
-	private Border blackBorder = new LineBorder(Color.BLACK);
-	private Border redBorder = new LineBorder(Color.RED);
-	private Border greenBorder = new LineBorder(Color.GREEN);
-
+	private JTextField cpr = new JTextField(10), navn = new JTextField(10),
+			adresse = new JTextField(10), postnr = new JTextField(10),
+			by = new JTextField(10), telefon = new JTextField(10);
+	private JButton findKunde = new JButton("Find Kunde"),
+			opretKunde = new JButton("Opret Kunde");
+	private Border blackBorder = new LineBorder(Color.BLACK),
+			redBorder = new LineBorder(Color.RED),
+			greenBorder = new LineBorder(Color.GREEN);
 	private GridBagLayout layout;
 
 	public OpretKunde() {
@@ -162,23 +156,10 @@ public class OpretKunde extends JPanel implements ActionListener, KeyListener,
 		layout.setConstraints(component, gbc);
 		add(component);
 	}
-	
-	
-	
-	
-	
-	
+
 	/*
-	 * 
 	 * SLUT PÅ UI OPBYGNING
-	 * 
 	 */
-	
-	
-	
-	
-	
-	
 
 	private void disableTekstfelter() {
 		cpr.setEnabled(false);
@@ -335,17 +316,7 @@ public class OpretKunde extends JPanel implements ActionListener, KeyListener,
 				JOptionPane.INFORMATION_MESSAGE);
 		disableTekstfelter();
 	}
-	
-	
-	
-	/*
-	 * 
-	 *  Listeners
-	 * 
-	 */
 
-	
-	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
@@ -367,7 +338,7 @@ public class OpretKunde extends JPanel implements ActionListener, KeyListener,
 
 	@Override
 	public void keyPressed(KeyEvent arg0) {
-		
+
 	}
 
 	@Override
@@ -375,7 +346,7 @@ public class OpretKunde extends JPanel implements ActionListener, KeyListener,
 		JTextField source = (JTextField) arg0.getSource();
 		ValiderKundeLogik vkl = new ValiderKundeLogikImpl();
 		if (source.equals(postnr)) {
-			if (vkl.validerPostnr(postnr.getText())) {
+			if (postnr.getText().length() == 4) {
 				PostnummerLogik pl = new PostnummerLogikImpl();
 				try {
 					Postnummer pn = pl.listPostnummer(postnr.getText());
@@ -393,7 +364,8 @@ public class OpretKunde extends JPanel implements ActionListener, KeyListener,
 			} else
 				by.setText("");
 		} else if (source.equals(telefon)) {
-			if (arg0.getKeyCode() == KeyEvent.VK_ENTER && vkl.validerTelefon(telefon.getText())) {
+			if (arg0.getKeyCode() == KeyEvent.VK_ENTER
+					&& vkl.validerTelefon(telefon.getText())) {
 				findKunde();
 			} else {
 				if (!vkl.validerTelefon(telefon.getText()))

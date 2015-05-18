@@ -5,7 +5,6 @@ import java.util.List;
 
 import dataaccess.DataAccess;
 import dataaccess.PostnummerDataAccessImpl;
-import domain.Postnummer;
 import domain.PostnummerImpl;
 import exceptions.PostnummerDoesNotExist;
 
