@@ -162,6 +162,23 @@ public class OpretKunde extends JPanel implements ActionListener, KeyListener,
 		layout.setConstraints(component, gbc);
 		add(component);
 	}
+	
+	
+	
+	
+	
+	
+	/*
+	 * 
+	 * SLUT PÅ UI OPBYGNING
+	 * 
+	 */
+	
+	
+	
+	
+	
+	
 
 	private void disableTekstfelter() {
 		cpr.setEnabled(false);
@@ -318,7 +335,17 @@ public class OpretKunde extends JPanel implements ActionListener, KeyListener,
 				JOptionPane.INFORMATION_MESSAGE);
 		disableTekstfelter();
 	}
+	
+	
+	
+	/*
+	 * 
+	 *  Listeners
+	 * 
+	 */
 
+	
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
@@ -348,7 +375,7 @@ public class OpretKunde extends JPanel implements ActionListener, KeyListener,
 		JTextField source = (JTextField) arg0.getSource();
 		ValiderKundeLogik vkl = new ValiderKundeLogikImpl();
 		if (source.equals(postnr)) {
-			if (postnr.getText().length() == 4) {
+			if (vkl.validerPostnr(postnr.getText())) {
 				PostnummerLogik pl = new PostnummerLogikImpl();
 				try {
 					Postnummer pn = pl.listPostnummer(postnr.getText());
@@ -366,7 +393,7 @@ public class OpretKunde extends JPanel implements ActionListener, KeyListener,
 			} else
 				by.setText("");
 		} else if (source.equals(telefon)) {
-			if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
+			if (arg0.getKeyCode() == KeyEvent.VK_ENTER && vkl.validerTelefon(telefon.getText())) {
 				findKunde();
 			} else {
 				if (!vkl.validerTelefon(telefon.getText()))
