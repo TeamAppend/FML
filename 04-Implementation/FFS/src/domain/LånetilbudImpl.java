@@ -58,7 +58,7 @@ public class LånetilbudImpl implements Lånetilbud {
 
 	@Override
 	public void setÅOP(double ÅOP) {
-		ÅOP = ÅOP;
+		this.ÅOP = ÅOP;
 	}
 
 	@Override
