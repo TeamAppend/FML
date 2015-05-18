@@ -41,8 +41,6 @@ public class FFSControllerImpl {
 			obs.update();
 	}
 
-<<<<<<< HEAD
-=======
 	public Kunde hentKunde(String search) throws SQLException,
 			PostnummerDoesNotExist {
 		Kunde kunde = new KundeImpl();
@@ -94,7 +92,6 @@ public class FFSControllerImpl {
 		return list.isEmpty();
 	}
 
->>>>>>> 0c53a704a3e491ec2274661a5e6b5e471cbfeb8e
 	public boolean validerTekstfelter(String telefon, String cpr, String navn,
 			String adresse, String postnummer) {
 		ValiderKundeLogik vkl = new ValiderKundeLogikImpl();
@@ -126,41 +123,7 @@ public class FFSControllerImpl {
 		return b;
 
 	}
-<<<<<<< HEAD
 
-	public void opretKunde(String telefon, String cpr, String navn,
-			String adresse, String postnummer) throws SQLException, CPRAllreadyExists,
-			KundeAllreadyExists, PostnummerDoesNotExist {
-		if (true) {
-			cprnummer = new CPRnummerImpl();
-			cprnummer.setCPRnummer(cpr);
-			CPRLogik cl = new CPRLogikImpl();
-			cl.createCPR(cprnummer);
-
-			List<CPRnummerImpl> list = cl.listCPR(cpr);
-			cprnummer = list.get(0);
-			int cpr_id = cprnummer.getCPR_id();
-
-			kunde = new KundeImpl();
-			kunde.setCPR_id(cpr_id);
-			kunde.setKundenavn(navn);
-			kunde.setAdresse(adresse);
-			kunde.setPostnummer(postnummer);
-			kunde.setTelefon(telefon);
-
-			KundeLogik kl = new KundeLogikImpl();
-			kl.createKunde(kunde);
-			JOptionPane.showMessageDialog(null, "Kunde er oprettet!", "Success!", JOptionPane.INFORMATION_MESSAGE);
-			
-			notifyObservers();
-			//disableTekstfelter();
-			//blackBorders();
-			//hentKunde(tfTelefon.getText());
-		}
-	}
-	
-=======
->>>>>>> 0c53a704a3e491ec2274661a5e6b5e471cbfeb8e
 
 	public Bil getBil() {
 		return bil;
