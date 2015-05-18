@@ -12,7 +12,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.sql.SQLException;
 import java.util.List;
-
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -23,8 +22,6 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
-import dataaccess.PostnummerDataAccess;
-import dataaccess.PostnummerDataAccessImpl;
 import domain.CPRnummer;
 import domain.CPRnummerImpl;
 import domain.Kunde;
@@ -36,6 +33,8 @@ import exceptions.KundeAllreadyExists;
 import exceptions.PostnummerDoesNotExist;
 import logik.CPRLogik;
 import logik.CPRLogikImpl;
+import logik.FFSControllerImpl;
+import logik.FFSObserver;
 import logik.KundeLogik;
 import logik.KundeLogikImpl;
 import logik.PostnummerLogik;
@@ -43,23 +42,21 @@ import logik.PostnummerLogikImpl;
 import logik.ValiderKundeLogik;
 import logik.ValiderKundeLogikImpl;
 
-public class OpretKunde extends JPanel implements ActionListener, KeyListener,
+public class OpretKunde extends JPanel implements FFSObserver, ActionListener, KeyListener,
 		FocusListener {
-	private JTextField cpr = new JTextField(10);
-	private JTextField navn = new JTextField(10);
-	private JTextField adresse = new JTextField(10);
-	private JTextField postnr = new JTextField(10);
-	private JTextField by = new JTextField(10);
-	private JTextField telefon = new JTextField(10);
-	private JButton findKunde = new JButton("Find Kunde");
-	private JButton opretKunde = new JButton("Opret Kunde");
-	private Border blackBorder = new LineBorder(Color.BLACK);
-	private Border redBorder = new LineBorder(Color.RED);
-	private Border greenBorder = new LineBorder(Color.GREEN);
-
+	private JTextField cpr = new JTextField(10), navn = new JTextField(10),
+			adresse = new JTextField(10), postnr = new JTextField(10),
+			by = new JTextField(10), telefon = new JTextField(10);
+	private JButton findKunde = new JButton("Find Kunde"),
+			opretKunde = new JButton("Opret Kunde");
+	private Border blackBorder = new LineBorder(Color.BLACK),
+			redBorder = new LineBorder(Color.RED),
+			greenBorder = new LineBorder(Color.GREEN);
 	private GridBagLayout layout;
+	private FFSControllerImpl FFSc = new FFSControllerImpl();
 
 	public OpretKunde() {
+		FFSc.tilmeldObserver(this);
 		// frame properties
 		setVisible(true);
 
@@ -162,34 +159,20 @@ public class OpretKunde extends JPanel implements ActionListener, KeyListener,
 		layout.setConstraints(component, gbc);
 		add(component);
 	}
-	
-	
-	
-	
-	
-	
-	/*
-	 * 
-	 * SLUT PÅ UI OPBYGNING
-	 * 
-	 */
-	
-	
-	
-	
-	
-	
 
-	private void disableTekstfelter() {
+	/*
+	 * SLUT PÅ UI OPBYGNING
+	 */
+
+	public void disableTekstfelter() {
 		cpr.setEnabled(false);
 		navn.setEnabled(false);
 		adresse.setEnabled(false);
 		postnr.setEnabled(false);
 		opretKunde.setEnabled(false);
-
 	}
 
-	private void enableTekstfelter() {
+	public void enableTekstfelter() {
 		cpr.setEnabled(true);
 		navn.setEnabled(true);
 		adresse.setEnabled(true);
@@ -198,7 +181,7 @@ public class OpretKunde extends JPanel implements ActionListener, KeyListener,
 		clearTekstfelter();
 	}
 
-	private void clearTekstfelter() {
+	public void clearTekstfelter() {
 		cpr.setText("");
 		navn.setText("");
 		adresse.setText("");
@@ -206,7 +189,7 @@ public class OpretKunde extends JPanel implements ActionListener, KeyListener,
 		by.setText("");
 	}
 
-	private boolean validerTekstfelter() {
+	public boolean validerTekstfelter() {
 		ValiderKundeLogik vkl = new ValiderKundeLogikImpl();
 		StringBuilder sb = new StringBuilder();
 		boolean b = true;
@@ -242,13 +225,13 @@ public class OpretKunde extends JPanel implements ActionListener, KeyListener,
 
 	}
 
-	private boolean telefonNrEksistererIkke(String s) throws SQLException {
+	public boolean telefonNrEksistererIkke(String s) throws SQLException {
 		KundeLogik kl = new KundeLogikImpl();
 		List<KundeImpl> list = kl.listKunde(s);
 		return list.isEmpty();
 	}
 
-	private void hentKunde(String s) throws SQLException,
+	public void hentKunde(String s) throws SQLException,
 			PostnummerDoesNotExist {
 		Kunde kunde = new KundeImpl();
 		KundeLogik kl = new KundeLogikImpl();
@@ -267,7 +250,7 @@ public class OpretKunde extends JPanel implements ActionListener, KeyListener,
 
 	}
 
-	private void findKunde() {
+	public void findKunde() {
 		ValiderKundeLogik vkl = new ValiderKundeLogikImpl();
 		if (vkl.validerTelefon(telefon.getText())) {
 			findKunde.setEnabled(false);
@@ -295,7 +278,7 @@ public class OpretKunde extends JPanel implements ActionListener, KeyListener,
 		}
 	}
 
-	private void opretKunde() throws SQLException, CPRAllreadyExists,
+	public void opretKunde() throws SQLException, CPRAllreadyExists,
 			KundeAllreadyExists, PostnummerDoesNotExist {
 		if (validerTekstfelter()) {
 			CPRnummer cprn = new CPRnummerImpl();
@@ -322,7 +305,7 @@ public class OpretKunde extends JPanel implements ActionListener, KeyListener,
 		}
 	}
 
-	private void blackBorders() {
+	public void blackBorders() {
 		adresse.setBorder(blackBorder);
 		telefon.setBorder(blackBorder);
 		cpr.setBorder(blackBorder);
@@ -330,22 +313,12 @@ public class OpretKunde extends JPanel implements ActionListener, KeyListener,
 		postnr.setBorder(blackBorder);
 	}
 
-	private void kundeSuccessfuldtOprettet() {
+	public void kundeSuccessfuldtOprettet() {
 		JOptionPane.showMessageDialog(null, "Kunde er oprettet!", "Success!",
 				JOptionPane.INFORMATION_MESSAGE);
 		disableTekstfelter();
 	}
-	
-	
-	
-	/*
-	 * 
-	 *  Listeners
-	 * 
-	 */
 
-	
-	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
@@ -367,7 +340,7 @@ public class OpretKunde extends JPanel implements ActionListener, KeyListener,
 
 	@Override
 	public void keyPressed(KeyEvent arg0) {
-		
+
 	}
 
 	@Override
@@ -375,7 +348,7 @@ public class OpretKunde extends JPanel implements ActionListener, KeyListener,
 		JTextField source = (JTextField) arg0.getSource();
 		ValiderKundeLogik vkl = new ValiderKundeLogikImpl();
 		if (source.equals(postnr)) {
-			if (vkl.validerPostnr(postnr.getText())) {
+			if (postnr.getText().length() == 4) {
 				PostnummerLogik pl = new PostnummerLogikImpl();
 				try {
 					Postnummer pn = pl.listPostnummer(postnr.getText());
@@ -393,7 +366,8 @@ public class OpretKunde extends JPanel implements ActionListener, KeyListener,
 			} else
 				by.setText("");
 		} else if (source.equals(telefon)) {
-			if (arg0.getKeyCode() == KeyEvent.VK_ENTER && vkl.validerTelefon(telefon.getText())) {
+			if (arg0.getKeyCode() == KeyEvent.VK_ENTER
+					&& vkl.validerTelefon(telefon.getText())) {
 				findKunde();
 			} else {
 				if (!vkl.validerTelefon(telefon.getText()))
@@ -447,5 +421,10 @@ public class OpretKunde extends JPanel implements ActionListener, KeyListener,
 			} else
 				postnr.setBorder(greenBorder);
 		}
+	}
+
+	@Override
+	public void update() {
+		
 	}
 }

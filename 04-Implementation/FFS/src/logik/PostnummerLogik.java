@@ -2,7 +2,6 @@ package logik;
 
 import java.sql.SQLException;
 
-import domain.Postnummer;
 import domain.PostnummerImpl;
 import exceptions.PostnummerDoesNotExist;
 

@@ -8,4 +8,8 @@ public interface Bil {
 	public double getPris();
 	
 	public void setPris(double pris);
+	
+	public void setModelnavn(String modelnavn);
+	
+	public String getModelnavn();
 }
