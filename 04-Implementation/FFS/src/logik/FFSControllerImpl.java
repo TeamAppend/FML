@@ -41,6 +41,60 @@ public class FFSControllerImpl {
 			obs.update();
 	}
 
+<<<<<<< HEAD
+=======
+	public Kunde hentKunde(String search) throws SQLException,
+			PostnummerDoesNotExist {
+		Kunde kunde = new KundeImpl();
+		KundeLogik kl = new KundeLogikImpl();
+		List<KundeImpl> list = kl.listKunde(search);
+		kunde = list.get(0);
+
+		return kunde;
+	}
+
+	public Postnummer hentPostnummer(String search) throws SQLException,
+			PostnummerDoesNotExist {
+		PostnummerLogik pl = new PostnummerLogikImpl();
+		Postnummer postnummer = pl.listPostnummer(search);
+		return postnummer;
+	}
+
+	public void opretKunde(String telefon, String cpr, String navn,
+			String adresse, String postnummer) throws SQLException,
+			CPRAllreadyExists, KundeAllreadyExists, PostnummerDoesNotExist {
+		if (validerTekstfelter(telefon, cpr, navn, adresse, postnummer)) {
+			CPRnummer cprn = new CPRnummerImpl();
+			cprn.setCPRnummer(cpr);
+			CPRLogik cl = new CPRLogikImpl();
+			cl.createCPR(cprn);
+
+			List<CPRnummerImpl> list = cl.listCPR(cpr);
+			CPRnummer cprn2 = list.get(0);
+			int cpr_id = cprn2.getCPR_id();
+
+			Kunde kunde = new KundeImpl();
+			kunde.setCPR_id(cpr_id);
+			kunde.setKundenavn(navn);
+			kunde.setAdresse(adresse);
+			kunde.setPostnummer(postnummer);
+			kunde.setTelefon(telefon);
+
+			KundeLogik kl = new KundeLogikImpl();
+			kl.createKunde(kunde);
+
+			notifyObservers();
+
+		}
+	}
+
+	public boolean telefonNrEksistererIkke(String s) throws SQLException {
+		KundeLogik kl = new KundeLogikImpl();
+		List<KundeImpl> list = kl.listKunde(s);
+		return list.isEmpty();
+	}
+
+>>>>>>> 0c53a704a3e491ec2274661a5e6b5e471cbfeb8e
 	public boolean validerTekstfelter(String telefon, String cpr, String navn,
 			String adresse, String postnummer) {
 		ValiderKundeLogik vkl = new ValiderKundeLogikImpl();
@@ -72,6 +126,7 @@ public class FFSControllerImpl {
 		return b;
 
 	}
+<<<<<<< HEAD
 
 	public void opretKunde(String telefon, String cpr, String navn,
 			String adresse, String postnummer) throws SQLException, CPRAllreadyExists,
@@ -104,6 +159,8 @@ public class FFSControllerImpl {
 		}
 	}
 	
+=======
+>>>>>>> 0c53a704a3e491ec2274661a5e6b5e471cbfeb8e
 
 	public Bil getBil() {
 		return bil;

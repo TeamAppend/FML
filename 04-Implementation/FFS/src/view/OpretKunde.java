@@ -11,8 +11,11 @@ import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.sql.SQLException;
+<<<<<<< HEAD
 import java.util.List;
 
+=======
+>>>>>>> 0c53a704a3e491ec2274661a5e6b5e471cbfeb8e
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -24,23 +27,22 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import domain.Kunde;
-import domain.KundeImpl;
 import domain.Postnummer;
-import domain.PostnummerImpl;
 import exceptions.CPRAllreadyExists;
 import exceptions.KundeAllreadyExists;
 import exceptions.PostnummerDoesNotExist;
 import logik.FFSControllerImpl;
 import logik.FFSObserver;
-import logik.KundeLogik;
-import logik.KundeLogikImpl;
-import logik.PostnummerLogik;
-import logik.PostnummerLogikImpl;
 import logik.ValiderKundeLogik;
 import logik.ValiderKundeLogikImpl;
 
+<<<<<<< HEAD
 public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
 		KeyListener, FocusListener {
+=======
+public class OpretKunde extends JPanel implements FFSObserver, ActionListener, KeyListener,
+		FocusListener {
+>>>>>>> 0c53a704a3e491ec2274661a5e6b5e471cbfeb8e
 	private JTextField tfCPR = new JTextField(10), tfNavn = new JTextField(10),
 			tfAdresse = new JTextField(10), tfPostnummer = new JTextField(10),
 			tfBy = new JTextField(10), tfTelefon = new JTextField(10);
@@ -186,6 +188,7 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
 		tfPostnummer.setText("");
 		tfBy.setText("");
 	}
+<<<<<<< HEAD
 
 	public boolean telefonNrEksistererIkke(String s) throws SQLException {
 		KundeLogik kl = new KundeLogikImpl();
@@ -220,6 +223,33 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
 					blackBorders();
 				} else {
 					hentKunde(tfTelefon.getText());
+=======
+	
+	public void blackBorders() {
+		tfAdresse.setBorder(blackBorder);
+		tfTelefon.setBorder(blackBorder);
+		tfCPR.setBorder(blackBorder);
+		tfNavn.setBorder(blackBorder);
+		tfPostnummer.setBorder(blackBorder);
+	}
+
+	public void findKunde() {
+		ValiderKundeLogik vkl = new ValiderKundeLogikImpl();
+		if (vkl.validerTelefon(tfTelefon.getText())) {   //Overvej at lægge alt validering ind i view
+			btnFindKunde.setEnabled(false);
+			try {
+				if (FFSc.telefonNrEksistererIkke(tfTelefon.getText())) {
+					enableTekstfelter();
+					blackBorders();
+				} else {
+					Kunde kunde = FFSc.hentKunde(tfTelefon.getText());
+					Postnummer postnummer = FFSc.hentPostnummer(kunde.getPostnummer());
+					tfCPR.setText("**********");
+					tfNavn.setText(kunde.getKundenavn());
+					tfAdresse.setText(kunde.getAdresse());
+					tfPostnummer.setText(postnummer.getPostnummer());
+					tfBy.setText(postnummer.getBynavn());
+>>>>>>> 0c53a704a3e491ec2274661a5e6b5e471cbfeb8e
 					disableTekstfelter();
 					blackBorders();
 				}
@@ -238,12 +268,19 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
 		}
 	}
 
+<<<<<<< HEAD
 	public void blackBorders() {
 		tfAdresse.setBorder(blackBorder);
 		tfTelefon.setBorder(blackBorder);
 		tfCPR.setBorder(blackBorder);
 		tfNavn.setBorder(blackBorder);
 		tfPostnummer.setBorder(blackBorder);
+=======
+	public void kundeSuccessfuldtOprettet() {
+		JOptionPane.showMessageDialog(null, "Kunde er oprettet!", "Success!",
+				JOptionPane.INFORMATION_MESSAGE);
+		disableTekstfelter();
+>>>>>>> 0c53a704a3e491ec2274661a5e6b5e471cbfeb8e
 	}
 
 	@Override
@@ -278,11 +315,19 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
 	@Override
 	public void keyReleased(KeyEvent arg0) {
 		JTextField source = (JTextField) arg0.getSource();
+<<<<<<< HEAD
 		if (source.equals(tfPostnummer)) {
 			if (tfPostnummer.getText().length() == 4) {
 				PostnummerLogik pl = new PostnummerLogikImpl();
 				try {
 					Postnummer pn = pl.listPostnummer(tfPostnummer.getText());
+=======
+		ValiderKundeLogik vkl = new ValiderKundeLogikImpl();
+		if (source.equals(tfPostnummer)) {
+			if (tfPostnummer.getText().length() == 4) {    //overvej at bruge validerings metode
+				try {
+					Postnummer pn = FFSc.hentPostnummer(tfPostnummer.getText());
+>>>>>>> 0c53a704a3e491ec2274661a5e6b5e471cbfeb8e
 					if (pn != null) {
 						tfBy.setText(pn.getBynavn());
 						tfPostnummer.setBorder(greenBorder);
@@ -298,10 +343,17 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
 				tfBy.setText("");
 		} else if (source.equals(tfTelefon)) {
 			if (arg0.getKeyCode() == KeyEvent.VK_ENTER
+<<<<<<< HEAD
 					&& vkl.validerTelefon(tfTelefon.getText())) {
 				findKunde();
 			} else {
 				if (!vkl.validerTelefon(tfTelefon.getText()))
+=======
+					&& vkl.validerTelefon(tfTelefon.getText())) {  //validering
+				findKunde();
+			} else {
+				if (!vkl.validerTelefon(tfTelefon.getText()))   //validering
+>>>>>>> 0c53a704a3e491ec2274661a5e6b5e471cbfeb8e
 					btnFindKunde.setEnabled(false);
 				else
 					btnFindKunde.setEnabled(true);
@@ -323,13 +375,46 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
 	}
 
 	@Override
+<<<<<<< HEAD
 	public void focusLost(FocusEvent arg0) {
 		Object source = arg0.getSource();
 		updateBorders(source);
+=======
+	public void focusLost(FocusEvent arg0) {				//MERE FUCKING VALIDERING
+		JTextField source = (JTextField) arg0.getComponent();
+		ValiderKundeLogik vkl = new ValiderKundeLogikImpl();
+		if (source.equals(tfAdresse)) {
+			if (!vkl.validerAdresse(tfAdresse.getText())) {
+				tfAdresse.setBorder(redBorder);
+			} else
+				tfAdresse.setBorder(greenBorder);
+		} else if (source.equals(tfCPR)) {
+			if (!vkl.validerCPR(tfCPR.getText())) {
+				tfCPR.setBorder(redBorder);
+			} else
+				tfCPR.setBorder(greenBorder);
+		} else if (source.equals(tfNavn)) {
+			if (!vkl.validerNavn(tfNavn.getText())) {
+				tfNavn.setBorder(redBorder);
+			} else
+				tfNavn.setBorder(greenBorder);
+		} else if (source.equals(tfTelefon)) {
+			if (!vkl.validerTelefon(tfTelefon.getText())) {
+				tfTelefon.setBorder(redBorder);
+			} else
+				tfTelefon.setBorder(greenBorder);
+		} else if (source.equals(tfPostnummer)) {
+			if (!vkl.validerPostnr(tfPostnummer.getText())) {
+				tfPostnummer.setBorder(redBorder);
+			} else
+				tfPostnummer.setBorder(greenBorder);
+		}
+>>>>>>> 0c53a704a3e491ec2274661a5e6b5e471cbfeb8e
 	}
 
 	@Override
 	public void update() {
+<<<<<<< HEAD
 	
 	}
 	
@@ -354,5 +439,14 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
 			tfPostnummer.setBorder(redBorder);
 		} else
 			tfPostnummer.setBorder(greenBorder);
+=======
+		kundeSuccessfuldtOprettet();
+		blackBorders();
+		try {
+			FFSc.hentKunde(tfTelefon.getText());
+		} catch (SQLException | PostnummerDoesNotExist e) {
+			e.printStackTrace();
+		}
+>>>>>>> 0c53a704a3e491ec2274661a5e6b5e471cbfeb8e
 	}
 }
