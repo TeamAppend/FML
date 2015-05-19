@@ -85,3 +85,7 @@ VALUES ( '7.3', '18' , '500000' , '1.3', '0', '0', '0', '2015-06-05 09:24:08')
 
 
 SELECT rentesats, tilbagebetalingsperiode, udbetaling, ÅOP, oprettelsestidspunkt, kunde.kundenavn, kunde.adresse, kunde.postnummer, postnummer.bynavn, kunde.telefon, CPRnummer.CPRnummer, bil.pris, bil.modelnavn sælger.sælgernavn, sælger.rang, sælger.beløbsgrænse FROM lånetilbud INNER JOIN bil ON lånetilbud.bil_id = bil.bil_id INNER JOIN kunde ON lånetilbud.kunde_id = kunde.kunde_id INNER JOIN sælger ON lånetilbud.sælger_id = sælger.sælger_id INNER JOIN postnummer ON postnummer.postnummer = kunde.postnummer INNER JOIN CPRnummer ON kunde.CPR_id = CPRnummer.CPR_id;
+
+DROP TABLE LÅNETILBUD,
+DROP TABLE KUNDE,
+DROP TABLE CPRNUMMER,
