@@ -86,9 +86,9 @@ public class CPRLogikImpl implements CPRLogik {
 		try {
 			dataaccess = new DataAccess();
 			CPRDataAccessImpl searchda = new CPRDataAccessImpl();
-			int size = searchda.findUnique(dataaccess, CPR);
+			int count = searchda.findUnique(dataaccess, CPR);
 			dataaccess.commit();
-			return size;
+			return count;
 		} catch (Exception e) {
 			if (dataaccess != null) {
 				dataaccess.rollback();

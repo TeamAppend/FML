@@ -21,4 +21,6 @@ public interface KundeLogik {
 	public abstract void deleteKunde(int kunde_id) throws SQLException,
 			KundeDoesNotExists;
 
+	public abstract int findUnique(String telefon) throws SQLException;
+
 }

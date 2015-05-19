@@ -27,11 +27,12 @@ public class SælgerDataAccessImpl implements SælgerDataAccess {
 			statement.setString(1, sælger_id);
 			resultset = statement.executeQuery();
 			Sælger sælger = new SælgerImpl();
-			SælgerImpl sr = new SælgerImpl();
-			sr.setSælgerNavn(resultset.getString("sælgernavn"));
-			sr.setRang(resultset.getString("rang"));
-			sr.setBeløbsGrænse(resultset.getInt("beløbsgrænse"));
-			sr.setSælger_id(resultset.getInt("sælger_id"));
+			while (resultset.next()) {
+				sælger.setSælgerNavn(resultset.getString("sælgernavn"));
+				sælger.setRang(resultset.getString("rang"));
+				sælger.setBeløbsGrænse(resultset.getInt("beløbsgrænse"));
+				sælger.setSælger_id(resultset.getInt("sælger_id"));
+			}
 			return sælger;
 		} finally {
 			if (resultset != null) {
@@ -42,13 +43,15 @@ public class SælgerDataAccessImpl implements SælgerDataAccess {
 			}
 		}
 	}
-	
+
 	@Override
-	public List<Sælger> listAlleSælger(DataAccess dataaccess) throws SQLException {
+	public List<Sælger> listAlleSælger(DataAccess dataaccess)
+			throws SQLException {
 		PreparedStatement statement = null;
 		ResultSet resultset = null;
 		try {
-			statement = dataaccess.getConnection().prepareStatement(SELECT_MANY);
+			statement = dataaccess.getConnection()
+					.prepareStatement(SELECT_MANY);
 			resultset = statement.executeQuery();
 			List<Sælger> list = new ArrayList<>();
 			while (resultset.next()) {

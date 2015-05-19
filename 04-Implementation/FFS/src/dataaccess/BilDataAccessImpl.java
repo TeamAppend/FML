@@ -23,8 +23,10 @@ public class BilDataAccessImpl implements BilDataAccess {
 			statement.setString(1, bil_id);
 			resultset = statement.executeQuery();
 			Bil bil = new BilImpl();
-			bil.setBil_id(resultset.getInt("bil_id"));
-			bil.setPris(resultset.getInt("pris"));
+			while (resultset.next()) {
+				bil.setBil_id(resultset.getInt("bil_id"));
+				bil.setPris(resultset.getInt("pris"));
+			}
 			return bil;
 		} finally {
 			if (resultset != null) {

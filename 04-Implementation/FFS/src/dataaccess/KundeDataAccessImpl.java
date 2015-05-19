@@ -9,15 +9,17 @@ import domain.KundeImpl;
 import exceptions.KundeAllreadyExists;
 import exceptions.KundeDoesNotExists;
 
-public class KundeDataAccessImpl implements KundeDataAccess {
+public class KundeDataAccessImpl implements KundeDataAccess{
 	private static final String INSERT_ONE = "INSERT INTO KUNDE (CPR_id, kundenavn, adresse, postnummer, telefon) VALUES(?,?,?,?,?)";
 	private static final String SELECT_ONE = "SELECT kundenavn, adresse, postnummer, telefon, CPR_id FROM kunde WHERE telefon = ?";
 	private static final String UPDATE_ONE = "UPDATE kunde SET kundenavn = ?, adresse = ?, postnummer = ?, telefon = ? WHERE kunde_id = ?";
 	private static final String DELETE_ONE = "DELETE FROM kunde WHERE kunde_id = ?";
+	private static final String FIND_UNIQUE = "SELECT COUNT(*) FROM kunde WHERE telefon = ?";
 
 	/*
 	 * Create
 	 */
+	@Override
 	public void createKunde(DataAccess dataaccess, Kunde kunde)
 			throws SQLException, KundeAllreadyExists {
 		PreparedStatement statement = null;
@@ -45,6 +47,7 @@ public class KundeDataAccessImpl implements KundeDataAccess {
 	/*
 	 * Read
 	 */
+	@Override
 	public Kunde listKunde(DataAccess dataaccess, String telefon)
 			throws SQLException {
 		PreparedStatement statement = null;
@@ -54,12 +57,38 @@ public class KundeDataAccessImpl implements KundeDataAccess {
 			statement.setString(1, telefon);
 			resultset = statement.executeQuery();
 			Kunde kunde = new KundeImpl();
-			kunde.setTelefon(resultset.getString("telefon"));
-			kunde.setCPR_id(resultset.getInt("CPR_id"));
-			kunde.setKundenavn(resultset.getString("kundenavn"));
-			kunde.setPostnummer(resultset.getString("postnummer"));
-			kunde.setAdresse(resultset.getString("adresse"));
+			while(resultset.next()){
+				kunde.setTelefon(resultset.getString("telefon"));
+				kunde.setCPR_id(resultset.getInt("CPR_id"));
+				kunde.setKundenavn(resultset.getString("kundenavn"));
+				kunde.setPostnummer(resultset.getString("postnummer"));
+				kunde.setAdresse(resultset.getString("adresse"));
+			}
 			return kunde;
+		} finally {
+			if (resultset != null) {
+				resultset.close();
+			}
+			if (statement != null) {
+				statement.close();
+			}
+		}
+	}
+	
+	@Override
+	public int findUnique(DataAccess dataaccess, String telefon)
+			throws SQLException {
+		PreparedStatement statement = null;
+		ResultSet resultset = null;
+		try {
+			statement = dataaccess.getConnection().prepareStatement(FIND_UNIQUE);
+			statement.setString(1, telefon);
+			resultset = statement.executeQuery();
+			int count = 0;
+			while(resultset.next()){
+				count = resultset.getInt("c1");
+			}
+			return count;
 		} finally {
 			if (resultset != null) {
 				resultset.close();
@@ -73,6 +102,7 @@ public class KundeDataAccessImpl implements KundeDataAccess {
 	/*
 	 * Update
 	 */
+	@Override
 	public void updateKunde(DataAccess dataaccess, String kundenavn,
 			String adresse, String postnummer, String telefon, int kunde_id)
 			throws SQLException, KundeDoesNotExists {
@@ -98,6 +128,7 @@ public class KundeDataAccessImpl implements KundeDataAccess {
 	/*
 	 * Delete
 	 */
+	@Override
 	public void deleteKunde(DataAccess dataaccess, int kunde_id)
 			throws SQLException, KundeDoesNotExists {
 		PreparedStatement statement = null;

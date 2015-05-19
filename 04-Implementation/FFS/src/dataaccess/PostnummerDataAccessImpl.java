@@ -22,8 +22,10 @@ public class PostnummerDataAccessImpl implements PostnummerDataAccess {
 			statement.setString(1, postnummer);
 			resultset = statement.executeQuery();
 			PostnummerImpl pn = new PostnummerImpl();
-			pn.setPostnummer(resultset.getString("postnummer"));
-			pn.setBynavn(resultset.getString("bynavn"));
+			while (resultset.next()) {
+				pn.setPostnummer(resultset.getString("postnummer"));
+				pn.setBynavn(resultset.getString("bynavn"));
+			}
 			return pn;
 		} finally {
 			if (resultset != null) {

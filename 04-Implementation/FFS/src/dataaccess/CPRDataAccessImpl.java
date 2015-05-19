@@ -3,8 +3,6 @@ package dataaccess;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import domain.CPRnummer;
 import domain.CPRnummerImpl;
@@ -15,7 +13,7 @@ public class CPRDataAccessImpl implements CPRDataAccess {
 	private static final String INSERT_ONE = "INSERT INTO CPRnummer (CPRnummer) VALUES(?)";
 	private static final String SELECT_ONE = "SELECT CPRnummer, CPR_id FROM CPRnummer WHERE CPR_id = ?";
 	private static final String SELECT_NUMMER = "SELECT CPRnummer, CPR_id FROM CPRnummer WHERE CPRnummer = ?";
-	private static final String FIND_UNIQUE = "SELECT CPRnummer FROM CPRnummer WHERE CPRnummer = ?";
+	private static final String FIND_UNIQUE = "SELECT COUNT(*) FROM CPRnummer WHERE CPRnummer = ?";
 	private static final String DELETE_ONE = "DELETE FROM CPRnummer WHERE CPR_id = ?";
 
 	/**
@@ -58,8 +56,10 @@ public class CPRDataAccessImpl implements CPRDataAccess {
 			statement.setInt(1, CPR_id);
 			resultset = statement.executeQuery();
 			CPRnummer cpr = new CPRnummerImpl();
-			cpr.setCPR_id(resultset.getInt("CPR_id"));
-			cpr.setCPRnummer(resultset.getString("CPRnummer"));
+			while (resultset.next()) {
+				cpr.setCPR_id(resultset.getInt("CPR_id"));
+				cpr.setCPRnummer(resultset.getString("CPRnummer"));
+			}
 			return cpr;
 		} finally {
 			if (resultset != null) {
@@ -81,9 +81,10 @@ public class CPRDataAccessImpl implements CPRDataAccess {
 			statement.setString(1, CPRnummer);
 			resultset = statement.executeQuery();
 			CPRnummerImpl cpr = new CPRnummerImpl();
-			cpr.setCPR_id(resultset.getInt("CPR_id"));
-			cpr.setCPRnummer(resultset.getString("CPRnummer"));
-
+			while (resultset.next()) {
+				cpr.setCPR_id(resultset.getInt("CPR_id"));
+				cpr.setCPRnummer(resultset.getString("CPRnummer"));
+			}
 			return cpr;
 		} finally {
 			if (resultset != null) {
@@ -109,17 +110,14 @@ public class CPRDataAccessImpl implements CPRDataAccess {
 		PreparedStatement statement = null;
 		ResultSet resultset = null;
 		try {
-			statement = dataaccess.getConnection()
-					.prepareStatement(FIND_UNIQUE);
+			statement = dataaccess.getConnection().prepareStatement(FIND_UNIQUE);
 			statement.setString(1, CPR);
 			resultset = statement.executeQuery();
-			List<CPRnummerImpl> list = new ArrayList<>();
+			int count = 0;
 			while (resultset.next()) {
-				CPRnummerImpl cpr = new CPRnummerImpl();
-				cpr.setCPRnummer(resultset.getString("CPRnummer"));
-				list.add(cpr);
+				count = resultset.getInt("c1");
 			}
-			return list.size();
+			return count;
 		} finally {
 			if (resultset != null) {
 				resultset.close();

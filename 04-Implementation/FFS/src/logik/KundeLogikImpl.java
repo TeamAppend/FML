@@ -3,6 +3,7 @@ package logik;
 import java.sql.SQLException;
 
 import dataaccess.DataAccess;
+import dataaccess.KundeDataAccess;
 import dataaccess.KundeDataAccessImpl;
 import domain.Kunde;
 import exceptions.KundeAllreadyExists;
@@ -17,7 +18,7 @@ public class KundeLogikImpl implements KundeLogik {
 		DataAccess dataacces = null;
 		try {
 			dataacces = new DataAccess();
-			KundeDataAccessImpl kundeda = new KundeDataAccessImpl();
+			KundeDataAccess kundeda = new KundeDataAccessImpl();
 			kundeda.createKunde(dataacces, kunde);
 			dataacces.commit();
 		} catch (Exception e) {
@@ -42,7 +43,7 @@ public class KundeLogikImpl implements KundeLogik {
 		DataAccess dataaccess = null;
 		try {
 			dataaccess = new DataAccess();
-			KundeDataAccessImpl searchda = new KundeDataAccessImpl();
+			KundeDataAccess searchda = new KundeDataAccessImpl();
 			Kunde kunde =  searchda.listKunde(dataaccess, telefon);
 			dataaccess.commit();
 			return kunde;
@@ -59,6 +60,27 @@ public class KundeLogikImpl implements KundeLogik {
 		}
 	}
 	
+	@Override
+	public int findUnique(String telefon) throws SQLException {
+		DataAccess dataaccess = null;
+		try {
+			dataaccess = new DataAccess();
+			KundeDataAccess searchda = new KundeDataAccessImpl();
+			int count =  searchda.findUnique(dataaccess, telefon);
+			dataaccess.commit();
+			return count;
+		} catch (Exception e) {
+			if (dataaccess != null) {
+				dataaccess.rollback();
+			}
+			throw e;
+		} finally {
+			if (dataaccess != null) {
+				dataaccess.close();
+			}
+			
+		}
+	}
 	
 
 	
@@ -67,7 +89,7 @@ public class KundeLogikImpl implements KundeLogik {
 		DataAccess dataacces = null;
 		try {
 			dataacces = new DataAccess();
-			KundeDataAccessImpl kundeda = new KundeDataAccessImpl();
+			KundeDataAccess kundeda = new KundeDataAccessImpl();
 			kundeda.updateKunde(dataacces, kundenavn, adresse, postnummer, telefon, kunde_id);
 			dataacces.commit();
 		} catch (Exception e) {
@@ -88,7 +110,7 @@ public class KundeLogikImpl implements KundeLogik {
 		DataAccess dataacces = null;
 		try {
 			dataacces = new DataAccess();
-			KundeDataAccessImpl kundeda = new KundeDataAccessImpl();
+			KundeDataAccess kundeda = new KundeDataAccessImpl();
 			kundeda.deleteKunde(dataacces, kunde_id);
 			dataacces.commit();
 		} catch (Exception e) {

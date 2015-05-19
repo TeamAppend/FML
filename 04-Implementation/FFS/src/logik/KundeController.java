@@ -62,8 +62,8 @@ public class KundeController {
 
 	public boolean telefonNrEksistererIkke(String telefon) throws SQLException {
 		KundeLogik kl = new KundeLogikImpl();
-		Kunde kunde = kl.listKunde(telefon);
-		if(kunde == null)
+		int count = kl.findUnique(telefon);
+		if(count == 0)
 			return true;
 		else
 			return false;
