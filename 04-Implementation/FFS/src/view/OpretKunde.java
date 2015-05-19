@@ -370,7 +370,7 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
 		return b;
 	}
 
-	public boolean validerTekstfelter(String telefon, String cpr, String navn,
+	protected boolean validerTekstfelter(String telefon, String cpr, String navn,
 			String adresse, String postnummer, String bynavn) {
 		StringBuilder sb = new StringBuilder();
 		boolean b = true;
