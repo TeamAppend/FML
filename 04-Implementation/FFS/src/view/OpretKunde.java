@@ -11,7 +11,7 @@ import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.EventObject;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -23,18 +23,16 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
+import logik.FFSControllerOpretKundeImpl;
+import logik.FFSObserver;
 import domain.Kunde;
 import domain.Postnummer;
 import exceptions.CPRAllreadyExists;
 import exceptions.KundeAllreadyExists;
 import exceptions.PostnummerDoesNotExist;
-import logik.FFSControllerImpl;
-import logik.FFSObserver;
-import logik.ValiderKundeLogik;
-import logik.ValiderKundeLogikImpl;
 
-public class OpretKunde extends JPanel implements FFSObserver, ActionListener, KeyListener,
-		FocusListener {
+public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
+		KeyListener, FocusListener {
 	private JTextField tfCPR = new JTextField(10), tfNavn = new JTextField(10),
 			tfAdresse = new JTextField(10), tfPostnummer = new JTextField(10),
 			tfBy = new JTextField(10), tfTelefon = new JTextField(10);
@@ -43,9 +41,8 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener, K
 	private Border blackBorder = new LineBorder(Color.BLACK),
 			redBorder = new LineBorder(Color.RED),
 			greenBorder = new LineBorder(Color.GREEN);
-	private ValiderKundeLogik vkl = new ValiderKundeLogikImpl();
 	private GridBagLayout layout;
-	private FFSControllerImpl FFSc = new FFSControllerImpl();
+	private FFSControllerOpretKundeImpl FFSc = new FFSControllerOpretKundeImpl();
 
 	public OpretKunde() {
 		FFSc.tilmeldObserver(this);
@@ -190,8 +187,7 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener, K
 	}
 
 	public void findKunde() {
-		ValiderKundeLogik vkl = new ValiderKundeLogikImpl();
-		if (vkl.validerTelefon(tfTelefon.getText())) {   //Overvej at lægge alt validering ind i view
+		if (validerTelefon(tfTelefon.getText())) {
 			btnFindKunde.setEnabled(false);
 			try {
 				if (FFSc.telefonNrEksistererIkke(tfTelefon.getText())) {
@@ -199,7 +195,8 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener, K
 					blackBorders();
 				} else {
 					Kunde kunde = FFSc.hentKunde(tfTelefon.getText());
-					Postnummer postnummer = FFSc.hentPostnummer(kunde.getPostnummer());
+					Postnummer postnummer = FFSc.hentPostnummer(kunde
+							.getPostnummer());
 					tfCPR.setText("**********");
 					tfNavn.setText(kunde.getKundenavn());
 					tfAdresse.setText(kunde.getAdresse());
@@ -208,10 +205,8 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener, K
 					disableTekstfelter();
 					blackBorders();
 				}
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			} catch (PostnummerDoesNotExist e1) {
-				e1.printStackTrace();
+			} catch (SQLException | PostnummerDoesNotExist e) {
+				e.printStackTrace();
 			}
 		} else {
 			JOptionPane
@@ -227,6 +222,7 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener, K
 		JOptionPane.showMessageDialog(null, "Kunde er oprettet!", "Success!",
 				JOptionPane.INFORMATION_MESSAGE);
 		disableTekstfelter();
+		blackBorders();
 	}
 
 	@Override
@@ -241,7 +237,10 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener, K
 				String navn = tfNavn.getText();
 				String adresse = tfAdresse.getText();
 				String postnummer = tfPostnummer.getText();
-				FFSc.opretKunde(telefon, cpr, navn, adresse, postnummer);
+				String bynavn = tfBy.getText();
+				if (validerTekstfelter(telefon, cpr, navn, adresse, postnummer,
+						bynavn))
+					FFSc.opretKunde(telefon, cpr, navn, adresse, postnummer);
 			} catch (SQLException | CPRAllreadyExists e1) {
 				e1.printStackTrace();
 			} catch (KundeAllreadyExists e1) {
@@ -261,9 +260,8 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener, K
 	@Override
 	public void keyReleased(KeyEvent arg0) {
 		JTextField source = (JTextField) arg0.getSource();
-		ValiderKundeLogik vkl = new ValiderKundeLogikImpl();
 		if (source.equals(tfPostnummer)) {
-			if (tfPostnummer.getText().length() == 4) {    //overvej at bruge validerings metode
+			if (validerPostnummer(tfPostnummer.getText())) {
 				try {
 					Postnummer pn = FFSc.hentPostnummer(tfPostnummer.getText());
 					if (pn != null) {
@@ -277,13 +275,16 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener, K
 					e.printStackTrace();
 				}
 
-			} else
+			} else {
 				tfBy.setText("");
+				tfPostnummer.setBorder(redBorder);
+			}
 		} else if (source.equals(tfTelefon)) {
-			if (arg0.getKeyCode() == KeyEvent.VK_ENTER && vkl.validerTelefon(tfTelefon.getText())) {
+			if (arg0.getKeyCode() == KeyEvent.VK_ENTER
+					&& validerTelefon(tfTelefon.getText())) {
 				findKunde();
 			} else {
-				if (!vkl.validerTelefon(tfTelefon.getText()))   //validering
+				if (!validerTelefon(tfTelefon.getText()))
 					btnFindKunde.setEnabled(false);
 				else
 					btnFindKunde.setEnabled(true);
@@ -298,52 +299,143 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener, K
 
 	@Override
 	public void focusGained(FocusEvent arg0) {
-		/*JTextField source = (JTextField) arg0.getComponent();
-		if (source.getBorder() == redBorder) {
-			source.setBorder(blackBorder);
-		}*/
+		/*
+		 * JTextField source = (JTextField) arg0.getComponent(); if
+		 * (source.getBorder() == redBorder) { source.setBorder(blackBorder); }
+		 */
 	}
-	
-	public void focusLost(FocusEvent arg0) {				//MERE FUCKING VALIDERING
+
+	public void focusLost(FocusEvent arg0) {
 		JTextField source = (JTextField) arg0.getComponent();
-		ValiderKundeLogik vkl = new ValiderKundeLogikImpl();
 		if (source.equals(tfAdresse)) {
-			if (!vkl.validerAdresse(tfAdresse.getText())) {
+			if (!validerAdresse(tfAdresse.getText())) {
 				tfAdresse.setBorder(redBorder);
 			} else
 				tfAdresse.setBorder(greenBorder);
 		} else if (source.equals(tfCPR)) {
-			if (!vkl.validerCPR(tfCPR.getText())) {
+			if (!validerCPR(tfCPR.getText())) {
 				tfCPR.setBorder(redBorder);
 			} else
 				tfCPR.setBorder(greenBorder);
 		} else if (source.equals(tfNavn)) {
-			if (!vkl.validerNavn(tfNavn.getText())) {
+			if (!validerNavn(tfNavn.getText())) {
 				tfNavn.setBorder(redBorder);
 			} else
 				tfNavn.setBorder(greenBorder);
 		} else if (source.equals(tfTelefon)) {
-			if (!vkl.validerTelefon(tfTelefon.getText())) {
+			if (!validerTelefon(tfTelefon.getText())) {
 				tfTelefon.setBorder(redBorder);
 			} else
 				tfTelefon.setBorder(greenBorder);
 		} else if (source.equals(tfPostnummer)) {
-			if (!vkl.validerPostnr(tfPostnummer.getText())) {
+			if (!validerPostnummer(tfPostnummer.getText())) {
 				tfPostnummer.setBorder(redBorder);
 			} else
 				tfPostnummer.setBorder(greenBorder);
 		}
 	}
 
-		
+	/*
+	 * Validering
+	 */
+
+	private boolean validerCPR(String s) {
+		boolean b = true;
+		if (s.length() != 10)
+			b = false;
+		else if (!s.matches("[0-9]+"))
+			b = false;
+		return b;
+	}
+
+	private boolean validerNavn(String s) {
+		boolean b = true;
+		if (s.length() == 0)
+			b = false;
+		else if (!s.matches("[a-zA-ZæøåÆØÅ ]+"))
+			b = false;
+		return b;
+	}
+
+	private boolean validerAdresse(String s) {
+		boolean b = true;
+		if (s.length() == 0)
+			b = false;
+		else if (!s.matches("[0-9a-zA-ZæøåÆØÅ. ]+"))
+			b = false;
+		return b;
+	}
+
+	private boolean validerPostnummer(String s) {
+		boolean b = true;
+		if (s.length() != 4)
+			b = false;
+		else if (!s.matches("[0-9]+"))
+			b = false;
+		return b;
+	}
+
+	private boolean validerTelefon(String s) {
+		boolean b = true;
+		if (s.length() != 8)
+			b = false;
+		else if (!s.matches("[0-9]+"))
+			b = false;
+
+		return b;
+	}
+
+	private boolean validerBy(String s) {
+		boolean b = true;
+		if (s.length() == 0)
+			b = false;
+
+		return b;
+	}
+
+	public boolean validerTekstfelter(String telefon, String cpr, String navn,
+			String adresse, String postnummer, String bynavn) {
+		StringBuilder sb = new StringBuilder();
+		boolean b = true;
+		if (!validerTelefon(telefon)) {
+			sb.append("- Telefonnummer må kun indeholde tallene 0-9, og skal være 8 tegn \n");
+			b = false;
+		}
+		if (!validerCPR(cpr)) {
+			sb.append("- CPR-nummer må kun indeholde tallene 0-9, og skal være 10 tegn \n");
+			b = false;
+		}
+		if (!validerNavn(navn)) {
+			sb.append("- Kundenavn må kun indeholde a-å, og må ikke være tom \n");
+			b = false;
+		}
+		if (!validerAdresse(adresse)) {
+			sb.append("- Adresse må kun indeholde a-å og 0-9, og må ikke være tom \n");
+			b = false;
+		}
+		if (!validerPostnummer(postnummer)) {
+			sb.append("- Postnummer må kun indeholde tallene 0-9, og skal være 4 tegn \n");
+			b = false;
+		}
+		if (!validerBy(bynavn)) {
+			sb.append("- Postnummer eksisterer ikke \n");
+			b = false;
+		}
+		if (!b)
+			JOptionPane.showMessageDialog(null, sb.toString(), "Fejl!",
+					JOptionPane.ERROR_MESSAGE);
+		return b;
+	}
+
+	/*
+	 * Update
+	 */
+
 	@Override
-	public void update() {
-		kundeSuccessfuldtOprettet();
-		blackBorders();
-		try {
-			FFSc.hentKunde(tfTelefon.getText());
-		} catch (SQLException | PostnummerDoesNotExist e) {
-			e.printStackTrace();
+	public void update(Object source) {
+		if (source instanceof FFSControllerOpretKundeImpl) {
+			kundeSuccessfuldtOprettet();
+			findKunde();
 		}
 	}
 }
