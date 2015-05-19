@@ -413,7 +413,6 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
 			if (s.equals("opretKunde")) {
 				JOptionPane.showMessageDialog(null, "Kunde er oprettet!","Success!", JOptionPane.INFORMATION_MESSAGE);
 				disableTekstfelter();
-				blackBorders();
 				findKunde();
 			} else if (s.equals("hentKunde")) {
 				tfCPR.setText("**********");
