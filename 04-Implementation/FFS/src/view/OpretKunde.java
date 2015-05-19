@@ -316,7 +316,7 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
 	 * Validering
 	 */
 
-	private boolean validerCPR(String s) {
+	protected boolean validerCPR(String s) {
 		boolean b = true;
 		if (s.length() != 10)
 			b = false;
@@ -325,7 +325,7 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
 		return b;
 	}
 
-	private boolean validerNavn(String s) {
+	protected boolean validerNavn(String s) {
 		boolean b = true;
 		if (s.length() == 0)
 			b = false;
@@ -334,7 +334,7 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
 		return b;
 	}
 
-	private boolean validerAdresse(String s) {
+	protected boolean validerAdresse(String s) {
 		boolean b = true;
 		if (s.length() == 0)
 			b = false;
@@ -343,7 +343,7 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
 		return b;
 	}
 
-	private boolean validerPostnummer(String s) {
+	protected boolean validerPostnummer(String s) {
 		boolean b = true;
 		if (s.length() != 4)
 			b = false;
@@ -352,7 +352,7 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
 		return b;
 	}
 
-	private boolean validerTelefon(String s) {
+	protected boolean validerTelefon(String s) {
 		boolean b = true;
 		if (s.length() != 8)
 			b = false;
@@ -362,7 +362,7 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
 		return b;
 	}
 
-	private boolean validerBy(String s) {
+	protected boolean validerBy(String s) {
 		boolean b = true;
 		if (s.length() == 0)
 			b = false;
