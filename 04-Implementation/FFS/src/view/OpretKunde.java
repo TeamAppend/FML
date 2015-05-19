@@ -233,7 +233,6 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
 				e1.printStackTrace();
 			}
 		}
-
 	}
 
 	@Override
@@ -307,8 +306,7 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
 		} else if (source.equals(tfPostnummer)) {
 			if (!validerPostnummer(tfPostnummer.getText())) {
 				tfPostnummer.setBorder(redBorder);
-			} else
-				tfPostnummer.setBorder(greenBorder);
+			}
 		}
 	}
 
