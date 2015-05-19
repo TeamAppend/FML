@@ -10,7 +10,7 @@ import domain.PostnummerImpl;
 import domain.SælgerImpl;
 
 public class SælgerDataAccessImpl implements SælgerDataAccess {
-	private static final String SELECT_ONE = "SELECT sælger_id, sælgernavn, rang, beløbsgrænse FROM sælger_id WHERE sælger_id = ?";
+	private static final String SELECT_MANY = "SELECT sælger_id, sælgernavn, rang, beløbsgrænse FROM sælger";
 	
 	/*
 	 * Read
@@ -19,15 +19,15 @@ public class SælgerDataAccessImpl implements SælgerDataAccess {
 		PreparedStatement statement = null;
 		ResultSet resultset = null;
 		try {
-			statement = dataaccess.getConnection().prepareStatement(SELECT_ONE);
-			statement.setString(1, sælger);
+			statement = dataaccess.getConnection().prepareStatement(SELECT_MANY);
 			resultset = statement.executeQuery();
 			List<SælgerImpl> list = new ArrayList<>();
 			while (resultset.next()) {
 				SælgerImpl sr = new SælgerImpl();
-				sr.setSælgerNavn(resultset.getString("postnummer"));
-				sr.setRang(resultset.getString("bynavn"));
-				sr.setBeløbsGrænse( resultset.getInt(""));
+				sr.setSælgerNavn(resultset.getString("sælgernavn"));
+				sr.setRang(resultset.getString("rang"));
+				sr.setBeløbsGrænse( resultset.getInt("beløbsgrænse"));
+				sr.setSælger_id(resultset.getInt("sælger_id"));
 				list.add(sr);
 			}
 			return list;
