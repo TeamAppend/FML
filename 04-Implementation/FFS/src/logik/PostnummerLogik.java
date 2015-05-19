@@ -2,12 +2,12 @@ package logik;
 
 import java.sql.SQLException;
 
-import domain.PostnummerImpl;
+import domain.Postnummer;
 import exceptions.PostnummerDoesNotExist;
 
 public interface PostnummerLogik {
 
-	public abstract PostnummerImpl listPostnummer(String postnummer)
+	public abstract Postnummer listPostnummer(String postnummer)
 			throws SQLException, PostnummerDoesNotExist;
 
 }

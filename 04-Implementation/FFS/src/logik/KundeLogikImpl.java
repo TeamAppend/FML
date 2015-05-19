@@ -1,12 +1,10 @@
 package logik;
 
 import java.sql.SQLException;
-import java.util.List;
 
 import dataaccess.DataAccess;
 import dataaccess.KundeDataAccessImpl;
 import domain.Kunde;
-import domain.KundeImpl;
 import exceptions.KundeAllreadyExists;
 import exceptions.KundeDoesNotExists;
 
@@ -40,14 +38,14 @@ public class KundeLogikImpl implements KundeLogik {
 	
 
 	@Override
-	public List<KundeImpl> listKunde(String telefon) throws SQLException {
+	public Kunde listKunde(String telefon) throws SQLException {
 		DataAccess dataaccess = null;
 		try {
 			dataaccess = new DataAccess();
 			KundeDataAccessImpl searchda = new KundeDataAccessImpl();
-			List<KundeImpl> list =  searchda.listKunde(dataaccess, telefon);
+			Kunde kunde =  searchda.listKunde(dataaccess, telefon);
 			dataaccess.commit();
-			return list;
+			return kunde;
 		} catch (Exception e) {
 			if (dataaccess != null) {
 				dataaccess.rollback();

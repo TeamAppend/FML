@@ -6,7 +6,6 @@ import java.util.List;
 import dataaccess.DataAccess;
 import dataaccess.LånetilbudDataAccessImpl;
 import domain.Lånetilbud;
-import domain.LånetilbudImpl;
 import exceptions.LånetilbudAllreadyExists;
 import exceptions.LånetilbudDoesNotExists;
 
@@ -37,12 +36,12 @@ public class LånetilbudLogikImpl implements LånetilbudLogik {
 	}
 	
 	@Override
-	public List<LånetilbudImpl> listLånetilbud(int kunde_id) throws SQLException {
+	public List<Lånetilbud> listLånetilbud(int kunde_id) throws SQLException {
 		DataAccess dataaccess = null;
 		try {
 			dataaccess = new DataAccess();
 			LånetilbudDataAccessImpl searchda = new LånetilbudDataAccessImpl();
-			List<LånetilbudImpl> list =  searchda.listLånetilbud(dataaccess, kunde_id);
+			List<Lånetilbud> list =  searchda.listLånetilbud(dataaccess, kunde_id);
 			dataaccess.commit();
 			return list;
 		} catch (Exception e) {

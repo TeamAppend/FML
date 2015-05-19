@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 import domain.Lånetilbud;
-import domain.LånetilbudImpl;
 import exceptions.LånetilbudAllreadyExists;
 import exceptions.LånetilbudDoesNotExists;
 
@@ -20,7 +19,7 @@ public interface LånetilbudDataAccess {
 	/*
 	 * Read
 	 */
-	public abstract List<LånetilbudImpl> listLånetilbud(
+	public abstract List<Lånetilbud> listLånetilbud(
 			DataAccess dataaccess, int kunde_id) throws SQLException;
 
 	/*

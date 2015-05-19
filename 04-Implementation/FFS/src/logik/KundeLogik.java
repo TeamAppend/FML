@@ -1,10 +1,8 @@
 package logik;
 
 import java.sql.SQLException;
-import java.util.List;
 
 import domain.Kunde;
-import domain.KundeImpl;
 import exceptions.KundeAllreadyExists;
 import exceptions.KundeDoesNotExists;
 
@@ -13,7 +11,7 @@ public interface KundeLogik {
 	public abstract void createKunde(Kunde kunde) throws SQLException,
 			KundeAllreadyExists;
 
-	public abstract List<KundeImpl> listKunde(String telefon)
+	public abstract Kunde listKunde(String telefon)
 			throws SQLException;
 
 	public abstract void updateKunde(String kundenavn, String adresse,

@@ -18,18 +18,16 @@ public class CPRDataAccessImpl implements CPRDataAccess {
 	private static final String FIND_UNIQUE = "SELECT CPRnummer FROM CPRnummer WHERE CPRnummer = ?";
 	private static final String DELETE_ONE = "DELETE FROM CPRnummer WHERE CPR_id = ?";
 
-	
-	
-	
-	
 	/**
 	 * Create nyt CPR nummer ud fra CPRnummer
+	 * 
 	 * @param dataaccess
 	 * @param CPRnummer
 	 * @throws SQLException
 	 * @throws CPRAllreadyExists
 	 */
-	public void createCPR(DataAccess dataaccess, CPRnummer CPRnummer) throws SQLException, CPRAllreadyExists {
+	public void createCPR(DataAccess dataaccess, CPRnummer CPRnummer)
+			throws SQLException, CPRAllreadyExists {
 		PreparedStatement statement = null;
 		try {
 			statement = dataaccess.getConnection().prepareStatement(INSERT_ONE);
@@ -47,26 +45,22 @@ public class CPRDataAccessImpl implements CPRDataAccess {
 			}
 		}
 	}
-	
-	
+
 	/*
 	 * Read
-	 */	
-	public List<CPRnummerImpl> listCPR(DataAccess dataaccess, int CPR_id) throws SQLException {
+	 */
+	public CPRnummer listCPR(DataAccess dataaccess, int CPR_id)
+			throws SQLException {
 		PreparedStatement statement = null;
 		ResultSet resultset = null;
 		try {
 			statement = dataaccess.getConnection().prepareStatement(SELECT_ONE);
 			statement.setInt(1, CPR_id);
 			resultset = statement.executeQuery();
-			List<CPRnummerImpl> list = new ArrayList<>();
-			while (resultset.next()) {
-				CPRnummerImpl cpr = new CPRnummerImpl();
-				cpr.setCPR_id(resultset.getInt("CPR_id"));
-				cpr.setCPRnummer(resultset.getString("CPRnummer"));
-				list.add(cpr);
-			}
-			return list;
+			CPRnummer cpr = new CPRnummerImpl();
+			cpr.setCPR_id(resultset.getInt("CPR_id"));
+			cpr.setCPRnummer(resultset.getString("CPRnummer"));
+			return cpr;
 		} finally {
 			if (resultset != null) {
 				resultset.close();
@@ -76,24 +70,21 @@ public class CPRDataAccessImpl implements CPRDataAccess {
 			}
 		}
 	}
-	
-	
-	
-	public List<CPRnummerImpl> listCPR(DataAccess dataaccess, String CPRnummer) throws SQLException {
+
+	public CPRnummer listCPR(DataAccess dataaccess, String CPRnummer)
+			throws SQLException {
 		PreparedStatement statement = null;
 		ResultSet resultset = null;
 		try {
-			statement = dataaccess.getConnection().prepareStatement(SELECT_NUMMER);
+			statement = dataaccess.getConnection().prepareStatement(
+					SELECT_NUMMER);
 			statement.setString(1, CPRnummer);
 			resultset = statement.executeQuery();
-			List<CPRnummerImpl> list = new ArrayList<>();
-			while (resultset.next()) {
-				CPRnummerImpl cpr = new CPRnummerImpl();
-				cpr.setCPR_id(resultset.getInt("CPR_id"));
-				cpr.setCPRnummer(resultset.getString("CPRnummer"));
-				list.add(cpr);
-			}
-			return list;
+			CPRnummerImpl cpr = new CPRnummerImpl();
+			cpr.setCPR_id(resultset.getInt("CPR_id"));
+			cpr.setCPRnummer(resultset.getString("CPRnummer"));
+
+			return cpr;
 		} finally {
 			if (resultset != null) {
 				resultset.close();
@@ -105,17 +96,21 @@ public class CPRDataAccessImpl implements CPRDataAccess {
 	}
 
 	/**
-	 * T�ller antallet af CPRnumre (returnerer 0 eller 1). Bruges til at finde ud af om det allerede findes
+	 * T�ller antallet af CPRnumre (returnerer 0 eller 1). Bruges til at finde
+	 * ud af om det allerede findes
+	 * 
 	 * @param dataaccess
 	 * @param CPR
 	 * @return int
 	 * @throws SQLException
 	 */
-	public int findUnique(DataAccess dataaccess, String CPR) throws SQLException {
+	public int findUnique(DataAccess dataaccess, String CPR)
+			throws SQLException {
 		PreparedStatement statement = null;
 		ResultSet resultset = null;
 		try {
-			statement = dataaccess.getConnection().prepareStatement(FIND_UNIQUE);
+			statement = dataaccess.getConnection()
+					.prepareStatement(FIND_UNIQUE);
 			statement.setString(1, CPR);
 			resultset = statement.executeQuery();
 			List<CPRnummerImpl> list = new ArrayList<>();
@@ -138,7 +133,8 @@ public class CPRDataAccessImpl implements CPRDataAccess {
 	/*
 	 * Delete
 	 */
-	public void deleteCPR(DataAccess dataaccess, int CPR_id) throws SQLException, CPRDoesNotExists {
+	public void deleteCPR(DataAccess dataaccess, int CPR_id)
+			throws SQLException, CPRDoesNotExists {
 		PreparedStatement statement = null;
 		try {
 			statement = dataaccess.getConnection().prepareStatement(DELETE_ONE);
@@ -154,4 +150,3 @@ public class CPRDataAccessImpl implements CPRDataAccess {
 		}
 	}
 }
-

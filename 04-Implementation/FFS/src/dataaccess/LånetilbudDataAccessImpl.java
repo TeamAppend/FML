@@ -13,7 +13,7 @@ import exceptions.LånetilbudDoesNotExists;
 
 public class LånetilbudDataAccessImpl implements LånetilbudDataAccess {
 	private static final String INSERT_ONE = "INSERT INTO lånetilbud (rentesats, tilbagebetalingsperiode, udbetaling, ÅOP, kunde_id, bil_id, saelger_id, oprettelsestidspunkt) VALUES(?,?,?,?,?,?,?,?)";
-	private static final String SELECT_ONE = "SELECT rentesats, tilbagebetalingsperiode, udbetaling, ÅOP, kunde_id, bil_id, sælger_id, oprettelsestidspunkt FROM lånetilbud WHERE kunde_id = ?";
+	private static final String SELECT_MANY = "SELECT rentesats, tilbagebetalingsperiode, udbetaling, ÅOP, kunde_id, bil_id, sælger_id, oprettelsestidspunkt FROM lånetilbud WHERE kunde_id = ?";
 	private static final String DELETE_ONE = "DELETE FROM lånetilbud WHERE lånetilbud_id = ?";
 
 	
@@ -53,14 +53,14 @@ public class LånetilbudDataAccessImpl implements LånetilbudDataAccess {
 	 * Read
 	 */	
 	@Override
-	public List<LånetilbudImpl> listLånetilbud(DataAccess dataaccess, int kunde_id) throws SQLException {
+	public List<Lånetilbud> listLånetilbud(DataAccess dataaccess, int kunde_id) throws SQLException {
 		PreparedStatement statement = null;
 		ResultSet resultset = null;
 		try {
-			statement = dataaccess.getConnection().prepareStatement(SELECT_ONE);
+			statement = dataaccess.getConnection().prepareStatement(SELECT_MANY);
 			statement.setInt(1, kunde_id);
 			resultset = statement.executeQuery();
-			List<LånetilbudImpl> list = new ArrayList<>();
+			List<Lånetilbud> list = new ArrayList<>();
 			while (resultset.next()) {
 				LånetilbudImpl lt = new LånetilbudImpl();
 				lt.setRentesats(resultset.getDouble("rentesats"));

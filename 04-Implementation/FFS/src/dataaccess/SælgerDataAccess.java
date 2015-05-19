@@ -3,8 +3,17 @@ package dataaccess;
 import java.sql.SQLException;
 import java.util.List;
 
-import domain.SælgerImpl;;
+import domain.Sælger;
 
 public interface SælgerDataAccess {
-	public List<SælgerImpl> listSælger(DataAccess dataaccess, String sælger) throws SQLException;
+
+	/*
+	 * Read
+	 */
+	public abstract List<Sælger> listAlleSælger(DataAccess dataaccess)
+			throws SQLException;
+
+	public abstract Sælger listSælger(DataAccess dataaccess, String sælger_id)
+			throws SQLException;
+
 }

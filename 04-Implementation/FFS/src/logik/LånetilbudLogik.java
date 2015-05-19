@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 import domain.Lånetilbud;
-import domain.LånetilbudImpl;
 import exceptions.LånetilbudAllreadyExists;
 import exceptions.LånetilbudDoesNotExists;
 
@@ -13,7 +12,7 @@ public interface LånetilbudLogik {
 	public abstract void createLånetilbud(Lånetilbud lånetilbud)
 			throws SQLException, LånetilbudAllreadyExists;
 
-	public abstract List<LånetilbudImpl> listLånetilbud(int kunde_id)
+	public abstract List<Lånetilbud> listLånetilbud(int kunde_id)
 			throws SQLException;
 
 	public abstract void deleteLånetilbud(int lånetilbud_id)

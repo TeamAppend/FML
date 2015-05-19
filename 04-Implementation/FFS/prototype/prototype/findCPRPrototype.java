@@ -4,18 +4,17 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.util.List;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
-import domain.CPRnummerImpl;
 import logik.CPRLogik;
 import logik.CPRLogikImpl;
+import domain.CPRnummer;
 
 public class findCPRPrototype extends JFrame {
 	private JPanel contentPane;
@@ -84,8 +83,8 @@ public class findCPRPrototype extends JFrame {
 				int id = Integer.parseInt(textField.getText());
 				CPRLogik cl = new CPRLogikImpl();
 				try {
-					List<CPRnummerImpl> list = cl.listCPR(id);
-					System.out.println(list.get(0).getCPRnummer());
+					CPRnummer cpr = cl.listCPR(id);
+					System.out.println(cpr.getCPRnummer());
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}

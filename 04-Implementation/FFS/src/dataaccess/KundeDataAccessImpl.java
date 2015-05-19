@@ -3,8 +3,6 @@ package dataaccess;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import domain.Kunde;
 import domain.KundeImpl;
@@ -17,14 +15,11 @@ public class KundeDataAccessImpl implements KundeDataAccess {
 	private static final String UPDATE_ONE = "UPDATE kunde SET kundenavn = ?, adresse = ?, postnummer = ?, telefon = ? WHERE kunde_id = ?";
 	private static final String DELETE_ONE = "DELETE FROM kunde WHERE kunde_id = ?";
 
-	
-	
-	
-	
 	/*
-	 *  Create
+	 * Create
 	 */
-	public void createKunde(DataAccess dataaccess, Kunde kunde) throws SQLException, KundeAllreadyExists {
+	public void createKunde(DataAccess dataaccess, Kunde kunde)
+			throws SQLException, KundeAllreadyExists {
 		PreparedStatement statement = null;
 		try {
 			statement = dataaccess.getConnection().prepareStatement(INSERT_ONE);
@@ -46,29 +41,25 @@ public class KundeDataAccessImpl implements KundeDataAccess {
 			}
 		}
 	}
-	
-	
+
 	/*
 	 * Read
-	 */	
-	public List<KundeImpl> listKunde(DataAccess dataaccess, String telefon) throws SQLException {
+	 */
+	public Kunde listKunde(DataAccess dataaccess, String telefon)
+			throws SQLException {
 		PreparedStatement statement = null;
 		ResultSet resultset = null;
 		try {
 			statement = dataaccess.getConnection().prepareStatement(SELECT_ONE);
 			statement.setString(1, telefon);
 			resultset = statement.executeQuery();
-			List<KundeImpl> list = new ArrayList<>();
-			while (resultset.next()) {
-				KundeImpl ku = new KundeImpl();
-				ku.setTelefon(resultset.getString("telefon"));
-				ku.setCPR_id(resultset.getInt("CPR_id"));
-				ku.setKundenavn(resultset.getString("kundenavn"));
-				ku.setPostnummer(resultset.getString("postnummer"));
-				ku.setAdresse(resultset.getString("adresse"));
-				list.add(ku);
-			}
-			return list;
+			Kunde kunde = new KundeImpl();
+			kunde.setTelefon(resultset.getString("telefon"));
+			kunde.setCPR_id(resultset.getInt("CPR_id"));
+			kunde.setKundenavn(resultset.getString("kundenavn"));
+			kunde.setPostnummer(resultset.getString("postnummer"));
+			kunde.setAdresse(resultset.getString("adresse"));
+			return kunde;
 		} finally {
 			if (resultset != null) {
 				resultset.close();
@@ -78,12 +69,13 @@ public class KundeDataAccessImpl implements KundeDataAccess {
 			}
 		}
 	}
-	
-	
+
 	/*
 	 * Update
 	 */
-	public void updateKunde(DataAccess dataaccess, String kundenavn, String adresse, String postnummer, String telefon, int kunde_id) throws SQLException, KundeDoesNotExists {
+	public void updateKunde(DataAccess dataaccess, String kundenavn,
+			String adresse, String postnummer, String telefon, int kunde_id)
+			throws SQLException, KundeDoesNotExists {
 		PreparedStatement statement = null;
 		try {
 			statement = dataaccess.getConnection().prepareStatement(UPDATE_ONE);
@@ -102,12 +94,12 @@ public class KundeDataAccessImpl implements KundeDataAccess {
 			}
 		}
 	}
-	
 
 	/*
 	 * Delete
 	 */
-	public void deleteKunde(DataAccess dataaccess, int kunde_id) throws SQLException, KundeDoesNotExists {
+	public void deleteKunde(DataAccess dataaccess, int kunde_id)
+			throws SQLException, KundeDoesNotExists {
 		PreparedStatement statement = null;
 		try {
 			statement = dataaccess.getConnection().prepareStatement(DELETE_ONE);
@@ -123,4 +115,3 @@ public class KundeDataAccessImpl implements KundeDataAccess {
 		}
 	}
 }
-

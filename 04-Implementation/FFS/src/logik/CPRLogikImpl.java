@@ -1,12 +1,10 @@
 package logik;
 
 import java.sql.SQLException;
-import java.util.List;
 
 import dataaccess.CPRDataAccessImpl;
 import dataaccess.DataAccess;
 import domain.CPRnummer;
-import domain.CPRnummerImpl;
 import exceptions.CPRAllreadyExists;
 import exceptions.CPRDoesNotExists;
 
@@ -38,14 +36,14 @@ public class CPRLogikImpl implements CPRLogik {
 	
 	
 	@Override
-	public List<CPRnummerImpl> listCPR(int CPR_id) throws SQLException {
+	public CPRnummer listCPR(int CPR_id) throws SQLException {
 		DataAccess dataaccess = null;
 		try {
 			dataaccess = new DataAccess();
 			CPRDataAccessImpl searchda = new CPRDataAccessImpl();
-			List<CPRnummerImpl> list =  searchda.listCPR(dataaccess, CPR_id);
+			CPRnummer cpr =  searchda.listCPR(dataaccess, CPR_id);
 			dataaccess.commit();
-			return list;
+			return cpr;
 		} catch (Exception e) {
 			if (dataaccess != null) {
 				dataaccess.rollback();
@@ -61,14 +59,14 @@ public class CPRLogikImpl implements CPRLogik {
 	
 	
 	@Override
-	public List<CPRnummerImpl> listCPR(String CPRnummer) throws SQLException {
+	public CPRnummer listCPR(String CPRnummer) throws SQLException {
 		DataAccess dataaccess = null;
 		try {
 			dataaccess = new DataAccess();
 			CPRDataAccessImpl searchda = new CPRDataAccessImpl();
-			List<CPRnummerImpl> list =  searchda.listCPR(dataaccess, CPRnummer);
+			CPRnummer cpr =  searchda.listCPR(dataaccess, CPRnummer);
 			dataaccess.commit();
-			return list;
+			return cpr;
 		} catch (Exception e) {
 			if (dataaccess != null) {
 				dataaccess.rollback();

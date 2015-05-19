@@ -2,7 +2,6 @@ package logik;
 
 import java.sql.SQLException;
 import java.util.LinkedList;
-import java.util.List;
 
 import domain.CPRnummer;
 import domain.CPRnummerImpl;
@@ -36,8 +35,7 @@ public class KundeController {
 		CPRLogik cl = new CPRLogikImpl();
 		cl.createCPR(cprnummer);
 
-		List<CPRnummerImpl> list = cl.listCPR(cpr);
-		cprnummer = list.get(0);
+		CPRnummer cprnummer = cl.listCPR(cpr);
 		int cpr_id = cprnummer.getCPR_id();
 
 		kunde = new KundeImpl();
@@ -53,20 +51,22 @@ public class KundeController {
 		notifyObservers("opretKunde");
 	}
 
-	public void hentKunde(String search) throws SQLException,
+	public void hentKunde(String telefon) throws SQLException,
 			PostnummerDoesNotExist {
 		kunde = new KundeImpl();
 		KundeLogik kl = new KundeLogikImpl();
-		List<KundeImpl> list = kl.listKunde(search);
-		kunde = list.get(0);
+		kunde = kl.listKunde(telefon);
 
 		notifyObservers("hentKunde");
 	}
 
-	public boolean telefonNrEksistererIkke(String s) throws SQLException {
+	public boolean telefonNrEksistererIkke(String telefon) throws SQLException {
 		KundeLogik kl = new KundeLogikImpl();
-		List<KundeImpl> list = kl.listKunde(s);
-		return list.isEmpty();
+		Kunde kunde = kl.listKunde(telefon);
+		if(kunde == null)
+			return true;
+		else
+			return false;
 	}
 
 	public CPRnummer getCprnummer() {

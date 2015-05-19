@@ -1,28 +1,23 @@
 package logik;
 
 import java.sql.SQLException;
-import java.util.List;
 
-import dataaccess.DataAccess;
 import dataaccess.BilDataAccessImpl;
+import dataaccess.DataAccess;
 import domain.Bil;
-import domain.BilImpl;
 import exceptions.BilDoesNotExist;
 
 public class BilLogikImpl implements BilLogik{
 
 	@Override
-	public Bil listBil(String bil) throws SQLException, BilDoesNotExist {
+	public Bil listBil(String bil_id) throws SQLException, BilDoesNotExist {
 		DataAccess dataaccess = null;
 		try {
 			dataaccess = new DataAccess();
 			BilDataAccessImpl searchda = new BilDataAccessImpl();
-			List<BilImpl> list =  searchda.listBil(dataaccess, bil);
+			Bil bil =  searchda.listBil(dataaccess, bil_id);
 			dataaccess.commit();
-			if(list.isEmpty())
-				return null;
-			else
-				return list.get(0);
+			return bil;
 		} catch (Exception e) {
 			if (dataaccess != null) {
 				dataaccess.rollback();
