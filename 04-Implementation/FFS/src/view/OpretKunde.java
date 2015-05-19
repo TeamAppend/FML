@@ -11,7 +11,6 @@ import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.sql.SQLException;
-import java.util.EventObject;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -23,10 +22,9 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
-import logik.FFSControllerOpretKundeImpl;
+import logik.PostnummerController;
+import logik.KundeController;
 import logik.FFSObserver;
-import domain.Kunde;
-import domain.Postnummer;
 import exceptions.CPRAllreadyExists;
 import exceptions.KundeAllreadyExists;
 import exceptions.PostnummerDoesNotExist;
@@ -42,10 +40,12 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
 			redBorder = new LineBorder(Color.RED),
 			greenBorder = new LineBorder(Color.GREEN);
 	private GridBagLayout layout;
-	private FFSControllerOpretKundeImpl FFSc = new FFSControllerOpretKundeImpl();
+	private KundeController kController = new KundeController();
+	private PostnummerController pController = new PostnummerController();
 
 	public OpretKunde() {
-		FFSc.tilmeldObserver(this);
+		kController.tilmeldObserver(this);
+		pController.tilmeldObserver(this);
 		// frame properties
 		setVisible(true);
 
@@ -190,20 +190,11 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
 		if (validerTelefon(tfTelefon.getText())) {
 			btnFindKunde.setEnabled(false);
 			try {
-				if (FFSc.telefonNrEksistererIkke(tfTelefon.getText())) {
+				if (kController.telefonNrEksistererIkke(tfTelefon.getText())) {
 					enableTekstfelter();
 					blackBorders();
 				} else {
-					Kunde kunde = FFSc.hentKunde(tfTelefon.getText());
-					Postnummer postnummer = FFSc.hentPostnummer(kunde
-							.getPostnummer());
-					tfCPR.setText("**********");
-					tfNavn.setText(kunde.getKundenavn());
-					tfAdresse.setText(kunde.getAdresse());
-					tfPostnummer.setText(postnummer.getPostnummer());
-					tfBy.setText(postnummer.getBynavn());
-					disableTekstfelter();
-					blackBorders();
+					kController.hentKunde(tfTelefon.getText());
 				}
 			} catch (SQLException | PostnummerDoesNotExist e) {
 				e.printStackTrace();
@@ -216,13 +207,6 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
 							"Fejl!", JOptionPane.ERROR_MESSAGE);
 			tfTelefon.setBorder(redBorder);
 		}
-	}
-
-	public void kundeSuccessfuldtOprettet() {
-		JOptionPane.showMessageDialog(null, "Kunde er oprettet!", "Success!",
-				JOptionPane.INFORMATION_MESSAGE);
-		disableTekstfelter();
-		blackBorders();
 	}
 
 	@Override
@@ -240,7 +224,7 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
 				String bynavn = tfBy.getText();
 				if (validerTekstfelter(telefon, cpr, navn, adresse, postnummer,
 						bynavn))
-					FFSc.opretKunde(telefon, cpr, navn, adresse, postnummer);
+					kController.opretKunde(telefon, cpr, navn, adresse, postnummer);
 			} catch (SQLException | CPRAllreadyExists e1) {
 				e1.printStackTrace();
 			} catch (KundeAllreadyExists e1) {
@@ -263,14 +247,7 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
 		if (source.equals(tfPostnummer)) {
 			if (validerPostnummer(tfPostnummer.getText())) {
 				try {
-					Postnummer pn = FFSc.hentPostnummer(tfPostnummer.getText());
-					if (pn != null) {
-						tfBy.setText(pn.getBynavn());
-						tfPostnummer.setBorder(greenBorder);
-					} else {
-						tfBy.setText("");
-						tfPostnummer.setBorder(redBorder);
-					}
+					pController.hentPostnummer(tfPostnummer.getText());
 				} catch (SQLException | PostnummerDoesNotExist e) {
 					e.printStackTrace();
 				}
@@ -416,8 +393,7 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
 		if (!validerPostnummer(postnummer)) {
 			sb.append("- Postnummer må kun indeholde tallene 0-9, og skal være 4 tegn \n");
 			b = false;
-		}
-		if (!validerBy(bynavn)) {
+		}else if (!validerBy(bynavn)) {
 			sb.append("- Postnummer eksisterer ikke \n");
 			b = false;
 		}
@@ -432,10 +408,35 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
 	 */
 
 	@Override
-	public void update(Object source) {
-		if (source instanceof FFSControllerOpretKundeImpl) {
-			kundeSuccessfuldtOprettet();
-			findKunde();
+	public void update(Object source, String s) {
+		if (source instanceof KundeController) {
+			if (s.equals("opretKunde")) {
+				JOptionPane.showMessageDialog(null, "Kunde er oprettet!","Success!", JOptionPane.INFORMATION_MESSAGE);
+				disableTekstfelter();
+				blackBorders();
+				findKunde();
+			} else if (s.equals("hentKunde")) {
+				tfCPR.setText("**********");
+				tfNavn.setText(kController.getKunde().getKundenavn());
+				tfAdresse.setText(kController.getKunde().getAdresse());
+				tfPostnummer.setText(kController.getKunde().getPostnummer());
+				try {
+					pController.hentPostnummer(kController.getKunde().getPostnummer());
+					tfBy.setText(pController.getPostnummer().getBynavn());
+					disableTekstfelter();
+					blackBorders();
+				} catch (SQLException | PostnummerDoesNotExist e) {
+					e.printStackTrace();
+				}
+			}
+		} else if (source instanceof PostnummerController) {
+			if (pController.getPostnummer() != null) {
+				tfBy.setText(pController.getPostnummer().getBynavn());
+				tfPostnummer.setBorder(greenBorder);
+			} else {
+				tfBy.setText("");
+				tfPostnummer.setBorder(redBorder);
+			}
 		}
 	}
 }

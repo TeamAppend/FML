@@ -2,6 +2,6 @@ package logik;
 
 public interface FFSObserver {
 	
-	public void update(Object source);
+	public void update(Object source, String s);
 
 }
