@@ -5,6 +5,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -14,6 +15,8 @@ import javax.swing.border.TitledBorder;
 public class OpretLånetilbud extends JPanel {
 	private JTextField tilbagebetalingsperiode = new JTextField(10);
 	private JTextField udbetaling = new JTextField(10);
+	private JComboBox cbModelnavn = new JComboBox();
+	private JComboBox cbSælgernavn = new JComboBox();
 	private JButton beregnLånetilbud = new JButton("Beregn lånetilbud");
 
 	private GridBagLayout layout;
@@ -47,10 +50,28 @@ public class OpretLånetilbud extends JPanel {
 		con.insets = ins;
 		add(udbetaling, con);
 
+		con = createGBC(0, 2, 1, 1);
+		con.insets = ins;
+		con.anchor = GridBagConstraints.WEST;
+		add(new JLabel("Model: "), con);
+		con = createGBC(1, 2, 1, 1);
+		con.insets = ins;
+		add(cbModelnavn, con);
+		
+		con = createGBC(0, 3, 1, 1);
+		con.insets = ins;
+		con.anchor = GridBagConstraints.WEST;
+		add(new JLabel("Sælger: "), con);
+		con = createGBC(1, 3, 1, 1);
+		con.insets = ins;
+		add(cbSælgernavn, con);
+		
 		con = createGBC(2, 5, 1, 1);
 		con.insets = ins;
 		con.anchor = GridBagConstraints.WEST;
 		add(beregnLånetilbud, con);
+		
+		
 
 	}
 
