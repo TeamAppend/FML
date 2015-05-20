@@ -48,25 +48,9 @@ sælger_id INTEGER FOREIGN KEY REFERENCES sælger(sælger_id),
 oprettelsestidspunkt TIMESTAMP,
 )
 
--- insert alle postnumre gennem eclipse
 
+//Kør det øverste først, indsæt postnumre via eclipse, kør det nederste (alternativt, kør script 1, indsæt postnumre, kør script 2)
 
-
-
-
-INSERT INTO "PUBLIC"."SÆLGER"
-(  "SÆLGERNAVN", "RANG", "BELØBSGRÆNSE" )
-VALUES ( 'Anders Looft', 'CEO', '0')
-
-INSERT INTO "PUBLIC"."CPRNUMMER"
-( "CPRNUMMER" )
-VALUES ( '0807911449')
-
-
-
-INSERT INTO "PUBLIC"."KUNDE"
-( "KUNDENAVN", "CPR_ID", "ADRESSE", "POSTNUMMER", "TELEFON" )
-VALUES ( 'Anders Looft', '0', 'Ny Møllevej 14A 1 tv', '7400', '60150191')
 
 INSERT INTO "PUBLIC"."BIL" ( "PRIS", "MODELNAVN" ) VALUES ( 1000000 , '599 GTO');
 INSERT INTO "PUBLIC"."BIL" ( "PRIS", "MODELNAVN" ) VALUES ( 2500000 , 'Ferrari California 30');
@@ -79,9 +63,6 @@ INSERT INTO "PUBLIC"."BIL" ( "PRIS", "MODELNAVN" ) VALUES ( 560000 , '360 Modena
 INSERT INTO "PUBLIC"."BIL" ( "PRIS", "MODELNAVN" ) VALUES ( 880000 , 'F40');
 INSERT INTO "PUBLIC"."BIL" ( "PRIS", "MODELNAVN" ) VALUES ( 1700000 , '550 Barchetta');
 
-INSERT INTO "PUBLIC"."LÅNETILBUD"
-(  "RENTESATS", "TILBAGEBETALINGSPERIODE", "UDBETALING", "ÅOP", "KUNDE_ID", "BIL_ID", "SÆLGER_ID", "OPRETTELSESTIDSPUNKT" )
-VALUES ( '7.3', '18' , '500000' , '1.3', '4', '0', '5', '2015-06-05 09:24:08')
 
 
 INSERT INTO "PUBLIC"."SÆLGER"( "SÆLGERNAVN", "RANG", "BELØBSGRÆNSE" )VALUES ( 'Kurt Jensen', 'Sælger', 1000000);
@@ -90,6 +71,32 @@ INSERT INTO "PUBLIC"."SÆLGER"( "SÆLGERNAVN", "RANG", "BELØBSGRÆNSE" )VALUES 
 INSERT INTO "PUBLIC"."SÆLGER"( "SÆLGERNAVN", "RANG", "BELØBSGRÆNSE" )VALUES ( 'Katrine Petersen', 'Sælger', 1000000);
 INSERT INTO "PUBLIC"."SÆLGER"( "SÆLGERNAVN", "RANG", "BELØBSGRÆNSE" )VALUES ( 'Hans Flemming Andersen', 'Salgschef', 0);
 
+
+
+
+
+
+
+
+//Herfra kun til test
+
+
+
+
+
+
+
+INSERT INTO "PUBLIC"."CPRNUMMER"
+( "CPRNUMMER" )
+VALUES ( '0807911449')
+
+INSERT INTO "PUBLIC"."LÅNETILBUD"
+(  "RENTESATS", "TILBAGEBETALINGSPERIODE", "UDBETALING", "ÅOP", "KUNDE_ID", "BIL_ID", "SÆLGER_ID", "OPRETTELSESTIDSPUNKT" )
+VALUES ( '7.3', '18' , '500000' , '1.3', '4', '0', '5', '2015-06-05 09:24:08')
+
+INSERT INTO "PUBLIC"."KUNDE"
+( "KUNDENAVN", "CPR_ID", "ADRESSE", "POSTNUMMER", "TELEFON" )
+VALUES ( 'Anders Looft', '0', 'Ny Møllevej 14A 1 tv', '7400', '60150191')
 
 SELECT rentesats, tilbagebetalingsperiode, udbetaling, ÅOP, oprettelsestidspunkt, kunde.kundenavn, kunde.adresse, kunde.postnummer, postnummer.bynavn, kunde.telefon, CPRnummer.CPRnummer, bil.pris, bil.modelnavn sælger.sælgernavn, sælger.rang, sælger.beløbsgrænse FROM lånetilbud INNER JOIN bil ON lånetilbud.bil_id = bil.bil_id INNER JOIN kunde ON lånetilbud.kunde_id = kunde.kunde_id INNER JOIN sælger ON lånetilbud.sælger_id = sælger.sælger_id INNER JOIN postnummer ON postnummer.postnummer = kunde.postnummer INNER JOIN CPRnummer ON kunde.CPR_id = CPRnummer.CPR_id;
 
