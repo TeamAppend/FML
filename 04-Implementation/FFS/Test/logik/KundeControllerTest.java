@@ -35,10 +35,4 @@ public class KundeControllerTest {
 		//Her finder vi kunden ved og søge på postnummer
 		assertEquals("7500", kcs.getKunde().getPostnummer());
 	}
-	
-	@Test
-	public void testOpretKundeMedForkertTelefonInput() throws SQLException, CPRAllreadyExists, KundeAllreadyExists, PostnummerDoesNotExist {
-		kcs.opretKunde("abcdaefs", "3006921811", "Thomas Borg Nielsen", "Holstebrovej 17", "7500");
-		assertEquals("abcdaefs", kcs.getKunde().getTelefon());
-	}
 }

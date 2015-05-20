@@ -1,11 +1,10 @@
-package logik;
+package domain;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({CPRLogikTest.class, KundeControllerTest.class})
-public class AllTests {
-
+@SuiteClasses({KreditvaerdighedTest.class, RenteSatsTest.class})
+public class AllTestsDomain {
 }
