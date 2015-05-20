@@ -7,18 +7,13 @@ import java.awt.Insets;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
-import logik.FFSController;
-import logik.FFSObserver;
-
-public class FFSframe extends JFrame implements FFSObserver {
+public class FFSframe extends JFrame{
 	private OpretKunde opretKundePanel;
 	private OpretLånetilbud opretLånetilbudPanel;
-	private FFSController fController = new FFSController();
 
 	private GridBagLayout layout;
 
 	public FFSframe() {
-		fController.tilmeldObserver(this);
 		layout = new GridBagLayout();
 		getContentPane().setLayout(layout);
 
@@ -63,10 +58,4 @@ public class FFSframe extends JFrame implements FFSObserver {
 		layout.setConstraints(component, gbc);
 		getContentPane().add(component);
 	}
-
-	@Override
-	public void update(Object source, String s) {
-		
-	}
-
 }

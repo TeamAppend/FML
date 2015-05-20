@@ -10,7 +10,10 @@ public interface BilDataAccess {
 	/*
 	 * Read
 	 */
-	public abstract Bil listBil(DataAccess dataaccess, String bil)
+	public abstract Bil listBil(DataAccess dataaccess, int bil_id)
+			throws SQLException;
+	
+	public abstract Bil listBilModel(DataAccess dataaccess, String modelNavn)
 			throws SQLException;
 
 	public abstract List<Bil> listAlleBil(DataAccess dataaccess) throws SQLException;

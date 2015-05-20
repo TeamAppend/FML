@@ -8,8 +8,11 @@ import exceptions.BilDoesNotExist;
 
 public interface BilLogik {
 
-	public abstract Bil listBil(String bil) throws SQLException,
+	public abstract Bil listBil(int bil_id) throws SQLException,
 			BilDoesNotExist;
+	
+	public abstract Bil listBilModel(String modelNavn) throws SQLException,
+	BilDoesNotExist;
 
 	public abstract List<Bil> listAlleBil() throws SQLException, BilDoesNotExist;
 

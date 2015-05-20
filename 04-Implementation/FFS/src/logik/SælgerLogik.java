@@ -8,7 +8,9 @@ import exceptions.SælgerDoesNotExist;
 
 public interface SælgerLogik {
 
-	public abstract Sælger listSælger(String sælger_id) throws SQLException;
+	public abstract Sælger listSælger(int sælger_id) throws SQLException;
+
+	public abstract Sælger listSælgerBeløb(String sælgernavn) throws SQLException;
 
 	public abstract List<Sælger> listAlleSælger() throws SQLException,
 			SælgerDoesNotExist;

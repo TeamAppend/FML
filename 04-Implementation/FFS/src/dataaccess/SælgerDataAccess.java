@@ -13,7 +13,10 @@ public interface SælgerDataAccess {
 	public abstract List<Sælger> listAlleSælger(DataAccess dataaccess)
 			throws SQLException;
 
-	public abstract Sælger listSælger(DataAccess dataaccess, String sælger_id)
+	public abstract Sælger listSælger(DataAccess dataaccess, int sælger_id)
+			throws SQLException;
+	
+	public abstract Sælger listSælgerBeløb(DataAccess dataaccess, String sælgernavn)
 			throws SQLException;
 
 }

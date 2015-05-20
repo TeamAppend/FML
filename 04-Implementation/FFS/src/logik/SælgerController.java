@@ -33,6 +33,17 @@ public class SælgerController {
 		notifyObservers("fillSælger");
 	}
 	
+	public void setMaksLånebeløb(String sælgernavn){
+		SælgerLogik sl = new SælgerLogikImpl();
+		try {
+			sælger = sl.listSælgerBeløb(sælgernavn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		notifyObservers("setMaksLånebeløb");
+	}
+	
 	public Sælger getSælger(){
 		return sælger;
 	}

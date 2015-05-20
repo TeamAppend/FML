@@ -13,12 +13,33 @@ public class SælgerLogikImpl implements SælgerLogik  {
 
 	
 	@Override
-	public Sælger listSælger(String sælger_id) throws SQLException {
+	public Sælger listSælger(int sælger_id) throws SQLException {
 		DataAccess dataaccess = null;
 		try {
 			dataaccess = new DataAccess();
 			SælgerDataAccess searchda = new SælgerDataAccessImpl();
 			Sælger sælger =  searchda.listSælger(dataaccess, sælger_id);
+			dataaccess.commit();
+			return sælger;
+		} catch (Exception e) {
+			if (dataaccess != null) {
+				dataaccess.rollback();
+			}
+			throw e;
+		} finally {
+			if (dataaccess != null) {
+				dataaccess.close();
+			}
+		}
+	}
+	
+	@Override
+	public Sælger listSælgerBeløb(String sælgernavn) throws SQLException {
+		DataAccess dataaccess = null;
+		try {
+			dataaccess = new DataAccess();
+			SælgerDataAccess searchda = new SælgerDataAccessImpl();
+			Sælger sælger =  searchda.listSælgerBeløb(dataaccess, sælgernavn);
 			dataaccess.commit();
 			return sælger;
 		} catch (Exception e) {

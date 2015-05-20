@@ -33,6 +33,17 @@ public class BilController {
 		notifyObservers("fillBil");
 	}
 	
+	public void setBilPris(String modelnavn){
+		BilLogik bl = new BilLogikImpl();
+		try {
+			bil = bl.listBilModel(modelnavn);
+		} catch (SQLException | BilDoesNotExist e) {
+			e.printStackTrace();
+		}
+		
+		notifyObservers("setBilPris");
+	}
+	
 	public Bil getBil(){
 		return bil;
 	}
