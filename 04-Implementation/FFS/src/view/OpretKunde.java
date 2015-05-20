@@ -22,9 +22,9 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
-import logik.PostnummerController;
-import logik.KundeController;
 import logik.FFSObserver;
+import logik.KundeController;
+import logik.PostnummerController;
 import exceptions.CPRAllreadyExists;
 import exceptions.KundeAllreadyExists;
 import exceptions.PostnummerDoesNotExist;

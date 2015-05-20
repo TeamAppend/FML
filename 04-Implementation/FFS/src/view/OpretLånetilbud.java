@@ -15,6 +15,7 @@ import javax.swing.border.TitledBorder;
 
 import logik.BilController;
 import logik.FFSObserver;
+import logik.LånetilbudController;
 import logik.SælgerController;
 import domain.Bil;
 import domain.Sælger;
@@ -27,12 +28,14 @@ public class OpretLånetilbud extends JPanel implements FFSObserver {
 	private JButton beregnLånetilbud = new JButton("Beregn lånetilbud");
 	private SælgerController sController = new SælgerController();
 	private BilController bController = new BilController();
+	private LånetilbudController lController = new LånetilbudController();
 
 	private GridBagLayout layout;
 
 	public OpretLånetilbud() {
 		sController.tilmeldObserver(this);
 		bController.tilmeldObserver(this);
+		lController.tilmeldObserver(this);
 		// frame properties
 		setVisible(true);
 

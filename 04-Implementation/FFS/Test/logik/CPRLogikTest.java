@@ -1,13 +1,5 @@
 package logik;
 
-import static org.junit.Assert.*;
-
-import java.sql.SQLException;
-
-import org.junit.Test;
-
-import domain.CPRnummer;
-import domain.CPRnummerImpl;
 
 public class CPRLogikTest {
 
