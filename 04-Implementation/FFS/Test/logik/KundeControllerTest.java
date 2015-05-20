@@ -4,11 +4,13 @@ import static org.junit.Assert.*;
 
 import java.sql.SQLException;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import exceptions.CPRAllreadyExists;
 import exceptions.KundeAllreadyExists;
+import exceptions.KundeDoesNotExists;
 import exceptions.PostnummerDoesNotExist;
 
 public class KundeControllerTest {
@@ -17,14 +19,21 @@ public class KundeControllerTest {
 	}
 	
 	private KundeController kcs;
+	private KundeLogik kl;
+	
+	@After
+	public void after() throws Exception {
+		kl.deleteKunde(kl.findUnique("55050601"));
+	}
 	
 	@Before
 	public void setUp() throws Exception {
 		kcs = new KundeControllerStub();
+		kl = new KundeLogikImpl();
 	}
 
 	@Test
-	public void testOpretKunde() throws SQLException, CPRAllreadyExists, KundeAllreadyExists, PostnummerDoesNotExist {
+	public void testOpretKunde() throws SQLException, CPRAllreadyExists, KundeAllreadyExists, PostnummerDoesNotExist, KundeDoesNotExists {
 		kcs.opretKunde("55050601", "3006921811", "Michael bondom", "Idomvej 17", "7500");
 		// Her finder vi kunden ved og søge på telefon nummeret.
 		assertEquals("55050601", kcs.getKunde().getTelefon());
