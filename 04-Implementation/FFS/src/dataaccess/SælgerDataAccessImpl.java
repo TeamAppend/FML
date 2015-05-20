@@ -50,12 +50,11 @@ public class SælgerDataAccessImpl implements SælgerDataAccess {
 		PreparedStatement statement = null;
 		ResultSet resultset = null;
 		try {
-			statement = dataaccess.getConnection()
-					.prepareStatement(SELECT_MANY);
+			statement = dataaccess.getConnection().prepareStatement(SELECT_MANY);
 			resultset = statement.executeQuery();
 			List<Sælger> list = new ArrayList<>();
 			while (resultset.next()) {
-				SælgerImpl sr = new SælgerImpl();
+				Sælger sr = new SælgerImpl();
 				sr.setSælgerNavn(resultset.getString("sælgernavn"));
 				sr.setRang(resultset.getString("rang"));
 				sr.setBeløbsGrænse(resultset.getInt("beløbsgrænse"));

@@ -3,6 +3,7 @@ package view;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -12,16 +13,26 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
-public class OpretLånetilbud extends JPanel {
+import logik.BilController;
+import logik.FFSObserver;
+import logik.SælgerController;
+import domain.Bil;
+import domain.Sælger;
+
+public class OpretLånetilbud extends JPanel implements FFSObserver {
 	private JTextField tilbagebetalingsperiode = new JTextField(10);
 	private JTextField udbetaling = new JTextField(10);
-	private JComboBox cbModelnavn = new JComboBox();
-	private JComboBox cbSælgernavn = new JComboBox();
+	private JComboBox<String> cbModelnavn = new JComboBox<>();
+	private JComboBox<String> cbSælgernavn = new JComboBox<>();
 	private JButton beregnLånetilbud = new JButton("Beregn lånetilbud");
+	private SælgerController sController = new SælgerController();
+	private BilController bController = new BilController();
 
 	private GridBagLayout layout;
 
 	public OpretLånetilbud() {
+		sController.tilmeldObserver(this);
+		bController.tilmeldObserver(this);
 		// frame properties
 		setVisible(true);
 
@@ -71,7 +82,8 @@ public class OpretLånetilbud extends JPanel {
 		con.anchor = GridBagConstraints.WEST;
 		add(beregnLånetilbud, con);
 		
-		
+		sController.fillSælgerComboBox();
+		bController.fillBilComboBox();
 
 	}
 
@@ -91,6 +103,20 @@ public class OpretLånetilbud extends JPanel {
 		layout.setConstraints(component, gbc);
 		add(component);
 	}
-	
 
+
+	@Override
+	public void update(Object source, String s) {
+		if(source instanceof SælgerController){
+			List<Sælger> list = sController.getListSælger();
+			for(int i = 0; i<list.size(); i++){
+				cbSælgernavn.addItem(list.get(i).getSælgerNavn());
+			}
+		}else if(source instanceof BilController){
+			List<Bil> list = bController.getListBil();
+			for(int i = 0; i<list.size(); i++){
+				cbModelnavn.addItem(list.get(i).getModelnavn());
+			}
+		}
+	}
 }

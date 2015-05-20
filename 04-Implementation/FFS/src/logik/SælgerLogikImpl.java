@@ -7,7 +7,7 @@ import dataaccess.DataAccess;
 import dataaccess.SælgerDataAccess;
 import dataaccess.SælgerDataAccessImpl;
 import domain.Sælger;
-import exceptions.PostnummerDoesNotExist;
+import exceptions.SælgerDoesNotExist;
 
 public class SælgerLogikImpl implements SælgerLogik  {
 
@@ -34,7 +34,7 @@ public class SælgerLogikImpl implements SælgerLogik  {
 	}
 	
 	@Override
-	public List<Sælger> listAlleSælger() throws SQLException, PostnummerDoesNotExist {
+	public List<Sælger> listAlleSælger() throws SQLException, SælgerDoesNotExist {
 		DataAccess dataaccess = null;
 		try {
 			dataaccess = new DataAccess();
