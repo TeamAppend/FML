@@ -125,4 +125,8 @@ public class KundeLogikImpl implements KundeLogik {
 		}
 	}
 
+	public Kunde hentKunde(String telefon) throws SQLException { 
+		KundeLogik kl = new KundeLogikImpl();
+		return kl.listKunde(telefon);
+	}
 }

@@ -1,7 +1,10 @@
 package logik;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.LinkedList;
+
+import domain.Kunde;
 
 public class LånetilbudController {
 	private LinkedList<FFSObserver> observerListe = new LinkedList<>();
@@ -19,5 +22,11 @@ public class LånetilbudController {
 	public void beregnLånetilbud() {
 		java.util.Date date= new java.util.Date();
 		Timestamp timestamp = new Timestamp(date.getTime());
+	}
+	
+	public void doWhatever() throws SQLException {
+		Kunde kunde = new KundeLogikImpl().hentKunde("12345678");
+		
+		//gør et eller andet med kunde herinde også, men nu er logikken delt, så de henter den på den samme måde
 	}
 }

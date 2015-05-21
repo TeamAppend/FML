@@ -62,9 +62,11 @@ public class KundeController {
 
 	public void hentKunde(String telefon) throws SQLException,
 			PostnummerDoesNotExist {
-		kunde = new KundeImpl();
-		KundeLogik kl = new KundeLogikImpl();
-		kunde = kl.listKunde(telefon);
+		kunde = new KundeLogikImpl().hentKunde(telefon);
+//		
+//		kunde = new KundeImpl();
+//		KundeLogik kl = new KundeLogikImpl();
+//		kunde = kl.listKunde(telefon);
 
 		notifyObservers("hentKunde");
 	}
