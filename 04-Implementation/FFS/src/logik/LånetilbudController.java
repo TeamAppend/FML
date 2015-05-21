@@ -89,16 +89,36 @@ public class LånetilbudController {
 		});
 	}
 	
-	public void opretLånetilbud(int tilbageBetaling, double udbetaling, int bil_id, int sælger_id){
-		//ÅOP ((1 + RENTE I DEC) / antal terminer)^antal terminer - 1
-		double ÅOP = Math.pow(((1+renteSats) / tilbageBetaling),(tilbageBetaling))-1;
+	private double udregnÅOP(int tilbageBetalingsPeriode, double udbetaling, double rentesats, double pris){
+		double ÅOP = 0;
+		double startgæld = pris - udbetaling;
+		double restgæld = startgæld;
+		double afdrag = restgæld / tilbageBetalingsPeriode;
+		double rente = 0;
+		rentesats = rentesats/100;
+		double sum = 0;
+		for(int i = 0; i<tilbageBetalingsPeriode; i++){
+			rente = (rentesats/12)*restgæld;
+			sum += rente;
+			restgæld -= afdrag;
+			System.out.println("rente: " + rente);
+			System.out.println("sum: " + sum);
+		}
+		double OP = sum/startgæld;
+		System.out.println("OP: " + OP);
+		ÅOP = OP/(tilbageBetalingsPeriode/12)*100;
+		return ÅOP;
+	}
+	
+	public void opretLånetilbud(int tilbageBetalingsPeriode, double udbetaling, int bil_id, int sælger_id, double pris){
+		double ÅOP = udregnÅOP(tilbageBetalingsPeriode, udbetaling, renteSats, pris);
 		java.util.Date date= new java.util.Date();
 		Timestamp timestamp = new Timestamp(date.getTime());
 		
 		LånetilbudLogik lt = new LånetilbudLogikImpl();
 		Lånetilbud lånetilbud = new LånetilbudImpl();
 		lånetilbud.setRentesats(renteSats);
-		lånetilbud.setTilbagebetalingsperiode(tilbageBetaling);
+		lånetilbud.setTilbagebetalingsperiode(tilbageBetalingsPeriode);
 		lånetilbud.setUdbetaling(udbetaling);
 		lånetilbud.setÅOP(ÅOP);
 		lånetilbud.setKunde_id(kunde_id);

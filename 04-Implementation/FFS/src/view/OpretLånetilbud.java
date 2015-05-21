@@ -32,7 +32,7 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 	private JTextField tfTilbagebetalingsperiode = new JTextField(13);
 	private JTextField tfUdbetaling = new JTextField(13);
 	private JTextField tfPris = new JTextField(13);
-	private JTextField tfLånebeløb = new JTextField(13);
+	private JTextField tfMaksLånebeløb = new JTextField(13);
 	private JComboBox<String> cbModelnavn = new JComboBox<>();
 	private JComboBox<String> cbSælgernavn = new JComboBox<>();
 	private JButton btnBeregnLånetilbud = new JButton("Beregn lånetilbud");
@@ -124,8 +124,8 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 		add(new JLabel("Maks lånebeløb: "), con);
 		con = createGBC(1, 5, 1, 1);
 		con.insets = ins;
-		tfLånebeløb.setEnabled(false);
-		add(tfLånebeløb, con);
+		tfMaksLånebeløb.setEnabled(false);
+		add(tfMaksLånebeløb, con);
 		con = createGBC(2, 5, 1, 1);
 		con.insets = ins;
 		con.anchor = GridBagConstraints.WEST;
@@ -192,7 +192,7 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 		cbModelnavn.setSelectedIndex(0);
 		tfPris.setText("");
 		cbSælgernavn.setSelectedIndex(0);
-		tfLånebeløb.setText("");
+		tfMaksLånebeløb.setText("");
 	}
 	
 	protected boolean validerTilbagebetaling(String s) {
@@ -245,12 +245,13 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 		return b;
 	}
 	
-	protected boolean validerLånebeløbMaks(String udbetaling, String pris){
+	protected boolean validerLånebeløbMaks(String udbetaling, String pris, String maksLåneBeløb){
 		boolean b = true;
 		double dUdbetaling = Double.parseDouble(udbetaling);
 		double dPris = Double.parseDouble(pris);
+		double dMaksLånebeløb = Double.parseDouble(maksLåneBeløb);
 		double lånebeløb = dPris - dUdbetaling;
-		if (lånebeløb >= 1000000 && lånebeløb != 0)
+		if (lånebeløb >= 1000000 && dMaksLånebeløb != 0)
 			b = false;
 
 		return b;
@@ -267,7 +268,7 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 	}
 	
 	protected boolean validerTekstfelter(String tilbagebetaling, String udbetaling, String pris,
-			String lånebeløb) {
+			String maksLåneBeløb) {
 		StringBuilder sb = new StringBuilder();
 		boolean b = true;
 		if (!validerTilbagebetaling(tilbagebetaling)) {
@@ -290,11 +291,11 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 			sb.append("- Modelnavn er ikke valgt \n");
 			b = false;
 		}
-		if (!validerLånebeløbMaks(udbetaling, pris)) {
+		if (!validerLånebeløbMaks(udbetaling, pris, maksLåneBeløb)) {
 			sb.append("- Sælger kan ikke godkende lånebeløb over 1.000.000 kr. \n");
 			b = false;
 		}
-		if (!validerLånebeløb(lånebeløb)) {
+		if (!validerLånebeløb(maksLåneBeløb)) {
 			sb.append("- Sælger er ikke valgt \n");
 			b = false;
 		}
@@ -323,8 +324,8 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 			String tilbagebetaling = tfTilbagebetalingsperiode.getText();
 			String udbetaling = tfUdbetaling.getText();
 			String pris = tfPris.getText();
-			String lånebeløb = tfLånebeløb.getText();
-			if(validerTekstfelter(tilbagebetaling, udbetaling, pris, lånebeløb)){
+			String maksLånebeløb = tfMaksLånebeløb.getText();
+			if(validerTekstfelter(tilbagebetaling, udbetaling, pris, maksLånebeløb)){
 				int kunde_id = kController.getKunde().getKunde_id();
 				lController.beregnLånetilbud(kunde_id);
 				loadingIcon.setVisible(true);
@@ -345,7 +346,7 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 			} else if (s.equals("setMaksLånebeløb")) {
 				Sælger sælger = sController.getSælger();
 				double pris = sælger.getBeløbsGrænse();
-				tfLånebeløb.setText("" + pris);
+				tfMaksLånebeløb.setText("" + pris);
 			}
 		} else if (source instanceof BilController) {
 			if (s.equals("fillBil")) {
@@ -365,8 +366,8 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 				double udbetaling = Double.parseDouble(tfUdbetaling.getText());
 				int bil_id = bController.getBil().getBil_id();
 				int sælger_id = sController.getSælger().getSælger_id();
-
-				lController.opretLånetilbud(tilbageBetaling, udbetaling,bil_id, sælger_id);
+				double pris = bController.getBil().getPris();
+				lController.opretLånetilbud(tilbageBetaling, udbetaling,bil_id, sælger_id, pris);
 			}else if(s.equals("opretLånetilbud")){
 				loadingIcon.setVisible(false);
 				btnBeregnLånetilbud.setEnabled(true);
