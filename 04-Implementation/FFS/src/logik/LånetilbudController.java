@@ -25,7 +25,8 @@ public class LånetilbudController {
 	}
 	
 	public void doWhatever() throws SQLException {
-		Kunde kunde = new KundeLogikImpl().hentKunde("12345678");
+		KundeController kc = KundeController.instance();
+		Kunde kunde = kc.getKunde();
 		
 		//gør et eller andet med kunde herinde også, men nu er logikken delt, så de henter den på den samme måde
 	}
