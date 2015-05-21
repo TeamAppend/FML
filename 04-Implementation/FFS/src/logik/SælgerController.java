@@ -51,4 +51,13 @@ public class SælgerController {
 	public List<Sælger> getListSælger(){
 		return listSælger;
 	}
+
+	public void setSælger(String sælgernavn) {
+		SælgerLogik sl = new SælgerLogikImpl();
+		try {
+			sælger = sl.listSælgerBeløb(sælgernavn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

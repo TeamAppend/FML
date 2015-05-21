@@ -12,7 +12,7 @@ import exceptions.LånetilbudAllreadyExists;
 import exceptions.LånetilbudDoesNotExists;
 
 public class LånetilbudDataAccessImpl implements LånetilbudDataAccess {
-	private static final String INSERT_ONE = "INSERT INTO lånetilbud (rentesats, tilbagebetalingsperiode, udbetaling, ÅOP, kunde_id, bil_id, saelger_id, oprettelsestidspunkt) VALUES(?,?,?,?,?,?,?,?)";
+	private static final String INSERT_ONE = "INSERT INTO lånetilbud (rentesats, tilbagebetalingsperiode, udbetaling, ÅOP, kunde_id, bil_id, sælger_id, oprettelsestidspunkt) VALUES(?,?,?,?,?,?,?,?)";
 	private static final String SELECT_MANY = "SELECT rentesats, tilbagebetalingsperiode, udbetaling, ÅOP, kunde_id, bil_id, sælger_id, oprettelsestidspunkt FROM lånetilbud WHERE kunde_id = ?";
 	private static final String DELETE_ONE = "DELETE FROM lånetilbud WHERE lånetilbud_id = ?";
 
@@ -33,7 +33,7 @@ public class LånetilbudDataAccessImpl implements LånetilbudDataAccess {
 			statement.setInt(5, lånetilbud.getKunde_id());
 			statement.setInt(6, lånetilbud.getBil_id());
 			statement.setInt(7, lånetilbud.getSælger_id());
-			statement.setString(8, lånetilbud.getOprettelsestidspunkt());
+			statement.setTimestamp(8, lånetilbud.getOprettelsestidspunkt());
 			statement.executeUpdate();
 		} catch (SQLException e) {
 			if (e.getSQLState().equalsIgnoreCase("23505")) {
@@ -70,7 +70,7 @@ public class LånetilbudDataAccessImpl implements LånetilbudDataAccess {
 				lt.setKunde_id(resultset.getInt("kunde_id"));
 				lt.setBil_id(resultset.getInt("bil_id"));
 				lt.setSælger_id(resultset.getInt("sælger_id"));
-				lt.setOprettelsestidspunkt(resultset.getString("oprettelsestidspunkt"));
+				lt.setOprettelsestidspunkt(resultset.getTimestamp("oprettelsestidspunkt"));
 				list.add(lt);
 			}
 			return list;

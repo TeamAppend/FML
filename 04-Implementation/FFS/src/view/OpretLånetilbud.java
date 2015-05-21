@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
@@ -160,21 +161,18 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 		if (source.equals(cbModelnavn)) {
 			if (cbModelnavn.getSelectedIndex() != 0) {
 				String modelNavn = (String) cbModelnavn.getSelectedItem();
+				bController.setBil(modelNavn);
 				bController.setBilPris(modelNavn);
 			}
 		} else if (source.equals(cbSælgernavn)) {
 			if (cbSælgernavn.getSelectedIndex() != 0) {
 				String sælgernavn = (String) cbSælgernavn.getSelectedItem();
+				sController.setSælger(sælgernavn);
 				sController.setMaksLånebeløb(sælgernavn);
 			}
-		} else if(source.equals(btnBeregnLånetilbud)){
-			int tilbageBetaling = Integer.parseInt(tfTilbagebetalingsperiode.getText());
-			double udbetaling = Double.parseDouble(tfUdbetaling.getText());
-			int bil_id = bController.getBil().getBil_id();
-			int sælger_id = sController.getSælger().getSælger_id();
+		} else if (source.equals(btnBeregnLånetilbud)) {
 			int kunde_id = kController.getKunde().getKunde_id();
-			int cpr_id = kController.getKunde().getCPR_id();
-			lController.beregnLånetilbud(tilbageBetaling, udbetaling, bil_id, sælger_id, kunde_id, cpr_id);
+			lController.beregnLånetilbud(kunde_id);
 		}
 	}
 
@@ -204,7 +202,17 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 				double pris = bil.getPris();
 				tfPris.setText("" + pris);
 			}
+		} else if (source instanceof LånetilbudController) {
+			if ((s.equals("RenteSats") || s.equals("Kreditværdighed")) && lController.beggeFundet()) {
+				int tilbageBetaling = Integer.parseInt(tfTilbagebetalingsperiode.getText());
+				double udbetaling = Double.parseDouble(tfUdbetaling.getText());
+				int bil_id = bController.getBil().getBil_id();
+				int sælger_id = sController.getSælger().getSælger_id();
+
+				lController.opretLånetilbud(tilbageBetaling, udbetaling,bil_id, sælger_id);
+			}else if(s.equals("opretLånetilbud")){
+				JOptionPane.showMessageDialog(null, "Lånetilbud er oprettet!","Success!", JOptionPane.INFORMATION_MESSAGE);
+			}
 		}
 	}
-
 }

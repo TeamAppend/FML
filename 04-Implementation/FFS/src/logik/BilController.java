@@ -51,4 +51,15 @@ public class BilController {
 	public List<Bil> getListBil(){
 		return listBil;
 	}
+
+	public void setBil(String modelNavn) {
+		BilLogik bl = new BilLogikImpl();
+		try {
+			bil = bl.listBilModel(modelNavn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (BilDoesNotExist e) {
+			e.printStackTrace();
+		}
+	}
 }

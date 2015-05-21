@@ -1,5 +1,7 @@
 package domain;
 
+import java.sql.Timestamp;
+
 public class LånetilbudImpl implements Lånetilbud {
 	private int lånetilbud_id;
 	private double rentesats;
@@ -9,7 +11,7 @@ public class LånetilbudImpl implements Lånetilbud {
 	private int kunde_id;
 	private int bil_id;
 	private int sælger_id;
-	private String oprettelsestidspunkt;
+	private Timestamp oprettelsestidspunkt;
 	
 	@Override
 	public int getLånetilbud_id() {
@@ -92,12 +94,12 @@ public class LånetilbudImpl implements Lånetilbud {
 	}
 
 	@Override
-	public String getOprettelsestidspunkt() {
+	public Timestamp getOprettelsestidspunkt() {
 		return oprettelsestidspunkt;
 	}
 
 	@Override
-	public void setOprettelsestidspunkt(String oprettelsestidspunkt) {
+	public void setOprettelsestidspunkt(Timestamp oprettelsestidspunkt) {
 		this.oprettelsestidspunkt = oprettelsestidspunkt;
 	}
 }

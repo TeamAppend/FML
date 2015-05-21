@@ -4,14 +4,14 @@ import com.ferrari.finances.dk.rki.*;
 
 public class KreditværdighedImpl implements Kreditværdighed {
 
-	private Rating kreditvaerdighed;
+	private Rating kreditværdighed;
 	private CreditRator cR = CreditRator.i();
-	private int tillaegspoint = 0;
+	private int tillægspoint = 0;
 	private boolean kvAcceptabel = false;
 
 	@Override
-	public Rating getKredigvaerdighed() {
-		return kreditvaerdighed;
+	public Rating getKredigværdighed() {
+		return kreditværdighed;
 	}
 
 	@Override
@@ -20,42 +20,42 @@ public class KreditværdighedImpl implements Kreditværdighed {
 	}
 
 	@Override
-	public int getTillaegspoint() {
-		return tillaegspoint;
+	public int getTillægspoint() {
+		return tillægspoint;
 	}
 
 	/**
-	 * metoden henter kreditvaerdigheden fra CreditRator, som
-	 * koeres i en traad, saetter tillaegspoint i forhold til kreditvaerdigheden
+	 * metoden henter kreditværdigheden fra CreditRator, som
+	 * koeres i en traad, sætter tillægspoint i forhold til kreditværdigheden
 	 * 
-	 * @see domain.Kreditværdighed#setKreditvaerdighed(java.lang.String,
+	 * @see domain.Kreditværdighed#setKreditværdighed(java.lang.String,
 	 *      domain.CallBack)
-	 * @param "cpr" der angives det cprnummer som der oenskes kreditvaerdithed paa
+	 * @param "cpr" der angives det cprnummer som der oenskes kreditværdithed paa
 	 * @param "callback" ideen med callback parameteren er at naar man kalder
 	 *        metoden Overrider man metoden onRequestComplete() som saa
-	 *        udefoeres naar vaerdierne er sat dette sker da metoden
-	 *        onRequestComplete() bliver kaldt efter switchsaetningen
+	 *        udefoeres naar værdierne er sat dette sker da metoden
+	 *        onRequestComplete() bliver kaldt efter switchsætningen
 	 * 
 	 * 
 	 */
 	@Override
-	public void setKreditvaerdighed(String cpr, CallBack callBack) {
+	public void setKreditværdighed(String cpr, CallBack callBack) {
 		Thread thread = new Thread() {
 			public void run() {
-				kreditvaerdighed = cR.rate(cpr);
-				switch (kreditvaerdighed) {
+				kreditværdighed = cR.rate(cpr);
+				switch (kreditværdighed) {
 				case A:
-					tillaegspoint = 1;
+					tillægspoint = 1;
 					kvAcceptabel = true;
 					break;
 
 				case B:
-					tillaegspoint = 2;
+					tillægspoint = 2;
 					kvAcceptabel = true;
 					break;
 
 				case C:
-					tillaegspoint = 3;
+					tillægspoint = 3;
 					kvAcceptabel = true;
 					break;
 

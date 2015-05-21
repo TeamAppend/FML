@@ -1,5 +1,7 @@
 package domain;
 
+import java.sql.Timestamp;
+
 public interface Lånetilbud {
 
 	public abstract int getLånetilbud_id();
@@ -34,8 +36,8 @@ public interface Lånetilbud {
 
 	public abstract void setSælger_id(int sælger_id);
 
-	public abstract String getOprettelsestidspunkt();
+	public abstract Timestamp getOprettelsestidspunkt();
 
-	public abstract void setOprettelsestidspunkt(String oprettelsestidspunkt);
+	public abstract void setOprettelsestidspunkt(Timestamp oprettelsestidspunkt);
 
 }

@@ -30,7 +30,7 @@ public class KreditvaerdighedTest {
 	@Test
 	public void testSetKreditvaerdighed() throws Exception {
 		int timeOut = 5000;
-		kv.setKreditvaerdighed("3006921611", new CallBack(){
+		kv.setKreditværdighed("3006921611", new CallBack(){
 			@Override
 			public void onRequestComplete() {
 				requestCompleted = true;
@@ -41,9 +41,9 @@ public class KreditvaerdighedTest {
 			timeOut -= 500;
 		}
 		if(requestCompleted)
-			assertEquals( Rating.valueOf("B"), kv.getKredigvaerdighed());
+			assertEquals( Rating.valueOf("B"), kv.getKredigværdighed());
 			assertEquals(true, kv.getkvAcceptabel());
-			assertEquals(2, kv.getTillaegspoint());
+			assertEquals(2, kv.getTillægspoint());
 		if(requestCompleted == false)
 			fail("Call to RKI exceeded timeout");
 	}

@@ -4,11 +4,11 @@ import com.ferrari.finances.dk.rki.Rating;
 
 public interface Kreditværdighed {
 
-	public Rating getKredigvaerdighed();
+	public Rating getKredigværdighed();
 
 	public boolean getkvAcceptabel();
 	
-	public int getTillaegspoint();
+	public int getTillægspoint();
 
-	public void setKreditvaerdighed(String cpr, CallBack callBack);
+	public void setKreditværdighed(String cpr, CallBack callBack);
 }

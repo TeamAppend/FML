@@ -7,11 +7,11 @@ public class Main {
 
 		
 		KreditværdighedImpl kvi = new KreditværdighedImpl();
-		kvi.setKreditvaerdighed("1234567891", new CallBack(){
+		kvi.setKreditværdighed("1234567891", new CallBack(){
 			@Override
 			public void onRequestComplete(){
 				System.out.println(kvi.getkvAcceptabel());
-				System.out.println(kvi.getTillaegspoint());
+				System.out.println(kvi.getTillægspoint());
 
 			}
 		});
