@@ -101,11 +101,8 @@ public class LånetilbudController {
 			rente = (rentesats/12)*restgæld;
 			sum += rente;
 			restgæld -= afdrag;
-			System.out.println("rente: " + rente);
-			System.out.println("sum: " + sum);
 		}
 		double OP = sum/startgæld;
-		System.out.println("OP: " + OP);
 		ÅOP = OP/(tilbageBetalingsPeriode/12)*100;
 		return ÅOP;
 	}
