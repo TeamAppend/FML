@@ -285,6 +285,7 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 				int kunde_id = kController.getKunde().getKunde_id();
 				lController.beregnLånetilbud(kunde_id);
 				loadingIcon.setVisible(true);
+				btnBeregnLånetilbud.setEnabled(false);
 			}
 		}
 	}
@@ -325,6 +326,7 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 				lController.opretLånetilbud(tilbageBetaling, udbetaling,bil_id, sælger_id);
 			}else if(s.equals("opretLånetilbud")){
 				loadingIcon.setVisible(false);
+				btnBeregnLånetilbud.setEnabled(true);
 				JOptionPane.showMessageDialog(null, "Lånetilbud er oprettet!","Success!", JOptionPane.INFORMATION_MESSAGE);
 			}
 		} else if (source instanceof KundeController){
