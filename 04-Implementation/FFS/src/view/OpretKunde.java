@@ -36,7 +36,7 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
 			tfBy = new JTextField(10), tfTelefon = new JTextField(10);
 	private JButton btnFindKunde = new JButton("Find Kunde"),
 			btnOpretKunde = new JButton("Opret Kunde");
-	private Border blackBorder = new LineBorder(Color.BLACK),
+	private Border blackBorder = new LineBorder(null),
 			redBorder = new LineBorder(Color.RED),
 			greenBorder = new LineBorder(Color.GREEN);
 	private GridBagLayout layout;
@@ -193,6 +193,7 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
 				if (kController.telefonNrEksistererIkke(tfTelefon.getText())) {
 					enableTekstfelter();
 					blackBorders();
+					kController.setKundeFundet(false);
 				} else {
 					kController.hentKunde(tfTelefon.getText());
 				}
@@ -262,8 +263,10 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
 			} else {
 				if (!validerTelefon(tfTelefon.getText()))
 					btnFindKunde.setEnabled(false);
-				else
+				else{
 					btnFindKunde.setEnabled(true);
+					
+				}
 			}
 		}
 	}
@@ -301,8 +304,10 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
 		} else if (source.equals(tfTelefon)) {
 			if (!validerTelefon(tfTelefon.getText())) {
 				tfTelefon.setBorder(redBorder);
-			} else
-				tfTelefon.setBorder(greenBorder);
+			} else{
+				if(!kController.getKundeFundet())
+					tfTelefon.setBorder(greenBorder);
+			}
 		} else if (source.equals(tfPostnummer)) {
 			if (!validerPostnummer(tfPostnummer.getText())) {
 				tfPostnummer.setBorder(redBorder);

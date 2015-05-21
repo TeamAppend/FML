@@ -8,5 +8,6 @@
 	<classpathentry kind="lib" path="Jars/ffl_devtools.jar"/>
 	<classpathentry kind="lib" path="Jars/ffl.jar"/>
 	<classpathentry kind="lib" path="Jars/hsqldb.jar"/>
+	<classpathentry kind="src" path="images"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

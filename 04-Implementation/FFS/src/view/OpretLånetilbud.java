@@ -3,11 +3,13 @@ package view;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -38,6 +40,7 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 	private BilController bController = new BilController();
 	private LånetilbudController lController = new LånetilbudController();
 	private KundeController kController = KundeController.instance();
+	private JLabel loadingIcon = new JLabel();
 
 	private GridBagLayout layout;
 
@@ -45,6 +48,7 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 		sController.tilmeldObserver(this);
 		bController.tilmeldObserver(this);
 		lController.tilmeldObserver(this);
+		kController.tilmeldObserver(this);
 		// frame properties
 		setVisible(true);
 
@@ -127,6 +131,15 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 		con.anchor = GridBagConstraints.WEST;
 		add(new JLabel("kr. "), con);
 
+		
+		con = createGBC(1, 6, 1, 1);
+		con.insets = ins;
+		con.anchor = GridBagConstraints.EAST;
+		Image image = new ImageIcon(this.getClass().getResource("/loadingicon.gif")).getImage();
+		loadingIcon.setIcon(new ImageIcon(image));
+		loadingIcon.setVisible(false);
+		add(loadingIcon, con);
+		
 		con = createGBC(2, 6, 1, 1);
 		con.insets = ins;
 		con.anchor = GridBagConstraints.WEST;
@@ -135,6 +148,7 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 
 		sController.fillSælgerComboBox();
 		bController.fillBilComboBox();
+		disableTekstFelter();
 
 	}
 
@@ -154,6 +168,98 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 		layout.setConstraints(component, gbc);
 		add(component);
 	}
+	
+
+	private void disableTekstFelter() {
+		tfTilbagebetalingsperiode.setEnabled(false);
+		tfUdbetaling.setEnabled(false);
+		cbModelnavn.setEnabled(false);
+		cbSælgernavn.setEnabled(false);
+		btnBeregnLånetilbud.setEnabled(false);
+	}
+
+	private void enableTekstFelter() {
+		tfTilbagebetalingsperiode.setEnabled(true);
+		tfUdbetaling.setEnabled(true);
+		cbModelnavn.setEnabled(true);
+		cbSælgernavn.setEnabled(true);
+		btnBeregnLånetilbud.setEnabled(true);
+	}
+	
+	private void resetFelter(){
+		tfTilbagebetalingsperiode.setText("");
+		tfUdbetaling.setText("");
+		cbModelnavn.setSelectedIndex(0);
+		tfPris.setText("");
+		cbSælgernavn.setSelectedIndex(0);
+		tfLånebeløb.setText("");
+	}
+	
+	protected boolean validerTilbagebetaling(String s) {
+		boolean b = true;
+		if (s.length() == 0)
+			b = false;
+		else if (!s.matches("[0-9]+"))
+			b = false;
+
+		return b;
+	}
+	
+	protected boolean validerUdbetaling(String s) {
+		boolean b = true;
+		if (s.length() == 0)
+			b = false;
+		else if (!s.matches("[0-9]+"))
+			b = false;
+
+		return b;
+	}
+	
+	protected boolean validerPris(String s) {
+		boolean b = true;
+		if (s.length() == 0)
+			b = false;
+		else if (!s.matches("[0-9.]+"))
+			b = false;
+
+		return b;
+	}
+	
+	protected boolean validerLånebeløb(String s) {
+		boolean b = true;
+		if (s.length() == 0)
+			b = false;
+		else if (!s.matches("[0-9.]+"))
+			b = false;
+
+		return b;
+	}
+	
+	protected boolean validerTekstfelter(String tilbagebetaling, String udbetaling, String pris,
+			String lånebeløb) {
+		StringBuilder sb = new StringBuilder();
+		boolean b = true;
+		if (!validerTilbagebetaling(tilbagebetaling)) {
+			sb.append("- Tilbagebetalingsperiode må kun indeholde tallene 0-9, og må ikke være tom \n");
+			b = false;
+		}
+		if (!validerUdbetaling(udbetaling)) {
+			sb.append("- Udbetaling må kun indeholde tallene 0-9, og må ikke være tom \n");
+			b = false;
+		}
+		if (!validerPris(pris)) {
+			sb.append("- Modelnavn er ikke valgt \n");
+			b = false;
+		}
+		if (!validerLånebeløb(lånebeløb)) {
+			sb.append("- Sælger er ikke valgt \n");
+			b = false;
+		}
+		if (!b)
+			JOptionPane.showMessageDialog(null, sb.toString(), "Fejl!",
+					JOptionPane.ERROR_MESSAGE);
+		return b;
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
@@ -171,8 +277,15 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 				sController.setMaksLånebeløb(sælgernavn);
 			}
 		} else if (source.equals(btnBeregnLånetilbud)) {
-			int kunde_id = kController.getKunde().getKunde_id();
-			lController.beregnLånetilbud(kunde_id);
+			String tilbagebetaling = tfTilbagebetalingsperiode.getText();
+			String udbetaling = tfUdbetaling.getText();
+			String pris = tfPris.getText();
+			String lånebeløb = tfLånebeløb.getText();
+			if(validerTekstfelter(tilbagebetaling, udbetaling, pris, lånebeløb)){
+				int kunde_id = kController.getKunde().getKunde_id();
+				lController.beregnLånetilbud(kunde_id);
+				loadingIcon.setVisible(true);
+			}
 		}
 	}
 
@@ -211,8 +324,17 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 
 				lController.opretLånetilbud(tilbageBetaling, udbetaling,bil_id, sælger_id);
 			}else if(s.equals("opretLånetilbud")){
+				loadingIcon.setVisible(false);
 				JOptionPane.showMessageDialog(null, "Lånetilbud er oprettet!","Success!", JOptionPane.INFORMATION_MESSAGE);
+			}
+		} else if (source instanceof KundeController){
+			if (kController.getKundeFundet()){
+				enableTekstFelter();
+			}else{
+				disableTekstFelter();
+				resetFelter();
 			}
 		}
 	}
+
 }

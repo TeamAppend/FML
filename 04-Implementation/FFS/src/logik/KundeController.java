@@ -15,6 +15,7 @@ public class KundeController {
 	private static KundeController inst = null;
 	private CPRnummer cprnummer;
 	private Kunde kunde;
+	private boolean kundeFundet = false;
 	private LinkedList<FFSObserver> observerListe = new LinkedList<>();
 
 	public static KundeController instance() {
@@ -39,6 +40,8 @@ public class KundeController {
 			String adresse, String postnummer) throws SQLException,
 			CPRAllreadyExists, KundeAllreadyExists, PostnummerDoesNotExist {
 
+		kundeFundet = false;
+		
 		cprnummer = new CPRnummerImpl();
 		cprnummer.setCPRnummer(cpr);
 		CPRLogik cl = new CPRLogikImpl();
@@ -65,6 +68,8 @@ public class KundeController {
 		kunde = new KundeImpl();
 		KundeLogik kl = new KundeLogikImpl();
 		kunde = kl.listKunde(telefon);
+		
+		kundeFundet = true;
 
 		notifyObservers("hentKunde");
 	}
@@ -72,10 +77,21 @@ public class KundeController {
 	public boolean telefonNrEksistererIkke(String telefon) throws SQLException {
 		KundeLogik kl = new KundeLogikImpl();
 		int count = kl.findUnique(telefon);
-		if (count == 0)
+		if (count == 0){
+			kundeFundet = false;
 			return true;
-		else
+		}else
 			return false;
+	}
+	
+	public boolean getKundeFundet(){
+		return kundeFundet;
+	}
+	
+	public void setKundeFundet(boolean b){
+		kundeFundet = b;
+		
+		notifyObservers("setKundeFundet");
 	}
 
 	public CPRnummer getCprnummer() {
