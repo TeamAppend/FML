@@ -6,7 +6,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Timestamp;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -19,6 +18,7 @@ import javax.swing.border.TitledBorder;
 
 import logik.BilController;
 import logik.FFSObserver;
+import logik.KundeController;
 import logik.LånetilbudController;
 import logik.SælgerController;
 import domain.Bil;
@@ -36,6 +36,7 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 	private SælgerController sController = new SælgerController();
 	private BilController bController = new BilController();
 	private LånetilbudController lController = new LånetilbudController();
+	private KundeController kController = KundeController.instance();
 
 	private GridBagLayout layout;
 
@@ -171,11 +172,9 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 			double udbetaling = Double.parseDouble(tfUdbetaling.getText());
 			int bil_id = bController.getBil().getBil_id();
 			int sælger_id = sController.getSælger().getSælger_id();
-			//int kunde_id = kController.getKunde().getKunde_id();
-			//ÅOP ((1 + RENTE I DEC) / antal terminer)^antal terminer - 1
-			//rentesats
-			//kunde_id
-			lController.beregnLånetilbud();
+			int kunde_id = kController.getKunde().getKunde_id();
+			int cpr_id = kController.getKunde().getCPR_id();
+			lController.beregnLånetilbud(tilbageBetaling, udbetaling, bil_id, sælger_id, kunde_id, cpr_id);
 		}
 	}
 
