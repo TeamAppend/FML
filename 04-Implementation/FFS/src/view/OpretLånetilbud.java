@@ -215,11 +215,42 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 		return b;
 	}
 	
+	protected boolean validerUdbetalingPris(String udbetaling, String pris){
+		boolean b = true;
+		double dUdbetaling = Double.parseDouble(udbetaling);
+		double dPris = Double.parseDouble(pris);
+		if (dPris <= dUdbetaling)
+			b = false;
+
+		return b;
+	}
+	
+	protected boolean validerUdbetalingProcent(String udbetaling, String pris){
+		boolean b = true;
+		double dUdbetaling = Double.parseDouble(udbetaling);
+		double dPris = Double.parseDouble(pris);
+		if (dPris/5 >= dUdbetaling)
+			b = false;
+
+		return b;
+	}
+	
 	protected boolean validerPris(String s) {
 		boolean b = true;
 		if (s.length() == 0)
 			b = false;
 		else if (!s.matches("[0-9.]+"))
+			b = false;
+
+		return b;
+	}
+	
+	protected boolean validerLånebeløbMaks(String udbetaling, String pris){
+		boolean b = true;
+		double dUdbetaling = Double.parseDouble(udbetaling);
+		double dPris = Double.parseDouble(pris);
+		double lånebeløb = dPris - dUdbetaling;
+		if (lånebeløb >= 1000000 && lånebeløb != 0)
 			b = false;
 
 		return b;
@@ -247,8 +278,20 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 			sb.append("- Udbetaling må kun indeholde tallene 0-9, og må ikke være tom \n");
 			b = false;
 		}
+		if (!validerUdbetalingPris(udbetaling, pris)) {
+			sb.append("- Udbetaling må ikke være højere end bilens pris \n");
+			b = false;
+		}
+		if (!validerUdbetalingProcent(udbetaling, pris)){
+			sb.append("- Udbetalingen er under 20% af bilens pris \n");
+			b = false;
+		}
 		if (!validerPris(pris)) {
 			sb.append("- Modelnavn er ikke valgt \n");
+			b = false;
+		}
+		if (!validerLånebeløbMaks(udbetaling, pris)) {
+			sb.append("- Sælger kan ikke godkende lånebeløb over 1.000.000 kr. \n");
 			b = false;
 		}
 		if (!validerLånebeløb(lånebeløb)) {
