@@ -38,7 +38,7 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 	private JButton btnBeregnLånetilbud = new JButton("Beregn lånetilbud");
 	private SælgerController sController = new SælgerController();
 	private BilController bController = new BilController();
-	private LånetilbudController lController = new LånetilbudController();
+	private LånetilbudController lController = LånetilbudController.instance();
 	private KundeController kController = KundeController.instance();
 	private JLabel loadingIcon = new JLabel();
 

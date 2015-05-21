@@ -13,7 +13,7 @@ import exceptions.LånetilbudDoesNotExists;
 
 public class LånetilbudDataAccessImpl implements LånetilbudDataAccess {
 	private static final String INSERT_ONE = "INSERT INTO lånetilbud (rentesats, tilbagebetalingsperiode, udbetaling, ÅOP, kunde_id, bil_id, sælger_id, oprettelsestidspunkt) VALUES(?,?,?,?,?,?,?,?)";
-	private static final String SELECT_MANY = "SELECT rentesats, tilbagebetalingsperiode, udbetaling, ÅOP, kunde_id, bil_id, sælger_id, oprettelsestidspunkt FROM lånetilbud WHERE kunde_id = ?";
+	private static final String SELECT_MANY = "SELECT lånetilbud_id, rentesats, tilbagebetalingsperiode, udbetaling, ÅOP, kunde_id, bil_id, sælger_id, oprettelsestidspunkt FROM lånetilbud WHERE kunde_id = ?";
 	private static final String DELETE_ONE = "DELETE FROM lånetilbud WHERE lånetilbud_id = ?";
 
 	
@@ -63,6 +63,7 @@ public class LånetilbudDataAccessImpl implements LånetilbudDataAccess {
 			List<Lånetilbud> list = new ArrayList<>();
 			while (resultset.next()) {
 				LånetilbudImpl lt = new LånetilbudImpl();
+				lt.setLånetilbud_id(resultset.getInt("lånetilbud_id"));
 				lt.setRentesats(resultset.getDouble("rentesats"));
 				lt.setTilbagebetalingsperiode(resultset.getInt("tilbagebetalingsperiode"));
 				lt.setUdbetaling(resultset.getDouble("udbetaling"));

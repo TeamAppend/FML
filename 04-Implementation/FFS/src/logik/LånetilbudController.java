@@ -16,12 +16,21 @@ import domain.RenteSatsImpl;
 import exceptions.LånetilbudAllreadyExists;
 
 public class LånetilbudController {
+	private static LånetilbudController inst = null;
 	private LinkedList<FFSObserver> observerListe = new LinkedList<>();
 	private boolean kreditFundet = false, renteFundet = false;
 	private int tillægspoint;
 	private double renteSats;
 	private int kunde_id;
 
+	public static LånetilbudController instance() {
+		if (inst == null)
+			inst = new LånetilbudController();
+		return inst;
+	}
+	
+	private LånetilbudController(){}
+	
 	public void tilmeldObserver(FFSObserver observer) {
 		if (observer != null && !observerListe.contains(observer))
 			observerListe.add(observer);
