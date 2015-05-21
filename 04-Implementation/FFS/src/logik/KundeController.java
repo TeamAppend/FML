@@ -12,9 +12,18 @@ import exceptions.KundeAllreadyExists;
 import exceptions.PostnummerDoesNotExist;
 
 public class KundeController {
+	private static KundeController inst = null;
 	private CPRnummer cprnummer;
 	private Kunde kunde;
 	private LinkedList<FFSObserver> observerListe = new LinkedList<>();
+
+	public static KundeController instance() {
+		if (inst == null)
+			inst = new KundeController();
+		return inst;
+	}
+	
+	private KundeController(){}
 
 	public void tilmeldObserver(FFSObserver observer) {
 		if (observer != null && !observerListe.contains(observer))
@@ -63,7 +72,7 @@ public class KundeController {
 	public boolean telefonNrEksistererIkke(String telefon) throws SQLException {
 		KundeLogik kl = new KundeLogikImpl();
 		int count = kl.findUnique(telefon);
-		if(count == 0)
+		if (count == 0)
 			return true;
 		else
 			return false;

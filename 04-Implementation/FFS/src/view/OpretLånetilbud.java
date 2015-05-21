@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -31,7 +32,7 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 	private JTextField tfLånebeløb = new JTextField(13);
 	private JComboBox<String> cbModelnavn = new JComboBox<>();
 	private JComboBox<String> cbSælgernavn = new JComboBox<>();
-	private JButton beregnLånetilbud = new JButton("Beregn lånetilbud");
+	private JButton btnBeregnLånetilbud = new JButton("Beregn lånetilbud");
 	private SælgerController sController = new SælgerController();
 	private BilController bController = new BilController();
 	private LånetilbudController lController = new LånetilbudController();
@@ -127,7 +128,8 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 		con = createGBC(2, 6, 1, 1);
 		con.insets = ins;
 		con.anchor = GridBagConstraints.WEST;
-		add(beregnLånetilbud, con);
+		add(btnBeregnLånetilbud, con);
+		btnBeregnLånetilbud.addActionListener(this);
 
 		sController.fillSælgerComboBox();
 		bController.fillBilComboBox();
@@ -153,8 +155,7 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		@SuppressWarnings("unchecked")
-		JComboBox<String> source = (JComboBox<String>) arg0.getSource();
+		Object source = arg0.getSource();
 		if (source.equals(cbModelnavn)) {
 			if (cbModelnavn.getSelectedIndex() != 0) {
 				String modelNavn = (String) cbModelnavn.getSelectedItem();
@@ -165,6 +166,16 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 				String sælgernavn = (String) cbSælgernavn.getSelectedItem();
 				sController.setMaksLånebeløb(sælgernavn);
 			}
+		} else if(source.equals(btnBeregnLånetilbud)){
+			int tilbageBetaling = Integer.parseInt(tfTilbagebetalingsperiode.getText());
+			double udbetaling = Double.parseDouble(tfUdbetaling.getText());
+			int bil_id = bController.getBil().getBil_id();
+			int sælger_id = sController.getSælger().getSælger_id();
+			//int kunde_id = kController.getKunde().getKunde_id();
+			//ÅOP ((1 + RENTE I DEC) / antal terminer)^antal terminer - 1
+			//rentesats
+			//kunde_id
+			lController.beregnLånetilbud();
 		}
 	}
 

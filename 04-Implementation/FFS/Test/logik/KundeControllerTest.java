@@ -17,9 +17,6 @@ import exceptions.KundeDoesNotExists;
 import exceptions.PostnummerDoesNotExist;
 
 public class KundeControllerTest {
-
-	public class KundeControllerStub extends KundeController {
-	}
 	
 	private KundeController kcs;
 	private KundeLogik kl;
@@ -32,7 +29,7 @@ public class KundeControllerTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		kcs = new KundeControllerStub();
+		kcs = KundeController.instance();
 		kl = new KundeLogikImpl();
 		cl = new CPRLogikImpl();
 	}

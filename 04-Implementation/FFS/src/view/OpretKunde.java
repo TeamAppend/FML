@@ -40,7 +40,7 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
 			redBorder = new LineBorder(Color.RED),
 			greenBorder = new LineBorder(Color.GREEN);
 	private GridBagLayout layout;
-	private KundeController kController = new KundeController();
+	private KundeController kController = KundeController.instance();
 	private PostnummerController pController = new PostnummerController();
 
 	public OpretKunde() {
