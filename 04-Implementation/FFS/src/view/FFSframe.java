@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 public class FFSframe extends JFrame{
 	private OpretKunde opretKundePanel;
 	private OpretLånetilbud opretLånetilbudPanel;
+	private Tabel tabel;
 
 	private GridBagLayout layout;
 
@@ -22,6 +23,7 @@ public class FFSframe extends JFrame{
 
 		opretKundePanel = new OpretKunde();
 		opretLånetilbudPanel = new OpretLånetilbud();
+		tabel = new Tabel();
 
 		con = createGBC(0, 0, 1, 1);
 		con.insets = ins;
@@ -32,12 +34,18 @@ public class FFSframe extends JFrame{
 		con.insets = ins;
 		con.anchor = GridBagConstraints.NORTHWEST;
 		add(opretLånetilbudPanel, con);
+		
+		con = createGBC(0, 1, 200, 200);
+		con.insets = ins;
+		con.anchor = GridBagConstraints.NORTHWEST;
+		add(tabel, con);
 
 		// frame properties
 		setTitle("Ferrari Financing System");
-		setSize(1000, 400);
+		setSize(950, 650); //400
 		setLocationRelativeTo(null);
 		setVisible(true);
+		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 	}
