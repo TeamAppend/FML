@@ -37,7 +37,7 @@ public class CSV_eksportImpl implements CSV_eksport, FFSObserver {
 	private Postnummer postnummer;
 	private boolean bilHentet = false, sælgerHentet = false,
 			kundeHentet = false, postnummerHentet = false;
-	private String filplacering = ".\\Lånetilbud.csv";
+	private String filnavn = "Lånetilbud";
 
 	public CSV_eksportImpl() {
 		sController.tilmeldObserver(this);
@@ -48,9 +48,9 @@ public class CSV_eksportImpl implements CSV_eksport, FFSObserver {
 	}
 
 	@Override
-	public void hentData(int lånetilbud_id, String filplacering) {
-		if(filplacering != "")
-			this.filplacering = filplacering;
+	public void hentData(int lånetilbud_id, String filnavn) {
+		if(filnavn.length() != 0)
+			this.filnavn = filnavn;
 		lånetilbud = lController.hentLånetilbud(lånetilbud_id);
 		int kunde_id = lånetilbud.getKunde_id();
 		int bil_id = lånetilbud.getBil_id();
@@ -148,6 +148,8 @@ public class CSV_eksportImpl implements CSV_eksport, FFSObserver {
 		append(formatTwoDigits(ÅOP));
 		lastValue("%");
 
+		
+		String filplacering = ".\\" + filnavn + ".csv";
 		eksport(filplacering);
 	}
 

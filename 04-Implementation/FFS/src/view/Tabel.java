@@ -61,11 +61,11 @@ public class Tabel extends JPanel implements FFSObserver, ActionListener {
 
 		TitledBorder title = new TitledBorder("Tidligere lånetilbud");
 		setBorder(title);
-		
-		/*con = createGBC(0, 1, 1, 1);
-		con.insets = ins;
-		con.anchor = GridBagConstraints.SOUTH;
-		add(tfFilNavn, con);*/
+
+		/*
+		 * con = createGBC(0, 1, 1, 1); con.insets = ins; con.anchor =
+		 * GridBagConstraints.SOUTH; add(tfFilNavn, con);
+		 */
 
 		con = createGBC(0, 1, 1, 1);
 		con.insets = ins;
@@ -103,17 +103,17 @@ public class Tabel extends JPanel implements FFSObserver, ActionListener {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private String formatTwoDigits(Number n) {
-        NumberFormat format = DecimalFormat.getInstance();
-        format.setRoundingMode(RoundingMode.FLOOR);
-        format.setMinimumFractionDigits(0);
-        format.setMaximumFractionDigits(2);
-        return format.format(n);
-    }
-	
-	private String dotSeperator(Number n){
-		
+		NumberFormat format = DecimalFormat.getInstance();
+		format.setRoundingMode(RoundingMode.FLOOR);
+		format.setMinimumFractionDigits(0);
+		format.setMaximumFractionDigits(2);
+		return format.format(n);
+	}
+
+	private String dotSeperator(Number n) {
+
 		DecimalFormatSymbols symbols = DecimalFormatSymbols.getInstance();
 		symbols.setGroupingSeparator('.');
 
@@ -143,16 +143,17 @@ public class Tabel extends JPanel implements FFSObserver, ActionListener {
 				return låneList.size();
 			}
 
-			
 			public Object getValueAt(int row, int col) {
 				if (col == 0)
 					return låneList.get(row).getLånetilbud_id();
 				else if (col == 1)
-					return formatTwoDigits(låneList.get(row).getRentesats()) + " %";
+					return formatTwoDigits(låneList.get(row).getRentesats())
+							+ " %";
 				else if (col == 2)
 					return låneList.get(row).getTilbagebetalingsperiode();
 				else if (col == 3)
-					return dotSeperator(låneList.get(row).getUdbetaling()) + " Kr.";
+					return dotSeperator(låneList.get(row).getUdbetaling())
+							+ " Kr.";
 				else if (col == 4)
 					return formatTwoDigits(låneList.get(row).getÅOP()) + " %";
 				else if (col == 5)
@@ -177,18 +178,18 @@ public class Tabel extends JPanel implements FFSObserver, ActionListener {
 		table_1.getColumnModel().getColumn(4).setPreferredWidth(106);
 		table_1.getColumnModel().getColumn(5).setMinWidth(220);
 
-		table_1.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-		    @Override
-		    public void valueChanged(ListSelectionEvent e)
-		    {
-		        if (!e.getValueIsAdjusting())
-		        {
-		            boolean rowsAreSelected = table_1.getSelectedRowCount() > 0;
-		            btnExport.setEnabled(rowsAreSelected);
-		        }
-		    }
-		});
-		
+		table_1.getSelectionModel().addListSelectionListener(
+				new ListSelectionListener() {
+					@Override
+					public void valueChanged(ListSelectionEvent e) {
+						if (!e.getValueIsAdjusting()) {
+							boolean rowsAreSelected = table_1
+									.getSelectedRowCount() > 0;
+							btnExport.setEnabled(rowsAreSelected);
+						}
+					}
+				});
+
 		this.setVisible(true);
 		repaint();
 		revalidate();
@@ -221,10 +222,15 @@ public class Tabel extends JPanel implements FFSObserver, ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		JButton source = (JButton) arg0.getSource();
 		if (source.equals(btnExport)) {
-			String filplacering = JOptionPane.showInputDialog(null, "Indtast filplacering. Efterlad blank for default filplacering","Input", JOptionPane.INFORMATION_MESSAGE);
-			int i = (int) table_1.getModel().getValueAt(table_1.getSelectedRow(), 0);
-			CSV_eksport csv = new CSV_eksportImpl();
-			csv.hentData(i, filplacering);
+			String filnavn = JOptionPane.showInputDialog(null,
+					"Indtast filnavn", "Input",
+					JOptionPane.INFORMATION_MESSAGE);
+			if (filnavn.length() != 0) {
+				int i = (int) table_1.getModel().getValueAt(
+						table_1.getSelectedRow(), 0);
+				CSV_eksport csv = new CSV_eksportImpl();
+				csv.hentData(i, filnavn);
+			}
 		}
 	}
 }
