@@ -130,7 +130,7 @@ public class LånetilbudController {
 		
 		if(udbetaling < pris/2)
 			renteSats += 1;	
-		if(tilbageBetalingsPeriode <= 36)
+		if(tilbageBetalingsPeriode >= 36)
 			renteSats += 1;	
 			
 		double ÅOP = udregnÅOP(tilbageBetalingsPeriode, udbetaling, renteSats, pris);

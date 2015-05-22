@@ -12,6 +12,6 @@ public interface CSV_eksport {
 
 	public String sbToString();
 
-	public void createTable(int i);
+	public void hentData(int i);
 
 }

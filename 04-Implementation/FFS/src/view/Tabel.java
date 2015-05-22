@@ -200,7 +200,7 @@ public class Tabel extends JPanel implements FFSObserver, ActionListener {
 		if (source.equals(btnExport)) {
 			int i = (int) table_1.getModel().getValueAt(table_1.getSelectedRow(), 0);
 			CSV_eksport csv = new CSV_eksportImpl();
-			csv.createTable(i);
+			csv.hentData(i);
 		}
 	}
 }
