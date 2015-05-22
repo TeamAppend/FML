@@ -118,6 +118,9 @@ public class LånetilbudController {
 		java.util.Date date= new java.util.Date();
 		Timestamp timestamp = new Timestamp(date.getTime());
 		
+		if(udbetaling < pris/2)
+			renteSats += 1;			
+			
 		LånetilbudLogik lt = new LånetilbudLogikImpl();
 		Lånetilbud lånetilbud = new LånetilbudImpl();
 		lånetilbud.setRentesats(renteSats);
