@@ -10,8 +10,17 @@ import exceptions.SælgerDoesNotExist;
 
 public class SælgerController {
 	private Sælger sælger;
+	private static SælgerController inst = null;
 	private List<Sælger> listSælger = new ArrayList<>();
 	private LinkedList<FFSObserver> observerListe = new LinkedList<>();
+	
+	public static SælgerController instance() {
+		if (inst == null)
+			inst = new SælgerController();
+		return inst;
+	}
+	
+	private SælgerController(){}
 
 	public void tilmeldObserver(FFSObserver observer) {
 		if (observer != null && !observerListe.contains(observer))

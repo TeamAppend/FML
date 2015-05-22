@@ -3,6 +3,11 @@ package logik;
 import javax.swing.table.TableModel;
 
 public class CSV_eksportImpl implements CSV_eksport {
+	private SælgerController sController = SælgerController.instance();
+	private BilController bController = BilController.instance();
+	private LånetilbudController lController = LånetilbudController.instance();
+	private KundeController kController = KundeController.instance();
+	private PostnummerController pController = PostnummerController.instance();
 	private StringBuffer sb = new StringBuffer();
 	private TableModel t;
 	private int cCount = 0;
@@ -12,6 +17,11 @@ public class CSV_eksportImpl implements CSV_eksport {
 		this.t = t;
 		cCount = t.getColumnCount();
 		rCount = t.getRowCount();
+	}
+	
+	public void createTable(){
+		
+		
 	}
 	
 	public String eksport(){

@@ -9,10 +9,19 @@ import domain.Bil;
 import exceptions.BilDoesNotExist;
 
 public class BilController {
+	private static BilController inst = null;
 	private Bil bil;
 	private List<Bil> listBil = new ArrayList<>();
 	private LinkedList<FFSObserver> observerListe = new LinkedList<>();
 
+	public static BilController instance() {
+		if (inst == null)
+			inst = new BilController();
+		return inst;
+	}
+	
+	private BilController(){}
+	
 	public void tilmeldObserver(FFSObserver observer) {
 		if (observer != null && !observerListe.contains(observer))
 			observerListe.add(observer);

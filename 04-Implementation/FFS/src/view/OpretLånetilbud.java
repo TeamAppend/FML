@@ -36,8 +36,8 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 	private JComboBox<String> cbModelnavn = new JComboBox<>();
 	private JComboBox<String> cbSælgernavn = new JComboBox<>();
 	private JButton btnBeregnLånetilbud = new JButton("Beregn lånetilbud");
-	private SælgerController sController = new SælgerController();
-	private BilController bController = new BilController();
+	private SælgerController sController = SælgerController.instance();
+	private BilController bController = BilController.instance();
 	private LånetilbudController lController = LånetilbudController.instance();
 	private KundeController kController = KundeController.instance();
 	private JLabel loadingIcon = new JLabel();
@@ -331,7 +331,7 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 				loadingIcon.setVisible(true);
 				btnBeregnLånetilbud.setEnabled(false);
 			}
-		}
+		} 
 	}
 
 	@Override

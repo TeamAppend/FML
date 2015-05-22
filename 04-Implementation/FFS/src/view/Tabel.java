@@ -33,7 +33,7 @@ public class Tabel extends JPanel implements FFSObserver, ActionListener {
 	private JScrollPane scrollpane;
 	private KundeController kController = KundeController.instance();
 	private LånetilbudController lController = LånetilbudController.instance();
-	private JButton btnExport = new JButton("Exporter");
+	private JButton btnExport = new JButton("Export");
 
 	public Tabel() {
 		kController.tilmeldObserver(this);
@@ -133,7 +133,7 @@ public class Tabel extends JPanel implements FFSObserver, ActionListener {
 		scrollpane.setPreferredSize(new Dimension(840, 200));
 		add(scrollpane);
 		table_1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		
+
 		table_1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table_1.getColumnModel().getColumn(0).setPreferredWidth(100);
 		table_1.getColumnModel().getColumn(1).setPreferredWidth(120);
@@ -172,7 +172,12 @@ public class Tabel extends JPanel implements FFSObserver, ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		// Exporter
-
+		JButton source = (JButton) arg0.getSource();
+		if (source.equals(btnExport)) {
+			int x = table_1.getSelectedRow();
+			table_1.get
+			String s = table_1.getComponentAt(x, 0).toString();
+			System.out.println(s);
+		}
 	}
 }
