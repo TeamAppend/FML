@@ -12,6 +12,7 @@ import exceptions.KundeDoesNotExists;
 public class KundeDataAccessImpl implements KundeDataAccess{
 	private static final String INSERT_ONE = "INSERT INTO KUNDE (CPR_id, kundenavn, adresse, postnummer, telefon) VALUES(?,?,?,?,?)";
 	private static final String SELECT_ONE = "SELECT kundenavn, adresse, postnummer, telefon, CPR_id, kunde_id FROM kunde WHERE telefon = ?";
+	private static final String SELECT_ONE_ID = "SELECT kundenavn, adresse, postnummer, telefon, CPR_id, kunde_id FROM kunde WHERE kunde_id = ?";
 	private static final String UPDATE_ONE = "UPDATE kunde SET kundenavn = ?, adresse = ?, postnummer = ?, telefon = ? WHERE kunde_id = ?";
 	private static final String DELETE_ONE = "DELETE FROM kunde WHERE kunde_id = ?";
 	private static final String FIND_UNIQUE = "SELECT COUNT(*) FROM kunde WHERE telefon = ?";
@@ -55,6 +56,35 @@ public class KundeDataAccessImpl implements KundeDataAccess{
 		try {
 			statement = dataaccess.getConnection().prepareStatement(SELECT_ONE);
 			statement.setString(1, telefon);
+			resultset = statement.executeQuery();
+			Kunde kunde = new KundeImpl();
+			while(resultset.next()){
+				kunde.setTelefon(resultset.getString("telefon"));
+				kunde.setCPR_id(resultset.getInt("CPR_id"));
+				kunde.setKunde_id(resultset.getInt("kunde_id"));
+				kunde.setKundenavn(resultset.getString("kundenavn"));
+				kunde.setPostnummer(resultset.getString("postnummer"));
+				kunde.setAdresse(resultset.getString("adresse"));
+			}
+			return kunde;
+		} finally {
+			if (resultset != null) {
+				resultset.close();
+			}
+			if (statement != null) {
+				statement.close();
+			}
+		}
+	}
+	
+	@Override
+	public Kunde hentKunde(DataAccess dataaccess, int kunde_id)
+			throws SQLException {
+		PreparedStatement statement = null;
+		ResultSet resultset = null;
+		try {
+			statement = dataaccess.getConnection().prepareStatement(SELECT_ONE_ID);
+			statement.setInt(1, kunde_id);
 			resultset = statement.executeQuery();
 			Kunde kunde = new KundeImpl();
 			while(resultset.next()){

@@ -62,6 +62,27 @@ public class KundeController {
 
 		notifyObservers("opretKunde");
 	}
+	
+	public void hentKunde(int kunde_id){
+		kunde = new KundeImpl();
+		KundeLogik kl = new KundeLogikImpl();
+		try {
+			kunde = kl.hentKunde(kunde_id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		int cpr_id = kunde.getCPR_id();
+		cprnummer = new CPRnummerImpl();
+		cprnummer.setCPR_id(cpr_id);
+		CPRLogik cl = new CPRLogikImpl();
+		try {
+			cprnummer.setCPRnummer(cl.listCPR(cpr_id).getCPRnummer());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		notifyObservers("hentKunde");
+	}
 
 	public void hentKunde(String telefon) throws SQLException,
 			PostnummerDoesNotExist {

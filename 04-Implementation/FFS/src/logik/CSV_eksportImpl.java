@@ -2,7 +2,13 @@ package logik;
 
 import javax.swing.table.TableModel;
 
-public class CSV_eksportImpl implements CSV_eksport {
+import domain.Bil;
+import domain.CPRnummer;
+import domain.Kunde;
+import domain.Lånetilbud;
+import domain.Sælger;
+
+public class CSV_eksportImpl implements CSV_eksport, FFSObserver {
 	private SælgerController sController = SælgerController.instance();
 	private BilController bController = BilController.instance();
 	private LånetilbudController lController = LånetilbudController.instance();
@@ -12,15 +18,39 @@ public class CSV_eksportImpl implements CSV_eksport {
 	private TableModel t;
 	private int cCount = 0;
 	private int rCount = 0;
+	private Kunde kunde;
+	private Sælger sælger;
+	private Bil bil;
+	private CPRnummer cpr;
+	private Lånetilbud lånetilbud;
+	private boolean bilHentet = false, sælgerHentet = false, kundeHentet = false;
 	
-	CSV_eksportImpl(TableModel t){
+	public CSV_eksportImpl(TableModel t){
 		this.t = t;
 		cCount = t.getColumnCount();
 		rCount = t.getRowCount();
 	}
 	
-	public void createTable(){
+	public CSV_eksportImpl(){
+		sController.tilmeldObserver(this);
+		bController.tilmeldObserver(this);
+		lController.tilmeldObserver(this);
+		kController.tilmeldObserver(this);
+		pController.tilmeldObserver(this);
+	}
+	
+	public void createTable(int lånetilbud_id){
+		lånetilbud = lController.hentLånetilbud(lånetilbud_id);
+		int kunde_id = lånetilbud.getKunde_id();
+		int bil_id = lånetilbud.getBil_id();
+		int sælger_id = lånetilbud.getSælger_id();
 		
+		kController.hentKunde(kunde_id);
+		bController.hentBil(bil_id);
+		sController.hentSælger(sælger_id);
+	}
+	
+	private void test(){
 		
 	}
 	
@@ -49,5 +79,35 @@ public class CSV_eksportImpl implements CSV_eksport {
 	
 	public String sbToString(){
 		return sb.toString();
+	}
+
+	@Override
+	public void update(Object source, String s) {
+		if(source instanceof KundeController){
+			if(s.equals("hentKunde")){
+				kunde = kController.getKunde();
+				cpr = kController.getCprnummer();
+				kundeHentet = true;
+				if(kundeHentet && bilHentet && sælgerHentet){
+					test();
+				}
+			}
+		}else if(source instanceof BilController){
+			if(s.equals("hentBil")){
+				bil = bController.getBil();
+				bilHentet = true;
+				if(kundeHentet && bilHentet && sælgerHentet){
+					test();
+				}
+			}
+		}else if(source instanceof SælgerController){
+			if(s.equals("hentSælger")){
+				sælger = sController.getSælger();
+				sælgerHentet = true;
+				if(kundeHentet && bilHentet && sælgerHentet){
+					test();
+				}
+			}
+		}
 	}
 }

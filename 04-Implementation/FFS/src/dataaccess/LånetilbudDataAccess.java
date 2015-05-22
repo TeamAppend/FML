@@ -21,6 +21,9 @@ public interface LånetilbudDataAccess {
 	 */
 	public abstract List<Lånetilbud> listLånetilbud(
 			DataAccess dataaccess, int kunde_id) throws SQLException;
+	
+	public abstract Lånetilbud hentLånetilbud(
+			DataAccess dataaccess, int lånetilbud_id) throws SQLException;
 
 	/*
 	 * Delete

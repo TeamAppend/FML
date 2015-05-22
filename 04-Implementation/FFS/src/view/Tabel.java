@@ -23,6 +23,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 
+import logik.CSV_eksport;
+import logik.CSV_eksportImpl;
 import logik.FFSObserver;
 import logik.KundeController;
 import logik.LånetilbudController;
@@ -196,8 +198,9 @@ public class Tabel extends JPanel implements FFSObserver, ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		JButton source = (JButton) arg0.getSource();
 		if (source.equals(btnExport)) {
-			int s = (int) table_1.getModel().getValueAt(table_1.getSelectedRow(), 0);
-			System.out.println(s);
+			int i = (int) table_1.getModel().getValueAt(table_1.getSelectedRow(), 0);
+			CSV_eksport csv = new CSV_eksportImpl();
+			csv.createTable(i);
 		}
 	}
 }

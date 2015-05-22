@@ -53,6 +53,17 @@ public class BilController {
 		notifyObservers("setBilPris");
 	}
 	
+	public void hentBil(int bil_id){
+		BilLogik bl = new BilLogikImpl();
+		try {
+			bil = bl.listBil(bil_id);
+		} catch (SQLException | BilDoesNotExist e) {
+			e.printStackTrace();
+		}
+		
+		notifyObservers("hentBil");
+	}
+	
 	public Bil getBil(){
 		return bil;
 	}

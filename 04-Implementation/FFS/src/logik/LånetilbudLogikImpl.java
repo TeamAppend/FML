@@ -56,6 +56,28 @@ public class LånetilbudLogikImpl implements LånetilbudLogik {
 			
 		}
 	}
+	
+	@Override
+	public Lånetilbud hentLånetilbud(int lånetilbud_id) throws SQLException {
+		DataAccess dataaccess = null;
+		try {
+			dataaccess = new DataAccess();
+			LånetilbudDataAccessImpl searchda = new LånetilbudDataAccessImpl();
+			Lånetilbud lånetilbud = searchda.hentLånetilbud(dataaccess, lånetilbud_id);
+			dataaccess.commit();
+			return lånetilbud;
+		} catch (Exception e) {
+			if (dataaccess != null) {
+				dataaccess.rollback();
+			}
+			throw e;
+		} finally {
+			if (dataaccess != null) {
+				dataaccess.close();
+			}
+			
+		}
+	}
 
 	
 	@Override

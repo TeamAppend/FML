@@ -13,6 +13,9 @@ public interface KundeLogik {
 
 	public abstract Kunde listKunde(String telefon)
 			throws SQLException;
+	
+	public abstract Kunde hentKunde(int kunde_id)
+			throws SQLException;
 
 	public abstract void updateKunde(String kundenavn, String adresse,
 			String postnummer, String telefon, int kunde_id)

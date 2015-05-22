@@ -18,4 +18,6 @@ public interface LånetilbudLogik {
 	public abstract void deleteLånetilbud(int lånetilbud_id)
 			throws SQLException, LånetilbudDoesNotExists;
 
+	public abstract Lånetilbud hentLånetilbud(int lånetilbud_id) throws SQLException;
+
 }

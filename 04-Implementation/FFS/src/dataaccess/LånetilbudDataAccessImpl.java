@@ -14,6 +14,7 @@ import exceptions.LånetilbudDoesNotExists;
 public class LånetilbudDataAccessImpl implements LånetilbudDataAccess {
 	private static final String INSERT_ONE = "INSERT INTO lånetilbud (rentesats, tilbagebetalingsperiode, udbetaling, ÅOP, kunde_id, bil_id, sælger_id, oprettelsestidspunkt) VALUES(?,?,?,?,?,?,?,?)";
 	private static final String SELECT_MANY = "SELECT lånetilbud_id, rentesats, tilbagebetalingsperiode, udbetaling, ÅOP, kunde_id, bil_id, sælger_id, oprettelsestidspunkt FROM lånetilbud WHERE kunde_id = ?";
+	private static final String SELECT_ONE = "SELECT lånetilbud_id, rentesats, tilbagebetalingsperiode, udbetaling, ÅOP, kunde_id, bil_id, sælger_id, oprettelsestidspunkt FROM lånetilbud WHERE lånetilbud_id = ?";
 	private static final String DELETE_ONE = "DELETE FROM lånetilbud WHERE lånetilbud_id = ?";
 
 	
@@ -75,6 +76,37 @@ public class LånetilbudDataAccessImpl implements LånetilbudDataAccess {
 				list.add(lt);
 			}
 			return list;
+		} finally {
+			if (resultset != null) {
+				resultset.close();
+			}
+			if (statement != null) {
+				statement.close();
+			}
+		}
+	}
+	
+	@Override
+	public Lånetilbud hentLånetilbud(DataAccess dataaccess, int lånetilbud_id) throws SQLException {
+		PreparedStatement statement = null;
+		ResultSet resultset = null;
+		try {
+			statement = dataaccess.getConnection().prepareStatement(SELECT_ONE);
+			statement.setInt(1, lånetilbud_id);
+			resultset = statement.executeQuery();
+			LånetilbudImpl lt = new LånetilbudImpl();
+			while (resultset.next()) {
+				lt.setLånetilbud_id(resultset.getInt("lånetilbud_id"));
+				lt.setRentesats(resultset.getDouble("rentesats"));
+				lt.setTilbagebetalingsperiode(resultset.getInt("tilbagebetalingsperiode"));
+				lt.setUdbetaling(resultset.getDouble("udbetaling"));
+				lt.setÅOP(resultset.getDouble("ÅOP"));
+				lt.setKunde_id(resultset.getInt("kunde_id"));
+				lt.setBil_id(resultset.getInt("bil_id"));
+				lt.setSælger_id(resultset.getInt("sælger_id"));
+				lt.setOprettelsestidspunkt(resultset.getTimestamp("oprettelsestidspunkt"));
+			}
+			return lt;
 		} finally {
 			if (resultset != null) {
 				resultset.close();

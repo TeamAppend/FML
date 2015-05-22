@@ -95,6 +95,17 @@ public class LånetilbudController {
 		});
 	}
 	
+	public Lånetilbud hentLånetilbud(int lånetilbud_id){
+		LånetilbudLogik ll = new LånetilbudLogikImpl();
+		Lånetilbud lånetilbud = new LånetilbudImpl();
+		try {
+			lånetilbud = ll.hentLånetilbud(lånetilbud_id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return lånetilbud;
+	}
+	
 	private double udregnÅOP(int tilbageBetalingsPeriode, double udbetaling, double rentesats, double pris){
 		double ÅOP = 0;
 		double startgæld = pris - udbetaling;

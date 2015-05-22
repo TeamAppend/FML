@@ -19,6 +19,9 @@ public interface KundeDataAccess {
 	 */
 	public abstract Kunde listKunde(DataAccess dataaccess, String telefon)
 			throws SQLException;
+	
+	public abstract Kunde hentKunde(DataAccess dataaccess, int kunde_id)
+			throws SQLException;
 
 	public abstract int findUnique(DataAccess dataaccess, String telefon)
 			throws SQLException;

@@ -61,6 +61,28 @@ public class KundeLogikImpl implements KundeLogik {
 	}
 	
 	@Override
+	public Kunde hentKunde(int kunde_id) throws SQLException {
+		DataAccess dataaccess = null;
+		try {
+			dataaccess = new DataAccess();
+			KundeDataAccess searchda = new KundeDataAccessImpl();
+			Kunde kunde =  searchda.hentKunde(dataaccess, kunde_id);
+			dataaccess.commit();
+			return kunde;
+		} catch (Exception e) {
+			if (dataaccess != null) {
+				dataaccess.rollback();
+			}
+			throw e;
+		} finally {
+			if (dataaccess != null) {
+				dataaccess.close();
+			}
+			
+		}
+	}
+	
+	@Override
 	public int findUnique(String telefon) throws SQLException {
 		DataAccess dataaccess = null;
 		try {
