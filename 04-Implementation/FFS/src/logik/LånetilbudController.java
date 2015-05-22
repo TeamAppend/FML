@@ -125,13 +125,15 @@ public class LånetilbudController {
 	}
 	
 	public void opretLånetilbud(int tilbageBetalingsPeriode, double udbetaling, int bil_id, int sælger_id, double pris){
-		double ÅOP = udregnÅOP(tilbageBetalingsPeriode, udbetaling, renteSats, pris);
 		java.util.Date date= new java.util.Date();
 		Timestamp timestamp = new Timestamp(date.getTime());
 		
 		if(udbetaling < pris/2)
-			renteSats += 1;			
+			renteSats += 1;	
+		if(tilbageBetalingsPeriode <= 36)
+			renteSats += 1;	
 			
+		double ÅOP = udregnÅOP(tilbageBetalingsPeriode, udbetaling, renteSats, pris);
 		LånetilbudLogik lt = new LånetilbudLogikImpl();
 		Lånetilbud lånetilbud = new LånetilbudImpl();
 		lånetilbud.setRentesats(renteSats);

@@ -199,6 +199,8 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 		boolean b = true;
 		if (s.length() == 0)
 			b = false;
+		else if(Integer.parseInt(s) == 0)
+			b = false;
 		else if (!s.matches("[0-9]+"))
 			b = false;
 
@@ -208,6 +210,8 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 	protected boolean validerUdbetaling(String s) {
 		boolean b = true;
 		if (s.length() == 0)
+			b = false;
+		else if(Integer.parseInt(s) == 0)
 			b = false;
 		else if (!s.matches("[0-9]+"))
 			b = false;
@@ -260,6 +264,8 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 	protected boolean validerLånebeløb(String s) {
 		boolean b = true;
 		if (s.length() == 0)
+			b = false;
+		else if(Integer.parseInt(s) == 0)
 			b = false;
 		else if (!s.matches("[0-9.]+"))
 			b = false;
