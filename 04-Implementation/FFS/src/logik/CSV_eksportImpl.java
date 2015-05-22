@@ -1,12 +1,17 @@
 package logik;
 
+import java.sql.SQLException;
+import java.sql.Timestamp;
+
 import javax.swing.table.TableModel;
 
 import domain.Bil;
 import domain.CPRnummer;
 import domain.Kunde;
 import domain.Lånetilbud;
+import domain.Postnummer;
 import domain.Sælger;
+import exceptions.PostnummerDoesNotExist;
 
 public class CSV_eksportImpl implements CSV_eksport, FFSObserver {
 	private SælgerController sController = SælgerController.instance();
@@ -23,7 +28,8 @@ public class CSV_eksportImpl implements CSV_eksport, FFSObserver {
 	private Bil bil;
 	private CPRnummer cpr;
 	private Lånetilbud lånetilbud;
-	private boolean bilHentet = false, sælgerHentet = false, kundeHentet = false;
+	private Postnummer postnummer;
+	private boolean bilHentet = false, sælgerHentet = false, kundeHentet = false, postnummerHentet = false;
 	
 	public CSV_eksportImpl(TableModel t){
 		this.t = t;
@@ -48,9 +54,38 @@ public class CSV_eksportImpl implements CSV_eksport, FFSObserver {
 		kController.hentKunde(kunde_id);
 		bController.hentBil(bil_id);
 		sController.hentSælger(sælger_id);
+		try {
+			pController.hentPostnummer(kunde.getPostnummer());
+		} catch (SQLException | PostnummerDoesNotExist e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void test(){
+		String kundenavn = kunde.getKundenavn();
+		String adresse = kunde.getAdresse();
+		String spostnummer = kunde.getPostnummer();
+		String telefon = kunde.getTelefon();
+		
+		String Sælgernavn = sælger.getSælgerNavn();
+		String rang = sælger.getRang();
+		double beløbsgrænse = sælger.getBeløbsGrænse();
+		
+		String cprnummer = cpr.getCPRnummer();
+		
+		String bynavn = postnummer.getBynavn();
+		
+		String modelnavn = bil.getModelnavn();
+		double pris = bil.getPris();
+		
+		double rentesats = lånetilbud.getRentesats();
+		int tilbagebetalingsPeriode = lånetilbud.getTilbagebetalingsperiode();
+		double udbetaling = lånetilbud.getUdbetaling();
+		double ÅOP = lånetilbud.getÅOP();
+		Timestamp oprettelsestidspunkt = lånetilbud.getOprettelsestidspunkt();
+		
+		
+		
 		
 	}
 	
@@ -88,7 +123,7 @@ public class CSV_eksportImpl implements CSV_eksport, FFSObserver {
 				kunde = kController.getKunde();
 				cpr = kController.getCprnummer();
 				kundeHentet = true;
-				if(kundeHentet && bilHentet && sælgerHentet){
+				if(kundeHentet && bilHentet && sælgerHentet && postnummerHentet){
 					test();
 				}
 			}
@@ -96,7 +131,7 @@ public class CSV_eksportImpl implements CSV_eksport, FFSObserver {
 			if(s.equals("hentBil")){
 				bil = bController.getBil();
 				bilHentet = true;
-				if(kundeHentet && bilHentet && sælgerHentet){
+				if(kundeHentet && bilHentet && sælgerHentet && postnummerHentet){
 					test();
 				}
 			}
@@ -104,10 +139,17 @@ public class CSV_eksportImpl implements CSV_eksport, FFSObserver {
 			if(s.equals("hentSælger")){
 				sælger = sController.getSælger();
 				sælgerHentet = true;
-				if(kundeHentet && bilHentet && sælgerHentet){
+				if(kundeHentet && bilHentet && sælgerHentet && postnummerHentet){
 					test();
 				}
 			}
-		}
+		}else if(source instanceof PostnummerController)
+			if(s.equals("hentPostnummer")){
+				postnummer = pController.getPostnummer();
+				postnummerHentet = true;
+				if(kundeHentet && bilHentet && sælgerHentet && postnummerHentet){
+					test();
+				}
+			}
 	}
 }
