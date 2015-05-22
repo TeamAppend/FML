@@ -2,16 +2,20 @@ package logik;
 
 public interface CSV_eksport {
 
-	public String eksport();
+	public abstract void hentData(int lånetilbud_id, String filplacering);
 
-	public void tableToStringBuffer();
+	public abstract void toArraysTilStringBuffer(String[] navne,
+			String[] værdier, int tilbageBetalingsPeriode, double udbetaling,
+			double rentesats, double pris);
 
-	public void append(String s);
+	public abstract void eksport(String filnavn);
 
-	public void lastValue(String s);
+	public abstract void append(String s);
 
-	public String sbToString();
+	public abstract void lastValue(String s);
 
-	public void hentData(int i);
+	public abstract String sbToString();
+
+	public abstract void update(Object source, String s);
 
 }
