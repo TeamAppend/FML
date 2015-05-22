@@ -104,12 +104,12 @@ public class LånetilbudController {
 		rentesats = rentesats/100;
 		double sum = 0;
 		for(int i = 0; i<tilbageBetalingsPeriode; i++){
-			rente = (rentesats/12)*restgæld;
+			rente = (rentesats/12.000)*restgæld;
 			sum += rente;
 			restgæld -= afdrag;
 		}
 		double OP = sum/startgæld;
-		ÅOP = OP/(tilbageBetalingsPeriode/12)*100;
+		ÅOP = (OP/(tilbageBetalingsPeriode/12.000))*100;
 		return ÅOP;
 	}
 	

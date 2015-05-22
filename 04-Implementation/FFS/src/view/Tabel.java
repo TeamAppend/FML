@@ -6,7 +6,11 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.RoundingMode;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -86,6 +90,23 @@ public class Tabel extends JPanel implements FFSObserver, ActionListener {
 			e.printStackTrace();
 		}
 	}
+	
+	private String formatTwoDigits(Number n) {
+        NumberFormat format = DecimalFormat.getInstance();
+        format.setRoundingMode(RoundingMode.FLOOR);
+        format.setMinimumFractionDigits(0);
+        format.setMaximumFractionDigits(2);
+        return format.format(n);
+    }
+	
+	private String dotSperator(Number n){
+		
+		DecimalFormatSymbols symbols = DecimalFormatSymbols.getInstance();
+		symbols.setGroupingSeparator('.');
+
+		DecimalFormat formatter = new DecimalFormat("###,###.##", symbols);
+		return formatter.format(n);
+	}
 
 	public void visTabellen(List<Lånetilbud> låneList) {
 		if (this.scrollpane != null) {
@@ -109,17 +130,18 @@ public class Tabel extends JPanel implements FFSObserver, ActionListener {
 				return låneList.size();
 			}
 
+			
 			public Object getValueAt(int row, int col) {
 				if (col == 0)
 					return låneList.get(row).getLånetilbud_id();
 				else if (col == 1)
-					return låneList.get(row).getRentesats();
+					return formatTwoDigits(låneList.get(row).getRentesats()) + " %";
 				else if (col == 2)
 					return låneList.get(row).getTilbagebetalingsperiode();
 				else if (col == 3)
-					return låneList.get(row).getUdbetaling();
+					return dotSperator(låneList.get(row).getUdbetaling()) + " Kr.";
 				else if (col == 4)
-					return låneList.get(row).getÅOP();
+					return formatTwoDigits(låneList.get(row).getÅOP()) + " %";
 				else if (col == 5)
 					return låneList.get(row).getOprettelsestidspunkt();
 				else
