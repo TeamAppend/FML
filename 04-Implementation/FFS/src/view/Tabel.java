@@ -11,7 +11,6 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -22,8 +21,6 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 
-import logik.CSV_eksport;
-import logik.CSV_eksportImpl;
 import logik.FFSObserver;
 import logik.FormatterLogik;
 import logik.KundeController;
@@ -89,6 +86,13 @@ public class Tabel extends JPanel implements FFSObserver, ActionListener {
 		add(component);
 	}
 
+	public void disableEksportBtn(){
+		btnExport.setEnabled(false);
+	}
+	
+	public void enableEksportBtn(){
+		btnExport.setEnabled(true);
+	}
 	public void visFlere(int kunde_id) {
 		LånetilbudLogik ll = new LånetilbudLogikImpl();
 		try {
@@ -198,10 +202,10 @@ public class Tabel extends JPanel implements FFSObserver, ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		JButton source = (JButton) arg0.getSource();
 		if (source.equals(btnExport)) {
-			String filplacering = JOptionPane.showInputDialog(null, "Indtast sti hvor filen skal gemmes","Input", JOptionPane.INFORMATION_MESSAGE);
-			int i = (int) table_1.getModel().getValueAt(table_1.getSelectedRow(), 0);
-			CSV_eksport csv = new CSV_eksportImpl();
-			csv.hentData(i, filplacering);
+			int selectedRow = (int) table_1.getModel().getValueAt(table_1.getSelectedRow(), 0);
+			EksportFrame ef = new EksportFrame();
+			ef.setVariabler(selectedRow, this);
+			disableEksportBtn();
 		}
 	}
 }

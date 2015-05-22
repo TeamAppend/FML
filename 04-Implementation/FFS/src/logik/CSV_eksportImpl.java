@@ -1,6 +1,5 @@
 package logik;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -48,13 +47,7 @@ public class CSV_eksportImpl implements CSV_eksport, FFSObserver {
 
 	@Override
 	public void hentData(int lånetilbud_id, String filplacering) {
-		File file = new File(filplacering);
 		
-		if (filplacering.trim().length() == 0 || !file.exists() || !file.isDirectory())
-		{
-			JOptionPane.showMessageDialog(null, "Stien er ikke gyldig. Prøv venligst igen.", "Ugyldig sti", JOptionPane.ERROR_MESSAGE);
-			return; 
-		}
 			
 		this.filPlacering = filplacering;
 		lånetilbud = lController.hentLånetilbud(lånetilbud_id);

@@ -325,8 +325,8 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 		} else if (source.equals(btnBeregnLånetilbud)) {
 			String tilbagebetaling = tfTilbagebetalingsperiode.getText();
 			String udbetaling = tfUdbetaling.getText();
-			String pris = tfPris.getText();
-			String maksLånebeløb = tfMaksLånebeløb.getText();
+			String pris = tfPris.getText().replace(".", "");
+			String maksLånebeløb = tfMaksLånebeløb.getText().replace(".", "");
 			if(validerTekstfelter(tilbagebetaling, udbetaling, pris, maksLånebeløb)){
 				int kunde_id = kController.getKunde().getKunde_id();
 				lController.beregnLånetilbud(kunde_id);
