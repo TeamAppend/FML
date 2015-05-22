@@ -174,9 +174,7 @@ public class Tabel extends JPanel implements FFSObserver, ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		JButton source = (JButton) arg0.getSource();
 		if (source.equals(btnExport)) {
-			int x = table_1.getSelectedRow();
-			table_1.get
-			String s = table_1.getComponentAt(x, 0).toString();
+			int s = (int) table_1.getModel().getValueAt(table_1.getSelectedRow(), 0);
 			System.out.println(s);
 		}
 	}
