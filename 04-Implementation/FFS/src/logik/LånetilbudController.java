@@ -22,6 +22,7 @@ public class LånetilbudController {
 	private int tillægspoint;
 	private double renteSats;
 	private int kunde_id;
+	private boolean kvAcceptabel;
 
 	public static LånetilbudController instance() {
 		if (inst == null)
@@ -53,6 +54,10 @@ public class LånetilbudController {
 	public double getRenteSats(){
 		return renteSats;
 	}
+	
+	public boolean getkvAcceptabel(){
+		return kvAcceptabel;
+	}
 
 	public void beregnLånetilbud(int kunde_id) {
 		this.kunde_id = kunde_id;
@@ -72,6 +77,7 @@ public class LånetilbudController {
 		kv.setKreditværdighed(cp.getCPRnummer(), new CallBack(){
 			@Override
 			public void onRequestComplete() {
+				kvAcceptabel = kv.getkvAcceptabel();
 				kreditFundet = true;
 				tillægspoint = kv.getTillægspoint();
 				notifyObservers("Kreditværdighed");

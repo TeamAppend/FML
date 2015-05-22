@@ -362,12 +362,18 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 			}
 		} else if (source instanceof LånetilbudController) {
 			if ((s.equals("RenteSats") || s.equals("Kreditværdighed")) && lController.beggeFundet()) {
-				int tilbageBetaling = Integer.parseInt(tfTilbagebetalingsperiode.getText());
-				double udbetaling = Double.parseDouble(tfUdbetaling.getText());
-				int bil_id = bController.getBil().getBil_id();
-				int sælger_id = sController.getSælger().getSælger_id();
-				double pris = bController.getBil().getPris();
-				lController.opretLånetilbud(tilbageBetaling, udbetaling,bil_id, sælger_id, pris);
+				if(lController.getkvAcceptabel()){
+					int tilbageBetaling = Integer.parseInt(tfTilbagebetalingsperiode.getText());
+					double udbetaling = Double.parseDouble(tfUdbetaling.getText());
+					int bil_id = bController.getBil().getBil_id();
+					int sælger_id = sController.getSælger().getSælger_id();
+					double pris = bController.getBil().getPris();
+					lController.opretLånetilbud(tilbageBetaling, udbetaling,bil_id, sælger_id, pris);
+				}else{
+					JOptionPane.showMessageDialog(null, "Kundens kreditværdighed er ikke tilstrækkelig","Success!", JOptionPane.ERROR_MESSAGE);
+					loadingIcon.setVisible(false);
+					btnBeregnLånetilbud.setEnabled(true);
+				}
 			}else if(s.equals("opretLånetilbud")){
 				loadingIcon.setVisible(false);
 				btnBeregnLånetilbud.setEnabled(true);

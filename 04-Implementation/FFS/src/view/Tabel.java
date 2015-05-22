@@ -57,7 +57,7 @@ public class Tabel extends JPanel implements FFSObserver, ActionListener {
 		add(btnExport, con);
 		btnExport.addActionListener(this);
 
-		visFlere(0);
+		visFlere(-1);
 	}
 
 	private GridBagConstraints createGBC(int x, int y, int width, int height) {
