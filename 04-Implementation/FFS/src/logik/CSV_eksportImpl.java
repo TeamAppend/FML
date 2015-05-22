@@ -1,16 +1,15 @@
 package logik;
 
-import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.math.RoundingMode;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
+import java.util.Date;
 
 import javax.swing.JOptionPane;
 
@@ -37,7 +36,7 @@ public class CSV_eksportImpl implements CSV_eksport, FFSObserver {
 	private Postnummer postnummer;
 	private boolean bilHentet = false, sælgerHentet = false,
 			kundeHentet = false, postnummerHentet = false;
-	private String filplacering = ".\\Lånetilbud.csv";
+	private String filPlacering = ".\\\\Lånetilbud.csv";
 
 	public CSV_eksportImpl() {
 		sController.tilmeldObserver(this);
@@ -49,8 +48,15 @@ public class CSV_eksportImpl implements CSV_eksport, FFSObserver {
 
 	@Override
 	public void hentData(int lånetilbud_id, String filplacering) {
-		if(filplacering != "")
-			this.filplacering = filplacering;
+		File file = new File(filplacering);
+		
+		if (filplacering.trim().length() == 0 || !file.exists() || !file.isDirectory())
+		{
+			JOptionPane.showMessageDialog(null, "Stien er ikke gyldig. Prøv venligst igen.", "Ugyldig sti", JOptionPane.ERROR_MESSAGE);
+			return; 
+		}
+			
+		this.filPlacering = filplacering;
 		lånetilbud = lController.hentLånetilbud(lånetilbud_id);
 		int kunde_id = lånetilbud.getKunde_id();
 		int bil_id = lånetilbud.getBil_id();
@@ -96,9 +102,9 @@ public class CSV_eksportImpl implements CSV_eksport, FFSObserver {
 				"ÅOP: ", "Oprettelsestidspunkt: " };
 
 		String[] værdier = { kundenavn, adresse, spostnummer, bynavn, telefon,
-				cprnummer, sælgernavn, rang, dotSeperator(beløbsgrænse) + "", modelnavn,
-				dotSeperator(pris) + "", formatTwoDigits(rentesats) + "", tilbageBetalingsPeriode + "",
-				udbetaling + "", formatTwoDigits(ÅOP) + "", oprettelsestidspunkt + "" };
+				cprnummer, sælgernavn, rang, FormatterLogik.dotSeperator(beløbsgrænse) + "", modelnavn,
+				FormatterLogik.dotSeperator(pris) + "", FormatterLogik.formatTwoDigits(rentesats) + "", tilbageBetalingsPeriode + "",
+				udbetaling + "", FormatterLogik.formatTwoDigits(ÅOP) + "", oprettelsestidspunkt + "" };
 		toArraysTilStringBuffer(navne, værdier, tilbageBetalingsPeriode,
 				udbetaling, rentesats, pris);
 	}
@@ -134,51 +140,52 @@ public class CSV_eksportImpl implements CSV_eksport, FFSObserver {
 			sum += rente;
 			restgæld -= afdrag;
 			append((i+1)+"");
-			append(formatTwoDigits(restgæld));
-			append(formatTwoDigits(afdrag));
-			append(formatTwoDigits(rente));
-			lastValue((formatTwoDigits(afdrag + rente)));
+			append(FormatterLogik.formatTwoDigits(restgæld));
+			append(FormatterLogik.formatTwoDigits(afdrag));
+			append(FormatterLogik.formatTwoDigits(rente));
+			lastValue((FormatterLogik.formatTwoDigits(afdrag + rente)));
 		}
 		double OP = sum / startgæld;
 		ÅOP = (OP / (tilbageBetalingsPeriode / 12.000)) * 100;
 		append("Total rente: ");
-		append(formatTwoDigits(sum));
+		append(FormatterLogik.formatTwoDigits(sum));
 		lastValue("kr.");
 		append("ÅOP: ");
-		append(formatTwoDigits(ÅOP));
+		append(FormatterLogik.formatTwoDigits(ÅOP));
 		lastValue("%");
 
-		eksport(filplacering);
+		System.out.println(filPlacering + " - test");
+		eksport(filPlacering);
 	}
-
+	
 	@Override
 	public void eksport(String filnavn) {
-		try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-				new FileOutputStream(filnavn), "utf-8"))) {
-			writer.write(sbToString());
-		} catch (IOException e) {
+		Date d = new Date();
+
+		// http://stackoverflow.com/a/4192287
+		OutputStream os;
+		try {
+			os = new FileOutputStream(filnavn + "/LåneTilbud_" + kController.getKunde().getTelefon() + "_" + d.getTime() + ".csv");
+		    os.write(239); // 239, 187 og 191 er "header values" som tilføjes til CSV-filen før der skrives text til filen. 
+		    os.write(187); // Dette får excel til at forstå filen som at den skal dekode den med UTF-8 encoding. 
+		    os.write(191); // Dette gør vi fordi Excel har en bug med at den ikke kan læse filer med UTF-8 encoding med mindre de skrives på en speciel måde.
+		    PrintWriter w = new PrintWriter(new OutputStreamWriter(os, "UTF-8"));
+
+		    w.print(sbToString());
+		    w.flush();
+		    w.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
 		JOptionPane.showMessageDialog(null, "CSV-fil er oprettet!","Success!", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
-	private String formatTwoDigits(Number n) {
-        NumberFormat format = DecimalFormat.getInstance();
-        format.setRoundingMode(RoundingMode.FLOOR);
-        format.setMinimumFractionDigits(0);
-        format.setMaximumFractionDigits(2);
-        return format.format(n);
-    }
 	
-	private String dotSeperator(Number n){
-		
-		DecimalFormatSymbols symbols = DecimalFormatSymbols.getInstance();
-		symbols.setGroupingSeparator('.');
-
-		DecimalFormat formatter = new DecimalFormat("###,###.##", symbols);
-		return formatter.format(n);
-	}
-
 	@Override
 	public void append(String s) {
 		sb.append(s + ";");
