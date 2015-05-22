@@ -6,11 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.math.RoundingMode;
 import java.sql.SQLException;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -19,7 +15,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
@@ -30,6 +25,7 @@ import javax.swing.table.TableModel;
 import logik.CSV_eksport;
 import logik.CSV_eksportImpl;
 import logik.FFSObserver;
+import logik.FormatterLogik;
 import logik.KundeController;
 import logik.LånetilbudController;
 import logik.LånetilbudLogik;
@@ -41,7 +37,6 @@ public class Tabel extends JPanel implements FFSObserver, ActionListener {
 	private GridBagLayout layout;
 	private JTable table_1;
 	private JScrollPane scrollpane;
-	private JTextField tfFilNavn = new JTextField(10);
 	private KundeController kController = KundeController.instance();
 	private LånetilbudController lController = LånetilbudController.instance();
 	private JButton btnExport = new JButton("Export");
@@ -104,23 +99,6 @@ public class Tabel extends JPanel implements FFSObserver, ActionListener {
 		}
 	}
 
-	private String formatTwoDigits(Number n) {
-		NumberFormat format = DecimalFormat.getInstance();
-		format.setRoundingMode(RoundingMode.FLOOR);
-		format.setMinimumFractionDigits(0);
-		format.setMaximumFractionDigits(2);
-		return format.format(n);
-	}
-
-	private String dotSeperator(Number n) {
-
-		DecimalFormatSymbols symbols = DecimalFormatSymbols.getInstance();
-		symbols.setGroupingSeparator('.');
-
-		DecimalFormat formatter = new DecimalFormat("###,###.##", symbols);
-		return formatter.format(n);
-	}
-
 	public void visTabellen(List<Lånetilbud> låneList) {
 		if (this.scrollpane != null) {
 			remove(scrollpane);
@@ -147,15 +125,13 @@ public class Tabel extends JPanel implements FFSObserver, ActionListener {
 				if (col == 0)
 					return låneList.get(row).getLånetilbud_id();
 				else if (col == 1)
-					return formatTwoDigits(låneList.get(row).getRentesats())
-							+ " %";
+					return FormatterLogik.formatTwoDigits(låneList.get(row).getRentesats()) + " %";
 				else if (col == 2)
 					return låneList.get(row).getTilbagebetalingsperiode();
 				else if (col == 3)
-					return dotSeperator(låneList.get(row).getUdbetaling())
-							+ " Kr.";
+					return FormatterLogik.dotSeperator(låneList.get(row).getUdbetaling()) + " Kr.";
 				else if (col == 4)
-					return formatTwoDigits(låneList.get(row).getÅOP()) + " %";
+					return FormatterLogik.formatTwoDigits(låneList.get(row).getÅOP()) + " %";
 				else if (col == 5)
 					return låneList.get(row).getOprettelsestidspunkt();
 				else
@@ -222,15 +198,10 @@ public class Tabel extends JPanel implements FFSObserver, ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		JButton source = (JButton) arg0.getSource();
 		if (source.equals(btnExport)) {
-			String filnavn = JOptionPane.showInputDialog(null,
-					"Indtast filnavn", "Input",
-					JOptionPane.INFORMATION_MESSAGE);
-			if (filnavn.length() != 0) {
-				int i = (int) table_1.getModel().getValueAt(
-						table_1.getSelectedRow(), 0);
-				CSV_eksport csv = new CSV_eksportImpl();
-				csv.hentData(i, filnavn);
-			}
+			String filplacering = JOptionPane.showInputDialog(null, "Indtast sti hvor filen skal gemmes","Input", JOptionPane.INFORMATION_MESSAGE);
+			int i = (int) table_1.getModel().getValueAt(table_1.getSelectedRow(), 0);
+			CSV_eksport csv = new CSV_eksportImpl();
+			csv.hentData(i, filplacering);
 		}
 	}
 }
