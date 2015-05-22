@@ -266,8 +266,6 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 		boolean b = true;
 		if (s.length() == 0)
 			b = false;
-		else if(Integer.parseInt(s) == 0)
-			b = false;
 		else if (!s.matches("[0-9.]+"))
 			b = false;
 
@@ -285,12 +283,10 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 		if (!validerUdbetaling(udbetaling)) {
 			sb.append("- Udbetaling må kun indeholde tallene 0-9, og må ikke være tom \n");
 			b = false;
-		}
-		if (!validerUdbetalingPris(udbetaling, pris)) {
+		}else if (!validerUdbetalingPris(udbetaling, pris)) {
 			sb.append("- Udbetaling må ikke være højere end bilens pris \n");
 			b = false;
-		}
-		if (!validerUdbetalingProcent(udbetaling, pris)){
+		}else if (!validerUdbetalingProcent(udbetaling, pris)){
 			sb.append("- Udbetalingen er under 20% af bilens pris \n");
 			b = false;
 		}
@@ -298,12 +294,11 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 			sb.append("- Modelnavn er ikke valgt \n");
 			b = false;
 		}
-		if (!validerLånebeløbMaks(udbetaling, pris, maksLåneBeløb)) {
-			sb.append("- Sælger kan ikke godkende lånebeløb over 1.000.000 kr. \n");
-			b = false;
-		}
 		if (!validerLånebeløb(maksLåneBeløb)) {
 			sb.append("- Sælger er ikke valgt \n");
+			b = false;
+		}else if (!validerLånebeløbMaks(udbetaling, pris, maksLåneBeløb)) {
+			sb.append("- Sælger kan ikke godkende lånebeløb over 1.000.000 kr. \n");
 			b = false;
 		}
 		if (!b)

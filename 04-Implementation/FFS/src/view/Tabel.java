@@ -6,7 +6,11 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.RoundingMode;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -56,11 +60,11 @@ public class Tabel extends JPanel implements FFSObserver, ActionListener {
 
 		TitledBorder title = new TitledBorder("Tidligere lånetilbud");
 		setBorder(title);
-		
-		/*con = createGBC(0, 1, 1, 1);
-		con.insets = ins;
-		con.anchor = GridBagConstraints.SOUTH;
-		add(tfFilNavn, con);*/
+
+		/*
+		 * con = createGBC(0, 1, 1, 1); con.insets = ins; con.anchor =
+		 * GridBagConstraints.SOUTH; add(tfFilNavn, con);
+		 */
 
 		con = createGBC(0, 1, 1, 1);
 		con.insets = ins;
@@ -98,8 +102,23 @@ public class Tabel extends JPanel implements FFSObserver, ActionListener {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
+	private String formatTwoDigits(Number n) {
+		NumberFormat format = DecimalFormat.getInstance();
+		format.setRoundingMode(RoundingMode.FLOOR);
+		format.setMinimumFractionDigits(0);
+		format.setMaximumFractionDigits(2);
+		return format.format(n);
+	}
+
+	private String dotSeperator(Number n) {
+
+		DecimalFormatSymbols symbols = DecimalFormatSymbols.getInstance();
+		symbols.setGroupingSeparator('.');
+
+		DecimalFormat formatter = new DecimalFormat("###,###.##", symbols);
+		return formatter.format(n);
+	}
 
 	public void visTabellen(List<Lånetilbud> låneList) {
 		if (this.scrollpane != null) {
@@ -123,7 +142,6 @@ public class Tabel extends JPanel implements FFSObserver, ActionListener {
 				return låneList.size();
 			}
 
-			
 			public Object getValueAt(int row, int col) {
 				if (col == 0)
 					return låneList.get(row).getLånetilbud_id();
@@ -157,18 +175,18 @@ public class Tabel extends JPanel implements FFSObserver, ActionListener {
 		table_1.getColumnModel().getColumn(4).setPreferredWidth(106);
 		table_1.getColumnModel().getColumn(5).setMinWidth(220);
 
-		table_1.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-		    @Override
-		    public void valueChanged(ListSelectionEvent e)
-		    {
-		        if (!e.getValueIsAdjusting())
-		        {
-		            boolean rowsAreSelected = table_1.getSelectedRowCount() > 0;
-		            btnExport.setEnabled(rowsAreSelected);
-		        }
-		    }
-		});
-		
+		table_1.getSelectionModel().addListSelectionListener(
+				new ListSelectionListener() {
+					@Override
+					public void valueChanged(ListSelectionEvent e) {
+						if (!e.getValueIsAdjusting()) {
+							boolean rowsAreSelected = table_1
+									.getSelectedRowCount() > 0;
+							btnExport.setEnabled(rowsAreSelected);
+						}
+					}
+				});
+
 		this.setVisible(true);
 		repaint();
 		revalidate();
