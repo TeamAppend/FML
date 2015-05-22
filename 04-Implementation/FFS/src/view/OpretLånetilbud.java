@@ -21,6 +21,7 @@ import javax.swing.border.TitledBorder;
 
 import logik.BilController;
 import logik.FFSObserver;
+import logik.FormatterLogik;
 import logik.KundeController;
 import logik.LånetilbudController;
 import logik.SælgerController;
@@ -352,7 +353,7 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 			} else if (s.equals("setMaksLånebeløb")) {
 				Sælger sælger = sController.getSælger();
 				double pris = sælger.getBeløbsGrænse();
-				tfMaksLånebeløb.setText("" + pris);
+				tfMaksLånebeløb.setText("" + FormatterLogik.dotSeperator(pris));
 			}
 		} else if (source instanceof BilController) {
 			if (s.equals("fillBil")) {
@@ -364,7 +365,7 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 			} else if (s.equals("setBilPris")) {
 				Bil bil = bController.getBil();
 				double pris = bil.getPris();
-				tfPris.setText("" + pris);
+				tfPris.setText("" + FormatterLogik.dotSeperator(pris));
 			}
 		} else if (source instanceof LånetilbudController) {
 			if ((s.equals("RenteSats") || s.equals("Kreditværdighed")) && lController.beggeFundet()) {
