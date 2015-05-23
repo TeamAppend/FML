@@ -3,12 +3,12 @@ package dataaccess;
 import java.sql.SQLException;
 
 import domain.CPRnummer;
-import exceptions.CPRAllreadyExists;
-import exceptions.CPRDoesNotExists;
+import exceptions.CPRAllreadyExistsException;
+import exceptions.CPRDoesNotExistsException;
 
 public interface CPRDataAccess {
 	
-	public void createCPR(DataAccess dataaccess, CPRnummer CPRnummer) throws SQLException, CPRAllreadyExists;
+	public void createCPR(DataAccess dataaccess, CPRnummer CPRnummer) throws SQLException, CPRAllreadyExistsException;
 	
 	public CPRnummer listCPR(DataAccess dataaccess, int CPR_id) throws SQLException;
 	
@@ -16,5 +16,5 @@ public interface CPRDataAccess {
 	
 	public int findUnique(DataAccess dataaccess, String CPR) throws SQLException;
 	
-	public void deleteCPR(DataAccess dataaccess, int CPR_id) throws SQLException, CPRDoesNotExists;
+	public void deleteCPR(DataAccess dataaccess, int CPR_id) throws SQLException, CPRDoesNotExistsException;
 }

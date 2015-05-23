@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import domain.Sælger;
-import exceptions.SælgerDoesNotExist;
+import exceptions.SælgerDoesNotExistException;
 
 public interface SælgerLogik {
 
@@ -13,6 +13,6 @@ public interface SælgerLogik {
 	public abstract Sælger listSælgerBeløb(String sælgernavn) throws SQLException;
 
 	public abstract List<Sælger> listAlleSælger() throws SQLException,
-			SælgerDoesNotExist;
+			SælgerDoesNotExistException;
 
 }

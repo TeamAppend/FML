@@ -8,8 +8,8 @@ import java.util.List;
 
 import domain.Lånetilbud;
 import domain.LånetilbudImpl;
-import exceptions.LånetilbudAllreadyExists;
-import exceptions.LånetilbudDoesNotExists;
+import exceptions.LånetilbudAllreadyExistsException;
+import exceptions.LånetilbudDoesNotExistsException;
 
 public class LånetilbudDataAccessImpl implements LånetilbudDataAccess {
 	private static final String INSERT_ONE = "INSERT INTO lånetilbud (rentesats, tilbagebetalingsperiode, udbetaling, ÅOP, kunde_id, bil_id, sælger_id, oprettelsestidspunkt) VALUES(?,?,?,?,?,?,?,?)";
@@ -23,7 +23,7 @@ public class LånetilbudDataAccessImpl implements LånetilbudDataAccess {
 	 */
 
 	@Override
-	public void createLånetilbud(DataAccess dataaccess, Lånetilbud lånetilbud) throws SQLException, LånetilbudAllreadyExists {
+	public void createLånetilbud(DataAccess dataaccess, Lånetilbud lånetilbud) throws SQLException, LånetilbudAllreadyExistsException {
 		PreparedStatement statement = null;
 		try {
 			statement = dataaccess.getConnection().prepareStatement(INSERT_ONE);
@@ -38,7 +38,7 @@ public class LånetilbudDataAccessImpl implements LånetilbudDataAccess {
 			statement.executeUpdate();
 		} catch (SQLException e) {
 			if (e.getSQLState().equalsIgnoreCase("23505")) {
-				throw new LånetilbudAllreadyExists();
+				throw new LånetilbudAllreadyExistsException();
 			} else {
 				throw e;
 			}
@@ -122,14 +122,14 @@ public class LånetilbudDataAccessImpl implements LånetilbudDataAccess {
 	 * Delete
 	 */
 	@Override
-	public void deleteLånetilbud(DataAccess dataaccess, int lånetilbud_id) throws SQLException, LånetilbudDoesNotExists {
+	public void deleteLånetilbud(DataAccess dataaccess, int lånetilbud_id) throws SQLException, LånetilbudDoesNotExistsException {
 		PreparedStatement statement = null;
 		try {
 			statement = dataaccess.getConnection().prepareStatement(DELETE_ONE);
 			statement.setInt(1, lånetilbud_id);
 			int antal = statement.executeUpdate();
 			if (antal != 1) {
-				throw new LånetilbudDoesNotExists();
+				throw new LånetilbudDoesNotExistsException();
 			}
 		} finally {
 			if (statement != null) {

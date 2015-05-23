@@ -3,8 +3,8 @@ package dataaccess;
 import java.sql.SQLException;
 
 import domain.Kunde;
-import exceptions.KundeAllreadyExists;
-import exceptions.KundeDoesNotExists;
+import exceptions.KundeAllreadyExistsException;
+import exceptions.KundeDoesNotExistsException;
 
 public interface KundeDataAccess {
 
@@ -12,7 +12,7 @@ public interface KundeDataAccess {
 	 * Create
 	 */
 	public abstract void createKunde(DataAccess dataaccess, Kunde kunde)
-			throws SQLException, KundeAllreadyExists;
+			throws SQLException, KundeAllreadyExistsException;
 
 	/*
 	 * Read
@@ -31,12 +31,12 @@ public interface KundeDataAccess {
 	 */
 	public abstract void updateKunde(DataAccess dataaccess, String kundenavn,
 			String adresse, String postnummer, String telefon, int kunde_id)
-			throws SQLException, KundeDoesNotExists;
+			throws SQLException, KundeDoesNotExistsException;
 
 	/*
 	 * Delete
 	 */
 	public abstract void deleteKunde(DataAccess dataaccess, int kunde_id)
-			throws SQLException, KundeDoesNotExists;
+			throws SQLException, KundeDoesNotExistsException;
 
 }

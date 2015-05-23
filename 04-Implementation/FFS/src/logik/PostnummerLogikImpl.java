@@ -5,13 +5,13 @@ import java.sql.SQLException;
 import dataaccess.DataAccess;
 import dataaccess.PostnummerDataAccessImpl;
 import domain.Postnummer;
-import exceptions.PostnummerDoesNotExist;
+import exceptions.PostnummerDoesNotExistException;
 
 public class PostnummerLogikImpl implements PostnummerLogik {
 
 	
 	@Override
-	public Postnummer listPostnummer(String postnummer) throws SQLException, PostnummerDoesNotExist {
+	public Postnummer listPostnummer(String postnummer) throws SQLException, PostnummerDoesNotExistException {
 		DataAccess dataaccess = null;
 		try {
 			dataaccess = new DataAccess();

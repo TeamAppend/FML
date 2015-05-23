@@ -6,8 +6,8 @@ import java.sql.SQLException;
 
 import domain.CPRnummer;
 import domain.CPRnummerImpl;
-import exceptions.CPRAllreadyExists;
-import exceptions.CPRDoesNotExists;
+import exceptions.CPRAllreadyExistsException;
+import exceptions.CPRDoesNotExistsException;
 
 public class CPRDataAccessImpl implements CPRDataAccess {
 	private static final String INSERT_ONE = "INSERT INTO CPRnummer (CPRnummer) VALUES(?)";
@@ -22,10 +22,10 @@ public class CPRDataAccessImpl implements CPRDataAccess {
 	 * @param dataaccess
 	 * @param CPRnummer
 	 * @throws SQLException
-	 * @throws CPRAllreadyExists
+	 * @throws CPRAllreadyExistsException
 	 */
 	public void createCPR(DataAccess dataaccess, CPRnummer CPRnummer)
-			throws SQLException, CPRAllreadyExists {
+			throws SQLException, CPRAllreadyExistsException {
 		PreparedStatement statement = null;
 		try {
 			statement = dataaccess.getConnection().prepareStatement(INSERT_ONE);
@@ -33,7 +33,7 @@ public class CPRDataAccessImpl implements CPRDataAccess {
 			statement.executeUpdate();
 		} catch (SQLException e) {
 			if (e.getSQLState().equalsIgnoreCase("23505")) {
-				throw new CPRAllreadyExists();
+				throw new CPRAllreadyExistsException();
 			} else {
 				throw e;
 			}
@@ -132,14 +132,14 @@ public class CPRDataAccessImpl implements CPRDataAccess {
 	 * Delete
 	 */
 	public void deleteCPR(DataAccess dataaccess, int CPR_id)
-			throws SQLException, CPRDoesNotExists {
+			throws SQLException, CPRDoesNotExistsException {
 		PreparedStatement statement = null;
 		try {
 			statement = dataaccess.getConnection().prepareStatement(DELETE_ONE);
 			statement.setInt(1, CPR_id);
 			int antal = statement.executeUpdate();
 			if (antal != 1) {
-				throw new CPRDoesNotExists();
+				throw new CPRDoesNotExistsException();
 			}
 		} finally {
 			if (statement != null) {

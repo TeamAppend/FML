@@ -7,12 +7,12 @@ import dataaccess.BilDataAccess;
 import dataaccess.BilDataAccessImpl;
 import dataaccess.DataAccess;
 import domain.Bil;
-import exceptions.BilDoesNotExist;
+import exceptions.BilDoesNotExistException;
 
 public class BilLogikImpl implements BilLogik{
 
 	@Override
-	public Bil listBil(int bil_id) throws SQLException, BilDoesNotExist {
+	public Bil listBil(int bil_id) throws SQLException, BilDoesNotExistException {
 		DataAccess dataaccess = null;
 		try {
 			dataaccess = new DataAccess();
@@ -33,7 +33,7 @@ public class BilLogikImpl implements BilLogik{
 	}
 	
 	@Override
-	public Bil listBilModel(String modelNavn) throws SQLException, BilDoesNotExist {
+	public Bil listBilModel(String modelNavn) throws SQLException, BilDoesNotExistException {
 		DataAccess dataaccess = null;
 		try {
 			dataaccess = new DataAccess();
@@ -54,7 +54,7 @@ public class BilLogikImpl implements BilLogik{
 	}
 	
 	@Override
-	public List<Bil> listAlleBil() throws SQLException, BilDoesNotExist {
+	public List<Bil> listAlleBil() throws SQLException, BilDoesNotExistException {
 		DataAccess dataaccess = null;
 		try {
 			dataaccess = new DataAccess();

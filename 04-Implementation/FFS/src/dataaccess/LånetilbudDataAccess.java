@@ -4,8 +4,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 import domain.Lånetilbud;
-import exceptions.LånetilbudAllreadyExists;
-import exceptions.LånetilbudDoesNotExists;
+import exceptions.LånetilbudAllreadyExistsException;
+import exceptions.LånetilbudDoesNotExistsException;
 
 public interface LånetilbudDataAccess {
 
@@ -14,7 +14,7 @@ public interface LånetilbudDataAccess {
 	 */
 	public abstract void createLånetilbud(DataAccess dataaccess,
 			Lånetilbud lånetilbud) throws SQLException,
-			LånetilbudAllreadyExists;
+			LånetilbudAllreadyExistsException;
 
 	/*
 	 * Read
@@ -29,6 +29,6 @@ public interface LånetilbudDataAccess {
 	 * Delete
 	 */
 	public abstract void deleteLånetilbud(DataAccess dataaccess,
-			int lånetilbud_id) throws SQLException, LånetilbudDoesNotExists;
+			int lånetilbud_id) throws SQLException, LånetilbudDoesNotExistsException;
 
 }

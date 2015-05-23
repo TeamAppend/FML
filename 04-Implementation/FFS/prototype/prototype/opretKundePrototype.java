@@ -20,9 +20,9 @@ import domain.CPRnummerImpl;
 import domain.Kunde;
 import domain.KundeImpl;
 import domain.Postnummer;
-import exceptions.CPRAllreadyExists;
-import exceptions.KundeAllreadyExists;
-import exceptions.PostnummerDoesNotExist;
+import exceptions.CPRAllreadyExistsException;
+import exceptions.KundeAllreadyExistsException;
+import exceptions.PostnummerDoesNotExistException;
 import logik.CPRLogik;
 import logik.CPRLogikImpl;
 import logik.KundeLogik;
@@ -169,13 +169,13 @@ public class opretKundePrototype extends JFrame {
 						tfBy.setText(s);
 					} catch (SQLException e2) {
 						e2.printStackTrace();
-					} catch (PostnummerDoesNotExist e1) {
+					} catch (PostnummerDoesNotExistException e1) {
 						e1.printStackTrace();
 					}
 					try {
 						kl.createKunde(kunde);
 						JOptionPane.showMessageDialog(null,	"Kunde er oprettet!", "Success!", JOptionPane.INFORMATION_MESSAGE);
-					} catch (SQLException | KundeAllreadyExists e1) {
+					} catch (SQLException | KundeAllreadyExistsException e1) {
 						e1.printStackTrace();
 					}
 				}else{
@@ -194,7 +194,7 @@ public class opretKundePrototype extends JFrame {
 					}
 				} catch (SQLException e2) {
 					e2.printStackTrace();
-				} catch (PostnummerDoesNotExist e1) {
+				} catch (PostnummerDoesNotExistException e1) {
 					JOptionPane.showMessageDialog(null,	"Postnummer findes ikke", "Fejl!", JOptionPane.ERROR_MESSAGE);
 					e1.printStackTrace();
 				}
@@ -208,7 +208,7 @@ public class opretKundePrototype extends JFrame {
 						try {
 							cl.createCPR(cpr);
 							JOptionPane.showMessageDialog(null,	"CPR-nummer er oprettet!", "Success!", JOptionPane.INFORMATION_MESSAGE);
-						} catch (SQLException | CPRAllreadyExists e1) {
+						} catch (SQLException | CPRAllreadyExistsException e1) {
 							e1.printStackTrace();
 						}
 					}else{
@@ -243,7 +243,7 @@ public class opretKundePrototype extends JFrame {
 					}
 				} catch (SQLException e2) {
 					e2.printStackTrace();
-				} catch (PostnummerDoesNotExist e1) {
+				} catch (PostnummerDoesNotExistException e1) {
 					JOptionPane.showMessageDialog(null,	"Postnummer findes ikke", "Fejl!", JOptionPane.ERROR_MESSAGE);
 					e1.printStackTrace();
 				}

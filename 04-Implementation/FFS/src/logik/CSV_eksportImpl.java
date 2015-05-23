@@ -18,7 +18,7 @@ import domain.Kunde;
 import domain.Lånetilbud;
 import domain.Postnummer;
 import domain.Sælger;
-import exceptions.PostnummerDoesNotExist;
+import exceptions.PostnummerDoesNotExistException;
 
 public class CSV_eksportImpl implements CSV_eksport, FFSObserver {
 	private SælgerController sController = SælgerController.instance();
@@ -60,7 +60,7 @@ public class CSV_eksportImpl implements CSV_eksport, FFSObserver {
 		sController.hentSælger(sælger_id);
 		try {
 			pController.hentPostnummer(kunde.getPostnummer());
-		} catch (SQLException | PostnummerDoesNotExist e) {
+		} catch (SQLException | PostnummerDoesNotExistException e) {
 			e.printStackTrace();
 		}
 	}

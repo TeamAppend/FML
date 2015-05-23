@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import domain.Postnummer;
 import domain.PostnummerImpl;
-import exceptions.PostnummerDoesNotExist;
+import exceptions.PostnummerDoesNotExistException;
 
 public class PostnummerLogikTest {
 	
@@ -23,7 +23,7 @@ public class PostnummerLogikTest {
 	}
 
 	@Test
-	public void testListPostnummer() throws SQLException, PostnummerDoesNotExist {
+	public void testListPostnummer() throws SQLException, PostnummerDoesNotExistException {
 		pn = pnl.listPostnummer("7400");
 		assertEquals("7400", pn.getPostnummer());
 	}

@@ -10,11 +10,11 @@ import org.junit.Test;
 
 import domain.Kunde;
 import domain.KundeImpl;
-import exceptions.CPRAllreadyExists;
-import exceptions.CPRDoesNotExists;
-import exceptions.KundeAllreadyExists;
-import exceptions.KundeDoesNotExists;
-import exceptions.PostnummerDoesNotExist;
+import exceptions.CPRAllreadyExistsException;
+import exceptions.CPRDoesNotExistsException;
+import exceptions.KundeAllreadyExistsException;
+import exceptions.KundeDoesNotExistsException;
+import exceptions.PostnummerDoesNotExistException;
 
 public class KundeControllerTest {
 	
@@ -35,7 +35,7 @@ public class KundeControllerTest {
 	}
 
 	@Test
-	public void testOpretKunde() throws SQLException, CPRAllreadyExists, KundeAllreadyExists, PostnummerDoesNotExist, KundeDoesNotExists {
+	public void testOpretKunde() throws SQLException, CPRAllreadyExistsException, KundeAllreadyExistsException, PostnummerDoesNotExistException, KundeDoesNotExistsException {
 		kcs.opretKunde("55050601", "3006921811", "Michael bondom", "Idomvej 17", "7500");
 		// Her finder vi kunden ved og søge på telefon nummeret.
 		assertEquals("55050601", kcs.getKunde().getTelefon());
@@ -50,7 +50,7 @@ public class KundeControllerTest {
 		kunde = kl.listKunde("55050601");
 		try {
 			cl.deleteCPR(kunde.getCPR_id());
-		} catch (CPRDoesNotExists e) {
+		} catch (CPRDoesNotExistsException e) {
 			e.printStackTrace();
 		}
 	}

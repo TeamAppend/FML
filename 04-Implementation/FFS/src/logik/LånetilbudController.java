@@ -13,7 +13,7 @@ import domain.Lånetilbud;
 import domain.LånetilbudImpl;
 import domain.RenteSats;
 import domain.RenteSatsImpl;
-import exceptions.LånetilbudAllreadyExists;
+import exceptions.LånetilbudAllreadyExistsException;
 
 public class LånetilbudController {
 	private static LånetilbudController inst = null;
@@ -146,7 +146,7 @@ public class LånetilbudController {
 		lånetilbud.setOprettelsestidspunkt(timestamp);
 		try {
 			lt.createLånetilbud(lånetilbud);
-		} catch (SQLException | LånetilbudAllreadyExists e) {
+		} catch (SQLException | LånetilbudAllreadyExistsException e) {
 			e.printStackTrace();
 		}
 		notifyObservers("opretLånetilbud");

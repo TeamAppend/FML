@@ -6,8 +6,8 @@ import java.sql.SQLException;
 
 import domain.Kunde;
 import domain.KundeImpl;
-import exceptions.KundeAllreadyExists;
-import exceptions.KundeDoesNotExists;
+import exceptions.KundeAllreadyExistsException;
+import exceptions.KundeDoesNotExistsException;
 
 public class KundeDataAccessImpl implements KundeDataAccess{
 	private static final String INSERT_ONE = "INSERT INTO KUNDE (CPR_id, kundenavn, adresse, postnummer, telefon) VALUES(?,?,?,?,?)";
@@ -22,7 +22,7 @@ public class KundeDataAccessImpl implements KundeDataAccess{
 	 */
 	@Override
 	public void createKunde(DataAccess dataaccess, Kunde kunde)
-			throws SQLException, KundeAllreadyExists {
+			throws SQLException, KundeAllreadyExistsException {
 		PreparedStatement statement = null;
 		try {
 			statement = dataaccess.getConnection().prepareStatement(INSERT_ONE);
@@ -34,7 +34,7 @@ public class KundeDataAccessImpl implements KundeDataAccess{
 			statement.executeUpdate();
 		} catch (SQLException e) {
 			if (e.getSQLState().equalsIgnoreCase("23505")) {
-				throw new KundeAllreadyExists();
+				throw new KundeAllreadyExistsException();
 			} else {
 				throw e;
 			}
@@ -136,7 +136,7 @@ public class KundeDataAccessImpl implements KundeDataAccess{
 	@Override
 	public void updateKunde(DataAccess dataaccess, String kundenavn,
 			String adresse, String postnummer, String telefon, int kunde_id)
-			throws SQLException, KundeDoesNotExists {
+			throws SQLException, KundeDoesNotExistsException {
 		PreparedStatement statement = null;
 		try {
 			statement = dataaccess.getConnection().prepareStatement(UPDATE_ONE);
@@ -147,7 +147,7 @@ public class KundeDataAccessImpl implements KundeDataAccess{
 			statement.setInt(5, kunde_id);
 			int antal = statement.executeUpdate();
 			if (antal != 1) {
-				throw new KundeDoesNotExists();
+				throw new KundeDoesNotExistsException();
 			}
 		} finally {
 			if (statement != null) {
@@ -161,14 +161,14 @@ public class KundeDataAccessImpl implements KundeDataAccess{
 	 */
 	@Override
 	public void deleteKunde(DataAccess dataaccess, int kunde_id)
-			throws SQLException, KundeDoesNotExists {
+			throws SQLException, KundeDoesNotExistsException {
 		PreparedStatement statement = null;
 		try {
 			statement = dataaccess.getConnection().prepareStatement(DELETE_ONE);
 			statement.setInt(1, kunde_id);
 			int antal = statement.executeUpdate();
 			if (antal != 1) {
-				throw new KundeDoesNotExists();
+				throw new KundeDoesNotExistsException();
 			}
 		} finally {
 			if (statement != null) {

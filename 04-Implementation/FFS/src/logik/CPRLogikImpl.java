@@ -5,13 +5,13 @@ import java.sql.SQLException;
 import dataaccess.CPRDataAccessImpl;
 import dataaccess.DataAccess;
 import domain.CPRnummer;
-import exceptions.CPRAllreadyExists;
-import exceptions.CPRDoesNotExists;
+import exceptions.CPRAllreadyExistsException;
+import exceptions.CPRDoesNotExistsException;
 
 public class CPRLogikImpl implements CPRLogik {
 
 	@Override
-	public void createCPR(CPRnummer CPRnummer) throws SQLException, CPRAllreadyExists {
+	public void createCPR(CPRnummer CPRnummer) throws SQLException, CPRAllreadyExistsException {
 		DataAccess dataacces = null;
 		try {
 			dataacces = new DataAccess();
@@ -105,7 +105,7 @@ public class CPRLogikImpl implements CPRLogik {
 
 
 	@Override
-	public void deleteCPR(int CPR_id) throws SQLException, CPRDoesNotExists {
+	public void deleteCPR(int CPR_id) throws SQLException, CPRDoesNotExistsException {
 		DataAccess dataacces = null;
 		try {
 			dataacces = new DataAccess();

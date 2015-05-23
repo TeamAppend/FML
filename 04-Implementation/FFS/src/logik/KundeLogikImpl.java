@@ -6,15 +6,15 @@ import dataaccess.DataAccess;
 import dataaccess.KundeDataAccess;
 import dataaccess.KundeDataAccessImpl;
 import domain.Kunde;
-import exceptions.KundeAllreadyExists;
-import exceptions.KundeDoesNotExists;
+import exceptions.KundeAllreadyExistsException;
+import exceptions.KundeDoesNotExistsException;
 
 public class KundeLogikImpl implements KundeLogik {
 
 
 	
 	@Override
-	public void createKunde(Kunde kunde) throws SQLException, KundeAllreadyExists {
+	public void createKunde(Kunde kunde) throws SQLException, KundeAllreadyExistsException {
 		DataAccess dataacces = null;
 		try {
 			dataacces = new DataAccess();
@@ -107,7 +107,7 @@ public class KundeLogikImpl implements KundeLogik {
 
 	
 	@Override
-	public void updateKunde(String kundenavn, String adresse, String postnummer, String telefon, int kunde_id) throws SQLException, KundeDoesNotExists {
+	public void updateKunde(String kundenavn, String adresse, String postnummer, String telefon, int kunde_id) throws SQLException, KundeDoesNotExistsException {
 		DataAccess dataacces = null;
 		try {
 			dataacces = new DataAccess();
@@ -128,7 +128,7 @@ public class KundeLogikImpl implements KundeLogik {
 
 	
 	@Override
-	public void deleteKunde(int kunde_id) throws SQLException, KundeDoesNotExists {
+	public void deleteKunde(int kunde_id) throws SQLException, KundeDoesNotExistsException {
 		DataAccess dataacces = null;
 		try {
 			dataacces = new DataAccess();

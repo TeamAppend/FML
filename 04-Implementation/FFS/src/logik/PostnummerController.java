@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 
 import domain.Postnummer;
-import exceptions.PostnummerDoesNotExist;
+import exceptions.PostnummerDoesNotExistException;
 
 public class PostnummerController {
 	private Postnummer postnummer;
@@ -30,7 +30,7 @@ public class PostnummerController {
 	}
 
 	public void hentPostnummer(String search) throws SQLException,
-			PostnummerDoesNotExist {
+			PostnummerDoesNotExistException {
 		PostnummerLogik pl = new PostnummerLogikImpl();
 		postnummer = pl.listPostnummer(search);
 		

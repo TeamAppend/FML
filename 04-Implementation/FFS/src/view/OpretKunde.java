@@ -25,9 +25,9 @@ import javax.swing.border.TitledBorder;
 import logik.FFSObserver;
 import logik.KundeController;
 import logik.PostnummerController;
-import exceptions.CPRAllreadyExists;
-import exceptions.KundeAllreadyExists;
-import exceptions.PostnummerDoesNotExist;
+import exceptions.CPRAllreadyExistsException;
+import exceptions.KundeAllreadyExistsException;
+import exceptions.PostnummerDoesNotExistException;
 
 public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
 		KeyListener, FocusListener {
@@ -197,7 +197,7 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
 				} else {
 					kController.hentKunde(tfTelefon.getText());
 				}
-			} catch (SQLException | PostnummerDoesNotExist e) {
+			} catch (SQLException | PostnummerDoesNotExistException e) {
 				e.printStackTrace();
 			}
 		} else {
@@ -226,11 +226,11 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
 				if (validerTekstfelter(telefon, cpr, navn, adresse, postnummer,
 						bynavn))
 					kController.opretKunde(telefon, cpr, navn, adresse, postnummer);
-			} catch (SQLException | CPRAllreadyExists e1) {
+			} catch (SQLException | CPRAllreadyExistsException e1) {
 				e1.printStackTrace();
-			} catch (KundeAllreadyExists e1) {
+			} catch (KundeAllreadyExistsException e1) {
 				e1.printStackTrace();
-			} catch (PostnummerDoesNotExist e1) {
+			} catch (PostnummerDoesNotExistException e1) {
 				e1.printStackTrace();
 			}
 		}
@@ -248,7 +248,7 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
 			if (validerPostnummer(tfPostnummer.getText())) {
 				try {
 					pController.hentPostnummer(tfPostnummer.getText());
-				} catch (SQLException | PostnummerDoesNotExist e) {
+				} catch (SQLException | PostnummerDoesNotExistException e) {
 					e.printStackTrace();
 				}
 
@@ -427,7 +427,7 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
 					tfBy.setText(pController.getPostnummer().getBynavn());
 					disableTekstfelter();
 					blackBorders();
-				} catch (SQLException | PostnummerDoesNotExist e) {
+				} catch (SQLException | PostnummerDoesNotExistException e) {
 					e.printStackTrace();
 				}
 			}

@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import domain.Bil;
-import exceptions.BilDoesNotExist;
+import exceptions.BilDoesNotExistException;
 
 public class BilController {
 	private static BilController inst = null;
@@ -36,7 +36,7 @@ public class BilController {
 		BilLogik bl = new BilLogikImpl();
 		try {
 			listBil = bl.listAlleBil();
-		} catch (SQLException | BilDoesNotExist e) {
+		} catch (SQLException | BilDoesNotExistException e) {
 			e.printStackTrace();
 		}
 		notifyObservers("fillBil");
@@ -46,7 +46,7 @@ public class BilController {
 		BilLogik bl = new BilLogikImpl();
 		try {
 			bil = bl.listBilModel(modelnavn);
-		} catch (SQLException | BilDoesNotExist e) {
+		} catch (SQLException | BilDoesNotExistException e) {
 			e.printStackTrace();
 		}
 		
@@ -57,7 +57,7 @@ public class BilController {
 		BilLogik bl = new BilLogikImpl();
 		try {
 			bil = bl.listBil(bil_id);
-		} catch (SQLException | BilDoesNotExist e) {
+		} catch (SQLException | BilDoesNotExistException e) {
 			e.printStackTrace();
 		}
 		
@@ -78,7 +78,7 @@ public class BilController {
 			bil = bl.listBilModel(modelNavn);
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} catch (BilDoesNotExist e) {
+		} catch (BilDoesNotExistException e) {
 			e.printStackTrace();
 		}
 	}

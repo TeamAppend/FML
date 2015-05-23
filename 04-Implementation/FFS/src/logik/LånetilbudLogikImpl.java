@@ -6,13 +6,13 @@ import java.util.List;
 import dataaccess.DataAccess;
 import dataaccess.LånetilbudDataAccessImpl;
 import domain.Lånetilbud;
-import exceptions.LånetilbudAllreadyExists;
-import exceptions.LånetilbudDoesNotExists;
+import exceptions.LånetilbudAllreadyExistsException;
+import exceptions.LånetilbudDoesNotExistsException;
 
 public class LånetilbudLogikImpl implements LånetilbudLogik {
 
 	@Override
-	public void createLånetilbud(Lånetilbud lånetilbud) throws SQLException, LånetilbudAllreadyExists {
+	public void createLånetilbud(Lånetilbud lånetilbud) throws SQLException, LånetilbudAllreadyExistsException {
 		DataAccess dataacces = null;
 		try {
 			dataacces = new DataAccess();
@@ -81,7 +81,7 @@ public class LånetilbudLogikImpl implements LånetilbudLogik {
 
 	
 	@Override
-	public void deleteLånetilbud(int lånetilbud_id) throws SQLException, LånetilbudDoesNotExists {
+	public void deleteLånetilbud(int lånetilbud_id) throws SQLException, LånetilbudDoesNotExistsException {
 		DataAccess dataacces = null;
 		try {
 			dataacces = new DataAccess();

@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import domain.Sælger;
-import exceptions.SælgerDoesNotExist;
+import exceptions.SælgerDoesNotExistException;
 
 public class SælgerController {
 	private Sælger sælger;
@@ -36,7 +36,7 @@ public class SælgerController {
 		SælgerLogik sl = new SælgerLogikImpl();
 		try {
 			listSælger = sl.listAlleSælger();
-		} catch (SQLException | SælgerDoesNotExist e) {
+		} catch (SQLException | SælgerDoesNotExistException e) {
 			e.printStackTrace();
 		}
 		notifyObservers("fillSælger");
