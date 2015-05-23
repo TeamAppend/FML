@@ -97,7 +97,7 @@ public class CPRDataAccessImpl implements CPRDataAccess {
 	}
 
 	/**
-	 * T�ller antallet af CPRnumre (returnerer 0 eller 1). Bruges til at finde
+	 * Tæller antallet af CPRnumre (returnerer 0 eller 1). Bruges til at finde
 	 * ud af om det allerede findes
 	 * 
 	 * @param dataaccess

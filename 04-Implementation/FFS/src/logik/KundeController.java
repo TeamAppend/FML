@@ -23,8 +23,9 @@ public class KundeController {
 			inst = new KundeController();
 		return inst;
 	}
-	
-	private KundeController(){}
+
+	private KundeController() {
+	}
 
 	public void tilmeldObserver(FFSObserver observer) {
 		if (observer != null && !observerListe.contains(observer))
@@ -38,32 +39,37 @@ public class KundeController {
 
 	public void opretKunde(String telefon, String cpr, String navn,
 			String adresse, String postnummer) throws SQLException,
-			CPRAllreadyExistsException, KundeAllreadyExistsException, PostnummerDoesNotExistException {
+			CPRAllreadyExistsException, KundeAllreadyExistsException,
+			PostnummerDoesNotExistException {
 
 		kundeFundet = false;
-		
+
 		cprnummer = new CPRnummerImpl();
 		cprnummer.setCPRnummer(cpr);
 		CPRLogik cl = new CPRLogikImpl();
-		cl.createCPR(cprnummer);
+		int uniqueCPR = cl.findUniqueCPR(cprnummer.getCPRnummer());
+		if (uniqueCPR == 1) {
+			notifyObservers("CPR findes");
+		} else {
+			cl.createCPR(cprnummer);
+			CPRnummer cprnummer = cl.listCPR(cpr);
+			int cpr_id = cprnummer.getCPR_id();
 
-		CPRnummer cprnummer = cl.listCPR(cpr);
-		int cpr_id = cprnummer.getCPR_id();
+			kunde = new KundeImpl();
+			kunde.setCPR_id(cpr_id);
+			kunde.setKundenavn(navn);
+			kunde.setAdresse(adresse);
+			kunde.setPostnummer(postnummer);
+			kunde.setTelefon(telefon);
 
-		kunde = new KundeImpl();
-		kunde.setCPR_id(cpr_id);
-		kunde.setKundenavn(navn);
-		kunde.setAdresse(adresse);
-		kunde.setPostnummer(postnummer);
-		kunde.setTelefon(telefon);
+			KundeLogik kl = new KundeLogikImpl();
+			kl.createKunde(kunde);
 
-		KundeLogik kl = new KundeLogikImpl();
-		kl.createKunde(kunde);
-
-		notifyObservers("opretKunde");
+			notifyObservers("opretKunde");
+		}
 	}
-	
-	public void hentKunde(int kunde_id){
+
+	public void hentKunde(int kunde_id) {
 		kunde = new KundeImpl();
 		KundeLogik kl = new KundeLogikImpl();
 		try {
@@ -71,7 +77,7 @@ public class KundeController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		int cpr_id = kunde.getCPR_id();
 		cprnummer = new CPRnummerImpl();
 		cprnummer.setCPR_id(cpr_id);
@@ -89,7 +95,7 @@ public class KundeController {
 		kunde = new KundeImpl();
 		KundeLogik kl = new KundeLogikImpl();
 		kunde = kl.listKunde(telefon);
-		
+
 		kundeFundet = true;
 
 		notifyObservers("hentKunde");
@@ -98,20 +104,20 @@ public class KundeController {
 	public boolean telefonNrEksistererIkke(String telefon) throws SQLException {
 		KundeLogik kl = new KundeLogikImpl();
 		int count = kl.findUnique(telefon);
-		if (count == 0){
+		if (count == 0) {
 			kundeFundet = false;
 			return true;
-		}else
+		} else
 			return false;
 	}
-	
-	public boolean getKundeFundet(){
+
+	public boolean getKundeFundet() {
 		return kundeFundet;
 	}
-	
-	public void setKundeFundet(boolean b){
+
+	public void setKundeFundet(boolean b) {
 		kundeFundet = b;
-		
+
 		notifyObservers("setKundeFundet");
 	}
 
