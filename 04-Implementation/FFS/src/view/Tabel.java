@@ -156,7 +156,7 @@ public class Tabel extends JPanel implements FFSObserver, ActionListener {
 		table_1.getColumnModel().getColumn(2).setPreferredWidth(170);
 		table_1.getColumnModel().getColumn(3).setPreferredWidth(121);
 		table_1.getColumnModel().getColumn(4).setPreferredWidth(80);
-		table_1.getColumnModel().getColumn(5).setMinWidth(250);
+		table_1.getColumnModel().getColumn(5).setMinWidth(251);
 
 		table_1.getSelectionModel().addListSelectionListener(
 				new ListSelectionListener() {
