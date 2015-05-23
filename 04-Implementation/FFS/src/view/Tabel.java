@@ -49,7 +49,7 @@ public class Tabel extends JPanel implements FFSObserver, ActionListener {
 		setLayout(layout);
 
 		GridBagConstraints con = new GridBagConstraints();
-		Insets ins = new Insets(5, 5, 5, 5); // margin rund om objecterne
+		Insets ins = new Insets(15, 5, 5, 5); // margin rund om objecterne
 
 		TitledBorder title = new TitledBorder("Tidligere lånetilbud");
 		setBorder(title);
@@ -146,17 +146,17 @@ public class Tabel extends JPanel implements FFSObserver, ActionListener {
 		table_1 = new JTable(datamodel);
 		table_1.setBounds(0, 0, 100, 100);
 		scrollpane = new JScrollPane(table_1);
-		scrollpane.setPreferredSize(new Dimension(840, 200));
+		scrollpane.setPreferredSize(new Dimension(820, 180));
 		add(scrollpane);
 		table_1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		table_1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table_1.getColumnModel().getColumn(0).setPreferredWidth(100);
-		table_1.getColumnModel().getColumn(1).setPreferredWidth(120);
+		table_1.getColumnModel().getColumn(1).setPreferredWidth(80);
 		table_1.getColumnModel().getColumn(2).setPreferredWidth(170);
 		table_1.getColumnModel().getColumn(3).setPreferredWidth(121);
-		table_1.getColumnModel().getColumn(4).setPreferredWidth(106);
-		table_1.getColumnModel().getColumn(5).setMinWidth(220);
+		table_1.getColumnModel().getColumn(4).setPreferredWidth(80);
+		table_1.getColumnModel().getColumn(5).setMinWidth(250);
 
 		table_1.getSelectionModel().addListSelectionListener(
 				new ListSelectionListener() {
@@ -179,7 +179,7 @@ public class Tabel extends JPanel implements FFSObserver, ActionListener {
 		table_1 = new JTable();
 		table_1.setBounds(0, 0, 100, 100);
 		scrollpane = new JScrollPane(table_1);
-		scrollpane.setPreferredSize(new Dimension(840, 200));
+		scrollpane.setPreferredSize(new Dimension(800, 200));
 		add(scrollpane);
 		table_1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	}

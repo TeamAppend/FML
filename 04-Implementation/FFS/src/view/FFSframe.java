@@ -42,7 +42,7 @@ public class FFSframe extends JFrame{
 
 		// frame properties
 		setTitle("Ferrari Financing System");
-		setSize(950, 675); 
+		setSize(975, 675); 
 		setLocationRelativeTo(null);
 		setVisible(true);
 		setResizable(false);
