@@ -309,7 +309,7 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
 					tfTelefon.setBorder(greenBorder);
 			}
 		} else if (source.equals(tfPostnummer)) {
-			if (!validerPostnummer(tfPostnummer.getText())) {
+			if (!validerBy(tfBy.getText())) {
 				tfPostnummer.setBorder(redBorder);
 			}
 		}
@@ -434,7 +434,11 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
 		} else if (source instanceof PostnummerController) {
 			if (pController.getPostnummer() != null) {
 				tfBy.setText(pController.getPostnummer().getBynavn());
-				tfPostnummer.setBorder(greenBorder);
+				if (!validerBy(tfBy.getText())) {
+					tfPostnummer.setBorder(redBorder);
+				}else{
+					tfPostnummer.setBorder(greenBorder);
+				}
 			} else {
 				tfBy.setText("");
 				tfPostnummer.setBorder(redBorder);
