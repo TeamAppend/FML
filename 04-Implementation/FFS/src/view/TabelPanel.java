@@ -29,7 +29,7 @@ import logik.LånetilbudLogik;
 import logik.LånetilbudLogikImpl;
 import domain.Lånetilbud;
 
-public class Tabel extends JPanel implements FFSObserver, ActionListener {
+public class TabelPanel extends JPanel implements FFSObserver, ActionListener {
 
 	private GridBagLayout layout;
 	private JTable table_1;
@@ -38,7 +38,7 @@ public class Tabel extends JPanel implements FFSObserver, ActionListener {
 	private LånetilbudController lController = LånetilbudController.instance();
 	private JButton btnExport = new JButton("Export");
 
-	public Tabel() {
+	public TabelPanel() {
 		kController.tilmeldObserver(this);
 		lController.tilmeldObserver(this);
 		// frame properties

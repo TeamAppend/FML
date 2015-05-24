@@ -29,7 +29,7 @@ import exceptions.CPRAllreadyExistsException;
 import exceptions.KundeAllreadyExistsException;
 import exceptions.PostnummerDoesNotExistException;
 
-public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
+public class KundePanel extends JPanel implements FFSObserver, ActionListener,
 		KeyListener, FocusListener {
 	private JTextField tfCPR = new JTextField(10), tfNavn = new JTextField(10),
 			tfAdresse = new JTextField(10), tfPostnummer = new JTextField(10),
@@ -43,7 +43,7 @@ public class OpretKunde extends JPanel implements FFSObserver, ActionListener,
 	private KundeController kController = KundeController.instance();
 	private PostnummerController pController = PostnummerController.instance();
 
-	public OpretKunde() {
+	public KundePanel() {
 		kController.tilmeldObserver(this);
 		pController.tilmeldObserver(this);
 		// frame properties

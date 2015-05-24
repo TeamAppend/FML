@@ -28,7 +28,7 @@ import logik.SælgerController;
 import domain.Bil;
 import domain.Sælger;
 
-public class OpretLånetilbud extends JPanel implements FFSObserver,
+public class LånetilbudPanel extends JPanel implements FFSObserver,
 		ActionListener {
 	private JTextField tfTilbagebetalingsperiode = new JTextField(13);
 	private JTextField tfUdbetaling = new JTextField(13);
@@ -45,7 +45,7 @@ public class OpretLånetilbud extends JPanel implements FFSObserver,
 
 	private GridBagLayout layout;
 
-	public OpretLånetilbud() {
+	public LånetilbudPanel() {
 		sController.tilmeldObserver(this);
 		bController.tilmeldObserver(this);
 		lController.tilmeldObserver(this);

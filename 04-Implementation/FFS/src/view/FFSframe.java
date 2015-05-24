@@ -8,9 +8,9 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 public class FFSframe extends JFrame{
-	private OpretKunde opretKundePanel;
-	private OpretLånetilbud opretLånetilbudPanel;
-	private Tabel tabel;
+	private KundePanel opretKundePanel;
+	private LånetilbudPanel opretLånetilbudPanel;
+	private TabelPanel tabel;
 
 	private GridBagLayout layout;
 
@@ -21,9 +21,9 @@ public class FFSframe extends JFrame{
 		GridBagConstraints con = new GridBagConstraints();
 		Insets ins = new Insets(25, 25, 25, 25); // margin rund om objecterne
 
-		opretKundePanel = new OpretKunde();
-		opretLånetilbudPanel = new OpretLånetilbud();
-		tabel = new Tabel();
+		opretKundePanel = new KundePanel();
+		opretLånetilbudPanel = new LånetilbudPanel();
+		tabel = new TabelPanel();
 
 		con = createGBC(0, 0, 1, 1);
 		con.insets = ins;

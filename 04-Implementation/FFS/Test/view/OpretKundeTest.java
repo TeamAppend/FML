@@ -7,10 +7,10 @@ import org.junit.Test;
 
 public class OpretKundeTest {
 
-	public class OpretKundeStub extends OpretKunde {
+	public class OpretKundeStub extends KundePanel {
 	}
 	
-	private OpretKunde oks;
+	private KundePanel oks;
 	
 	@Before
 	public void setUp() throws Exception {

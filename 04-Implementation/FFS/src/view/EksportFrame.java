@@ -23,9 +23,9 @@ public class EksportFrame extends JFrame implements ActionListener {
 	private JButton ok = new JButton("Ok");
 	private JButton cancel = new JButton("Cancel"); 
 	private GridBagLayout layout;
-	private Tabel tabel;
+	private TabelPanel tabel;
 	
-	public void setVariabler(int lånetilbud_id, Tabel tabel) {
+	public void setVariabler(int lånetilbud_id, TabelPanel tabel) {
 		this.lånetilbud_id = lånetilbud_id;
 		this.tabel = tabel;
 	}
