@@ -197,7 +197,7 @@ public class KundePanel extends JPanel implements FFSObserver, ActionListener,
 				} else {
 					kController.hentKunde(tfTelefon.getText());
 				}
-			} catch (SQLException | PostnummerDoesNotExistException e) {
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		} else {
@@ -230,9 +230,7 @@ public class KundePanel extends JPanel implements FFSObserver, ActionListener,
 				e1.printStackTrace();
 			} catch (KundeAllreadyExistsException e1) {
 				e1.printStackTrace();
-			} catch (PostnummerDoesNotExistException e1) {
-				e1.printStackTrace();
-			}
+			} 
 		}
 	}
 

@@ -9,7 +9,6 @@ import domain.Kunde;
 import domain.KundeImpl;
 import exceptions.CPRAllreadyExistsException;
 import exceptions.KundeAllreadyExistsException;
-import exceptions.PostnummerDoesNotExistException;
 
 public class KundeController {
 	private static KundeController inst = null;
@@ -39,8 +38,7 @@ public class KundeController {
 
 	public void opretKunde(String telefon, String cpr, String navn,
 			String adresse, String postnummer) throws SQLException,
-			CPRAllreadyExistsException, KundeAllreadyExistsException,
-			PostnummerDoesNotExistException {
+			CPRAllreadyExistsException, KundeAllreadyExistsException {
 
 		kundeFundet = false;
 
@@ -90,8 +88,7 @@ public class KundeController {
 		notifyObservers("hentKunde");
 	}
 
-	public void hentKunde(String telefon) throws SQLException,
-			PostnummerDoesNotExistException {
+	public void hentKunde(String telefon) throws SQLException {
 		kunde = new KundeImpl();
 		KundeLogik kl = new KundeLogikImpl();
 		kunde = kl.listKunde(telefon);
