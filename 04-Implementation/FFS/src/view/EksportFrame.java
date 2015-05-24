@@ -18,7 +18,7 @@ import logik.CSV_eksport;
 import logik.CSV_eksportImpl;
 
 public class EksportFrame extends JFrame implements ActionListener {
-	private JTextField sti = new JTextField(25);
+	private JTextField tfSti = new JTextField(25);
 	private int lånetilbud_id; 
 	private JButton ok = new JButton("Ok");
 	private JButton cancel = new JButton("Cancel"); 
@@ -48,7 +48,8 @@ public class EksportFrame extends JFrame implements ActionListener {
 		con = createGBC(0, 1, 6, 1);
 		con.insets = ins;
 		con.anchor = GridBagConstraints.WEST;
-		add(sti, con);
+		tfSti.setText(System.getProperty("user.home") + "\\Desktop");  //henter stien til desktop til default sti
+		add(tfSti, con);
 
 		con = createGBC(0, 2, 1, 1);
 		con.insets = ins;
@@ -66,9 +67,8 @@ public class EksportFrame extends JFrame implements ActionListener {
 		setVisible(true);
 		setSize(350, 150);
 		setResizable(false);
-		//setAlwaysOnTop(true);
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		
 	}
@@ -94,15 +94,15 @@ public class EksportFrame extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 
 		if(e.getSource().equals(ok)){
-			File file = new File(sti.getText());
+			File file = new File(tfSti.getText());
 			
-			if (sti.getText().trim().length() == 0 || !file.exists() || !file.isDirectory())
+			if (tfSti.getText().trim().length() == 0 || !file.exists() || !file.isDirectory())
 			{
 				JOptionPane.showMessageDialog(null, "- Stien er ikke gyldig. \n- Stien skal pege på en mappe i dit filsystem", "Ugyldig sti", JOptionPane.ERROR_MESSAGE);
 				tabel.enableEksportBtn();
 			} else {
 				CSV_eksport csv = new CSV_eksportImpl();
-				csv.hentData(lånetilbud_id, sti.getText());
+				csv.hentData(lånetilbud_id, tfSti.getText());
 			}
 			
 			setVisible(false); //you can't see me!
