@@ -372,7 +372,7 @@ public class LånetilbudPanel extends JPanel implements FFSObserver,
 					double pris = bController.getBil().getPris();
 					lController.opretLånetilbud(tilbageBetaling, udbetaling,bil_id, sælger_id, pris);
 				}else{
-					JOptionPane.showMessageDialog(null, "Kundens kreditværdighed er ikke tilstrækkelig","Success!", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Kundens kreditværdighed er ikke tilstrækkelig","Fejl!", JOptionPane.ERROR_MESSAGE);
 					loadingIcon.setVisible(false);
 					btnBeregnLånetilbud.setEnabled(true);
 				}
