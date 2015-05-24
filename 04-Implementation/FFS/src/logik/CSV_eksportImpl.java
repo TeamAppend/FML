@@ -147,7 +147,6 @@ public class CSV_eksportImpl implements CSV_eksport, FFSObserver {
 		append(FormatterLogik.formatTwoDigits(ÅOP));
 		lastValue("%");
 
-		System.out.println(filPlacering + " - test");
 		eksport(filPlacering);
 	}
 	
