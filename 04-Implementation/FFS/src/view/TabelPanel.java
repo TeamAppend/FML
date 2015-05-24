@@ -179,7 +179,7 @@ public class TabelPanel extends JPanel implements FFSObserver, ActionListener {
 		table_1 = new JTable();
 		table_1.setBounds(0, 0, 100, 100);
 		scrollpane = new JScrollPane(table_1);
-		scrollpane.setPreferredSize(new Dimension(800, 200));
+		scrollpane.setPreferredSize(new Dimension(820, 180));
 		add(scrollpane);
 		table_1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	}
