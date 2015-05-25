@@ -98,12 +98,12 @@ public class CSV_eksportImpl implements CSV_eksport, FFSObserver {
 				cprnummer, sælgernavn, rang, FormatterLogik.dotSeperator(beløbsgrænse) + "", modelnavn,
 				FormatterLogik.dotSeperator(pris) + "", FormatterLogik.formatTwoDigits(rentesats) + "", tilbageBetalingsPeriode + "",
 				FormatterLogik.dotSeperator(udbetaling) + "", FormatterLogik.formatTwoDigits(ÅOP) + "", oprettelsestidspunkt + "" };
-		toArraysTilStringBuffer(navne, værdier, tilbageBetalingsPeriode,
+		fillStringBuffer(navne, værdier, tilbageBetalingsPeriode,
 				udbetaling, rentesats, pris);
 	}
 
 	@Override
-	public void toArraysTilStringBuffer(String[] navne, String[] værdier,
+	public void fillStringBuffer(String[] navne, String[] værdier,
 			int tilbageBetalingsPeriode, double udbetaling, double rentesats,
 			double pris) {
 		for (int i = 0; i < navne.length; i++) {

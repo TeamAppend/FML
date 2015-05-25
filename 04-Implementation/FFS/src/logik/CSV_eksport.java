@@ -4,7 +4,7 @@ public interface CSV_eksport {
 
 	public abstract void hentData(int lånetilbud_id, String filplacering);
 
-	public abstract void toArraysTilStringBuffer(String[] navne,
+	public abstract void fillStringBuffer(String[] navne,
 			String[] værdier, int tilbageBetalingsPeriode, double udbetaling,
 			double rentesats, double pris);
 
