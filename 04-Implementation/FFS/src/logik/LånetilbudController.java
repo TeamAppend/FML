@@ -63,11 +63,12 @@ public class LånetilbudController {
 		this.kunde_id = kunde_id;
 		kreditFundet = false;
 		renteFundet = false;
-		Kreditværdighed kv = new KreditværdighedImpl();
 		KundeController kc = KundeController.instance();
 		Kunde kunde = kc.getKunde();
 		CPRLogik cl = new CPRLogikImpl();
 		CPRnummer cp = null;
+		Kreditværdighed kv = new KreditværdighedImpl();
+		
 		try {
 			cp = cl.listCPR(kunde.getCPR_id());
 		} catch (SQLException e) {
