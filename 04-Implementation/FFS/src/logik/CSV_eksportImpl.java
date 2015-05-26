@@ -48,7 +48,6 @@ public class CSV_eksportImpl implements CSV_eksport, FFSObserver {
 	@Override
 	public void hentData(int lånetilbud_id, String filplacering) {
 		
-			
 		this.filPlacering = filplacering;
 		lånetilbud = lController.hentLånetilbud(lånetilbud_id);
 		int kunde_id = lånetilbud.getKunde_id();
